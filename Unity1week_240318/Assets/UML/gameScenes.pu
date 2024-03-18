@@ -1,0 +1,32 @@
+@startuml
+state TitleScene{
+    state Option
+    state Title
+}
+
+state EvoScene{
+    
+}
+
+state BattleScene{
+    state Pause
+    state Battle
+}
+
+state TrainingScene{
+    state Pause
+    state Training
+
+}
+TitleScene.Title -up-> TitleScene.Option
+TitleScene.Option --> TitleScene.Title
+TitleScene.Title --> TrainingScene.Training : crick StartButton
+TrainingScene.Training --> TrainingScene.Pause
+TrainingScene.Pause --> TrainingScene.Training : push esc
+TrainingScene.Training --> EvoScene : 1min later and next Button crick
+EvoScene --> BattleScene.Battle : next Button crick
+BattleScene.Battle --> BattleScene.Pause : push esc
+BattleScene.Pause -up-> BattleScene.Battle 
+BattleScene.Battle -up-> TitleScene.Title
+
+@enduml

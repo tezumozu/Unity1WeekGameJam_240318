@@ -1,0 +1,15 @@
+@startuml
+start
+:Battle Start;
+repeat
+    :Battle Monster;
+    if (Lose Battle) then (no)
+    else 
+        break
+    endif
+repeat while (Win Dragon?) is (no) not (yes)
+:Display Result;
+end
+
+
+@enduml

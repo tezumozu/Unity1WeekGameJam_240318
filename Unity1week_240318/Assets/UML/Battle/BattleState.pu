@@ -1,0 +1,32 @@
+@startuml
+    state Battle{
+        state StartPhase 
+
+        state BattlePhase{
+            state Player
+            state Enemy
+        }
+
+        state endPhase
+    }
+
+    state Init{
+
+    }
+
+    state Result
+
+    Init --> Battle : start battle
+
+    Battle.StartPhase -right-> BattlePhase
+
+    Battle.BattlePhase.Player --> Battle.BattlePhase.Enemy
+    Battle.BattlePhase.Player <-- Battle.BattlePhase.Enemy
+
+
+    BattlePhase --> endPhase : finish battle
+    endPhase --> StartPhase : if is not Finish All Battle
+
+    Battle --> Result : battle finish
+
+@enduml
