@@ -1,0 +1,76 @@
+@startuml BattleSequence
+Actor Player
+participant Unity
+participant BattleInputManager
+participant BattleUIManager
+participant BattleManager
+participant PlayerTurnUpdater
+participant BattleSceneManager
+
+group バトル開始時
+BattleSceneManager --> BattleManager : プレイヤーのターン開始
+BattleManager --> BattleUIManager : Text表示
+end
+
+group プレイヤーのターン
+Player --> Unity : Click
+Unity --> BattleInputManager : Event通知
+BattleInputManager --> BattleManager : クリック通知として通知
+BattleManager --> PlayerTurnUpdater : TurnUpdaterへクリック入力の処理を呼び出す
+PlayerTurnUpdater --> BattleUIManager : Textの更新
+
+
+
+--> Game : Textを進める
+Player --> Game : Click
+Game --> Game : Textが終了したらUIを切り替える
+Player --> Game : Button（ClickによるUI操作）
+Game --> Game : 入力に従ってUIを更新（UI間の移動）
+Player --> Game : Button（ClickによるUI操作）
+Game --> Game : 入力から行動内容を確定する
+Game --> Game : UIを切り替える
+Game --> Game : Textを表示
+Player --> Game : Click
+Game --> Game : ダメージ演出を入れる
+Game --> Game : Textを進める
+Player --> Game : Click
+Game --> Game : Textを進める
+end
+
+group プレイヤー状態異常チェック
+Game --> Game : プレイヤーの状態異常チェック
+Player --> Game : Click
+Game --> Game : Textを進める
+Player --> Game : Click
+Game --> Game : Textを進める
+Game --> Game : ダメージ演出を入れる
+Player --> Game : Click
+Game --> Game : Textを進める
+end
+
+group 相手のターン
+Game --> Game : 相手のターンへ
+Player --> Game : Click
+Game --> Game : Textを進める
+Player --> Game : Click
+Game --> Game : Textを進める
+Game --> Game : ダメージ演出を入れる
+Player --> Game : Click
+Game --> Game : Textを進める
+end
+
+group 相手の状態異常チェック
+Game --> Game : 相手の状態異常チェック
+Player --> Game : Click
+Game --> Game : Textを進める
+Player --> Game : Click
+Game --> Game : Textを進める
+Game --> Game : ダメージ演出を入れる
+Player --> Game : Click
+Game --> Game : Textを進める
+end
+
+
+
+
+@enduml

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace My1WeekGameSystems_ver2{
   public enum E_SceneName{
-    TitleScene
+    TitleScene,
+    TranigScene,
+    EvoScene,
+    BattleScene
   }
 }

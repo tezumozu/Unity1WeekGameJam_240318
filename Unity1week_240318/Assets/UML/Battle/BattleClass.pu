@@ -12,6 +12,9 @@
     class BattleSceneManager<<I_SceneChangeAlertable>>{
         - E_BattleSceneState sceneState 
         - BattleManager battleManager
+        - E_Enemy[5] EnemyList
+        - int enemyCount
+
         + StartGame() : void
     }
 
@@ -28,31 +31,28 @@
         + readOnly string name
     }
 
-    abstract class BattleAction <<singleton>>{
-        + static applyEffect(E_BattleAction,Actor,Actor): String[]
-        - static Dictionary<E_BattleAction,BattleAction>
-    }
-
-    abstract class BattleEffect <<singleton>>{
-        + static applyEffect(E_BattleEffect,Actor): String[]
-        - static Dictionary<E_BattleEffect,BattleEffect>
-    }
-
-    class ActorStatus{
-        int hp
-        int mp
-        int attack
-        int difence
-        int speed
-        int stamina
-    }
-
     abstract class TurnUpdater{
         - BattleActor turnActor
         - BattleActor nonTurnActor
+
+        - static readOnly Subject<String[]> updateTextBoxSubject
+        - static readOnly Subject<E_BattleUIType> updateBattleUITipeSubject
+        - static readOnly Subject<Unit> FinishTurnSubject
+
+        + static IObservable<String[]> updateTextBoxAsync
+        + static IObservable<E_BattleUIType> updateBattleUITipeAsync
+        + static IObservable<Unit> FinishTurnSubject
+        
         + TrunUpdate() : IEnumerator
         + TurnUpdater(Actor,Actor)
     }
+
+
+    class BattleUI<<Mono>>{
+
+    }
+
+
 
     class PlayerTurn{
 
@@ -66,41 +66,18 @@
 
     }
 
+    BattleManager o--> TurnUpdater : Observe
 
-    enum E_BattleSceneState { 
-        Init,
-        Buttle,
-        Pause,
-        Result
+    TurnUpdater <|-- PlayerTurn
+    TurnUpdater <|-- EnemyTurn
+    TurnUpdater <|-- EffectCheckTrun
 
-    }
+    TurnUpdater <-- BattleUI : Observe
 
-    enum E_BattleState{
-        StartPhase
-        BattlePhase
-        EndPhase
-    }
 
-    enum E_BattleTrun{
-        PlayerTurn
-        EnemyTurn
-        StatusCheck
-    }
 
-    enum E_StatusEffect{
-        Poisn
-        pall
-        ...
-    }
 
-    TurnUpdater *-right- BattleActor
-    BattleManager *--> TurnUpdater
-    TurnUpdater o-- PlayerTurn
-    TurnUpdater o-- EnemyTurn
-    TurnUpdater o-left- EffectCheckTrun
-    PlayerTurn --> BattleAction
-    EnemyTurn --> BattleAction
-    EffectCheckTrun --> BattleEffect
+    
 
     
 
