@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum E_EnemyType {
-    Srime,
-    Bat,
-    Scorpion,
-    Knight,
-    Doragon
+    Srime = 0,
+    Bat = 1,
+    Scorpion = 2,
+    Knight = 3,
+    Doragon = 4
 }

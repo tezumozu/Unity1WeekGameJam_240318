@@ -6,7 +6,7 @@ using My1WeekGameSystems_ver2;
 using Zenject;
 
 public class BattleObjectUpdater : I_SceneObjectUpdatable{
-
+    
     BattleSceneManager gameManager;
 
     public I_SceneLoadAlertable InitObject(){
@@ -25,6 +25,7 @@ public class BattleObjectUpdater : I_SceneObjectUpdatable{
 
 
     public void ReleaseObject(){
+        gameManager.Dispose();
     }
 
 }

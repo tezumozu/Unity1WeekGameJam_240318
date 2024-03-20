@@ -1,8 +1,11 @@
+using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UniRx;
 using Zenject;
 
 namespace My1WeekGameSystems_ver2{
@@ -15,6 +18,7 @@ namespace My1WeekGameSystems_ver2{
         E_LoopState currentState;
 
         private SceneLoader sceneLoader;
+        private IDisposable sceneLoad_idisposable;
         
         [SerializeField] 
         private GameObject loadingUIObject;
@@ -35,7 +39,7 @@ namespace My1WeekGameSystems_ver2{
             I_SceneLoadAlertable gameManager = sceneObjectUpdataer.InitObject();
             
             //シーンの切り替えタイミングを監視
-            gameManager.ObserveSceneLoadAlert(activeIsHaveToLoading);
+            sceneLoad_idisposable = gameManager.ObserveSceneLoadAlert(activeIsHaveToLoading);
 
         }
 
@@ -64,14 +68,17 @@ namespace My1WeekGameSystems_ver2{
                     
                     currentState = E_LoopState.Loading;
 
-                    //不要なオブジェクトを開放する
-                    sceneObjectUpdataer.ReleaseObject();
+                    //購読終了
+                    sceneLoad_idisposable.Dispose();
 
                     //読み込みを開始する(コルーチン)
                     StartCoroutine(sceneLoader.LoadScene(nextScene));
 
                     //読み込みを開始したのでフラグをfalseに
                     isHaveToLoading = false;
+
+                    //終了時処理
+                    sceneObjectUpdataer.ReleaseObject();
                 }
 
                 break;

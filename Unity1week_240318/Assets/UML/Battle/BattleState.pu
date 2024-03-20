@@ -4,6 +4,8 @@
 
         state BattlePhase{
             state Player
+            state StatusCheck_Player
+            state StatusCheck_Enemy
             state Enemy
         }
 
@@ -16,17 +18,22 @@
 
     state Result
 
+    state Pause
+
     Init --> Battle : start battle
 
     Battle.StartPhase -right-> BattlePhase
 
-    Battle.BattlePhase.Player --> Battle.BattlePhase.Enemy
-    Battle.BattlePhase.Player <-- Battle.BattlePhase.Enemy
-
+    Battle.BattlePhase.Player --> Battle.BattlePhase.StatusCheck_Player
+    Battle.BattlePhase.StatusCheck_Player --> Battle.BattlePhase.Enemy
+    Battle.BattlePhase.StatusCheck_Enemy <-- Battle.BattlePhase.Enemy
+    Battle.BattlePhase.Player <-- Battle.BattlePhase.StatusCheck_Enemy
 
     BattlePhase --> endPhase : finish battle
     endPhase --> StartPhase : if is not Finish All Battle
 
+    Battle -left-> Pause
+    Pause --> Battle : pless esc
     Battle --> Result : battle finish
 
 @enduml
