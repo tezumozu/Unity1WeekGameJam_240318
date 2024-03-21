@@ -8,16 +8,20 @@ using UniRx;
 public class BattleManager : IDisposable{
 
     private Dictionary<E_BattlePhase,PhaseUpdater> pahseDic;
-    private ReactiveProperty<E_BattlePhase> currentPhase;
     private int winCount;
     private readonly int maxWinCount;
     private BattleActor playerData;
     private S_BattleDate currentBattleData;
 
+    //Subjects
+    private ReactiveProperty<E_BattlePhase> currentPhase;
+    private Subject<Unit> battleFinisheSubject;
+
+    public IObservable<Unit> battleFinisheAsync => battleFinisheSubject;
+
+    //dispos
     private readonly List<IDisposable> disposableList;
 
-    private Subject<Unit> battleFinisheSubject;
-    public IObservable<Unit> battleFinisheAsync => battleFinisheSubject;
 
     public BattleManager (){
         currentPhase = new ReactiveProperty<E_BattlePhase>();
@@ -25,8 +29,8 @@ public class BattleManager : IDisposable{
         battleFinisheSubject = new Subject<Unit>();
         winCount = 0;
         maxWinCount = 5;
-        playerData = new BattleActor();
-        currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor());
+        playerData = new BattleActor(new S_BattleActorStatus(10,10,10,10,10));
+        currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor(new S_BattleActorStatus(10,10,10,10,10)));
         disposableList = new List<IDisposable>();
 
         //Dic初期化
@@ -35,19 +39,12 @@ public class BattleManager : IDisposable{
         pahseDic[E_BattlePhase.FinishPhase] = new FinishPhase();
     }
 
+
     public void StartBattle(){
 
-        //コルーチン開始時
-        var disopsable = currentPhase.Subscribe((x)=>{
-            Debug.Log(x+" 呼び出し");
-            CoroutineHander.OrderStartCoroutine(pahseDic[x].UpdatePhase(currentBattleData));
-        });
-
-        disposableList.Add(disopsable);
-
-        
         //コルーチン終了時
-        disopsable = pahseDic[E_BattlePhase.StartPhase].FinishPhaseAsync.Subscribe((x)=>{
+        var disopsable = pahseDic[E_BattlePhase.StartPhase].FinishPhaseAsync.Subscribe((x)=>{
+            Debug.Log("Start終了");
             currentPhase.Value = E_BattlePhase.BattlePhase;
         });
 
@@ -56,6 +53,7 @@ public class BattleManager : IDisposable{
 
 
         disopsable = pahseDic[E_BattlePhase.BattlePhase].FinishPhaseAsync.Subscribe((x)=>{
+            Debug.Log("Battle終了");
             currentPhase.Value = E_BattlePhase.FinishPhase;
         });
 
@@ -64,7 +62,7 @@ public class BattleManager : IDisposable{
 
 
         disopsable = pahseDic[E_BattlePhase.FinishPhase].FinishPhaseAsync.Subscribe((x)=>{
-            
+            Debug.Log("Finish終了");
             //もしプレイヤーが勝利したら
             if(true){
 
@@ -76,7 +74,7 @@ public class BattleManager : IDisposable{
                    battleFinisheSubject.OnNext(Unit.Default);
                 }else{
                      //新しいバトルデータを生成、次のバトルへ
-                    currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor());
+                    currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor(new S_BattleActorStatus(10,10,10,10,10)));
                     currentPhase.Value = E_BattlePhase.StartPhase;
                 }
 
@@ -88,8 +86,17 @@ public class BattleManager : IDisposable{
 
         disposableList.Add(disopsable);
 
+
+        //なぜか値が勝手に代入される（なぜ？）
+        disopsable = currentPhase.Subscribe((x)=>{
+            Debug.Log(x+" 呼び出し");
+            CoroutineHander.OrderStartCoroutine(pahseDic[x].StartUpdatePhase(currentBattleData));
+        });
+
+        disposableList.Add(disopsable);
+
         //コルーチンを起動
-        currentPhase.Value = E_BattlePhase.StartPhase;
+        //currentPhase.Value = E_BattlePhase.StartPhase;
     }
 
 

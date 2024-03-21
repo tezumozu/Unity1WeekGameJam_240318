@@ -14,6 +14,6 @@ public abstract class PhaseUpdater : IDisposable{
         FinishPhaseSubject = new Subject<Unit>();
     }
 
-    public abstract IEnumerator UpdatePhase(S_BattleDate data);
+    public abstract IEnumerator StartUpdatePhase(S_BattleDate data);
     public abstract void Dispose();
 }
