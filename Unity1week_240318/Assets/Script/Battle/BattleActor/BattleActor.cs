@@ -5,7 +5,7 @@ using UnityEngine;
 
 using UniRx;
 
-public class BattleActor{
+public abstract class BattleActor{
 
     //Subjects
     private Subject<Unit> isDeadSubject;

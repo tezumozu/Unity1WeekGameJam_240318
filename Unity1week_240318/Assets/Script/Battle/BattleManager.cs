@@ -10,7 +10,7 @@ public class BattleManager : IDisposable{
     private Dictionary<E_BattlePhase,PhaseUpdater> pahseDic;
     private int winCount;
     private readonly int maxWinCount;
-    private BattleActor playerData;
+    private PlayerBattleActor playerData;
     private S_BattleDate currentBattleData;
 
     //Subjects
@@ -29,14 +29,15 @@ public class BattleManager : IDisposable{
         battleFinisheSubject = new Subject<Unit>();
         winCount = 0;
         maxWinCount = 5;
-        playerData = new BattleActor(new S_BattleActorStatus(10,10,10,10,10));
-        currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor(new S_BattleActorStatus(10,10,10,10,10)));
         disposableList = new List<IDisposable>();
 
         //Dic初期化
         pahseDic[E_BattlePhase.StartPhase] = new StartPhase();
         pahseDic[E_BattlePhase.BattlePhase] = new BattlePhase();
         pahseDic[E_BattlePhase.FinishPhase] = new FinishPhase();
+
+        playerData = new PlayerBattleActor();
+        currentBattleData = new S_BattleDate(winCount,playerData,new EnemyBattleActor(E_EnemyType.Dragon));
     }
 
 
@@ -74,7 +75,7 @@ public class BattleManager : IDisposable{
                    battleFinisheSubject.OnNext(Unit.Default);
                 }else{
                      //新しいバトルデータを生成、次のバトルへ
-                    currentBattleData = new S_BattleDate(winCount,playerData,new BattleActor(new S_BattleActorStatus(10,10,10,10,10)));
+                    currentBattleData = new S_BattleDate(winCount,playerData,new EnemyBattleActor(E_EnemyType.Dragon));
                     currentPhase.Value = E_BattlePhase.StartPhase;
                 }
 

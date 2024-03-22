@@ -34,13 +34,6 @@ namespace My1WeekGameSystems_ver2{
             currentState = E_LoopState.Init;
             sceneLoader = new SceneLoader(loadingUIObject);
             loadingUIObject.SetActive(false);
-
-            //シーン内のオブジェクト取得・生成・初期化
-            I_SceneLoadAlertable gameManager = sceneObjectUpdataer.InitObject();
-            
-            //シーンの切り替えタイミングを監視
-            sceneLoad_idisposable = gameManager.ObserveSceneLoadAlert(activeIsHaveToLoading);
-
         }
 
 
@@ -50,11 +43,17 @@ namespace My1WeekGameSystems_ver2{
 
             //ゲームを開始する
             case E_LoopState.Init :
+            
+                //シーン内のオブジェクト取得・生成・初期化
+                I_SceneLoadAlertable gameManager = sceneObjectUpdataer.InitObject();
+                
+                //シーンの切り替えタイミングを監視
+                sceneLoad_idisposable = gameManager.ObserveSceneLoadAlert(activeIsHaveToLoading);
 
                 currentState = E_LoopState.Update;
                 sceneObjectUpdataer.StartGame();
 
-            break;
+                break;
 
 
 

@@ -7,5 +7,5 @@ public enum E_EnemyType {
     Bat = 1,
     Scorpion = 2,
     Knight = 3,
-    Doragon = 4
+    Dragon = 4
 }
