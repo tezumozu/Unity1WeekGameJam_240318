@@ -20,14 +20,16 @@ public class DungeonInfoUIManager : MonoBehaviour{
     }
 
     public void StartAnim(){
+        gameObject.SetActive(true);
         animator.SetTrigger("StartEffectTrigger");
     }
 
-    public void setInfo(string text){
+    public void SetInfo(string text){
         dungeonInfo.text = text;
     }
 
     public void FinishAnim(){
         FinishAnimSubject.OnNext(Unit.Default);
+        gameObject.SetActive(false);
     }
 }

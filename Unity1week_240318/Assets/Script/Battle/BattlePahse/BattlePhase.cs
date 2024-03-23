@@ -5,11 +5,11 @@ using UnityEngine;
 
 using UniRx;
 
-public class BattlePhase : PhaseUpdater{
+public class BattlePhaseUpdater : PhaseUpdater{
 
     private TurnUpdater[] turnList;
     private int turnCount = 0;
-    private const int turnMaxCount = 4;
+    private const int turnMaxCount = 2;
     private bool isFinishBattle;
 
     //dispos
@@ -17,17 +17,14 @@ public class BattlePhase : PhaseUpdater{
 
 
 
-    public BattlePhase (){
-        turnList = new TurnUpdater[4];
+    public BattlePhaseUpdater (){
+        turnList = new TurnUpdater[2];
         disposableList = new List<IDisposable>();
     }
 
 
-
     //戦闘開始
-    public override IEnumerator StartUpdatePhase (S_BattleDate data){
-
-        Debug.Log("戦闘開始");
+    public override IEnumerator StartPhase (S_BattleDate data){
 
         //終了フラグを初期化
         isFinishBattle = false;
@@ -42,14 +39,10 @@ public class BattlePhase : PhaseUpdater{
         //素早さPlayer < Enemy 同じな場合はプレイヤーから
         if(data.Player.GetMaxStatus.Speed >= data.Enemy.GetMaxStatus.Speed){
             turnList[0] = new PlayerTurnUpdater(data.Player,data.Enemy);
-            turnList[1] = new StateCheckTurnUpdater(data.Player);
-            turnList[2] = new EnemyTurnUpdater(data.Enemy,data.Player);
-            turnList[3] = new StateCheckTurnUpdater(data.Enemy);
+            turnList[1] = new EnemyTurnUpdater(data.Enemy,data.Player);
         }else{
             turnList[0] = new EnemyTurnUpdater(data.Enemy,data.Player);
-            turnList[1] = new StateCheckTurnUpdater(data.Enemy);
             turnList[2] = new PlayerTurnUpdater(data.Player,data.Enemy);
-            turnList[3] = new StateCheckTurnUpdater(data.Player);
         }
 
 

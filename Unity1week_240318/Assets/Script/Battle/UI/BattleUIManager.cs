@@ -9,6 +9,7 @@ public class BattleUIManager : MonoBehaviour{
     private GameObject menuTextUI;
     private GameObject commandButtonUI;
     private GameObject skillListUI;
+    private GameObject textBoxUI;
 
 
     Dictionary<E_BattleUIType,Action> UIList;
@@ -24,6 +25,7 @@ public class BattleUIManager : MonoBehaviour{
         menuTextUI = gameObject.transform.Find("MenuText").gameObject;
         commandButtonUI = gameObject.transform.Find("CommandButton").gameObject;
         skillListUI = gameObject.transform.Find("SkillMenu").gameObject;
+        textBoxUI = gameObject.transform.Find("TextBox").gameObject;
 
         //ボタンUIを監視
         var battleMenu = gameObject.GetComponent<BattleMenuManager>();
@@ -53,20 +55,23 @@ public class BattleUIManager : MonoBehaviour{
     }
 
     private void ActiveText(){
-        menuTextUI.SetActive(true);
+        menuTextUI.SetActive(false);
         commandButtonUI.SetActive(false);
         skillListUI.SetActive(false);
+        textBoxUI.SetActive(true);
     }
 
     private void ActiveMeinMenu(){
         menuTextUI.SetActive(true);
         commandButtonUI.SetActive(true);
         skillListUI.SetActive(false);
+        textBoxUI.SetActive(false);
     }
 
     private void ActiveSkillList(){
         menuTextUI.SetActive(false);
         commandButtonUI.SetActive(false);
         skillListUI.SetActive(true);
+        textBoxUI.SetActive(false);
     }
 }

@@ -32,12 +32,16 @@ public class BattleManager : IDisposable{
         disposableList = new List<IDisposable>();
 
         //Dic初期化
-        pahseDic[E_BattlePhase.StartPhase] = new StartPhase();
-        pahseDic[E_BattlePhase.BattlePhase] = new BattlePhase();
-        pahseDic[E_BattlePhase.FinishPhase] = new FinishPhase();
+        pahseDic[E_BattlePhase.StartPhase] = new StartPhaseUpdater();
+        pahseDic[E_BattlePhase.BattlePhase] = new BattlePhaseUpdater();
+        pahseDic[E_BattlePhase.FinishPhase] = new FinishPhaseUpdater();
 
         playerData = new PlayerBattleActor();
-        currentBattleData = new S_BattleDate(winCount,playerData,new EnemyBattleActor(E_EnemyType.Dragon));
+
+        //最初のエネミーを生成
+        var enemyData = new EnemyBattleActor(E_EnemyType.Dragon);
+
+        currentBattleData = new S_BattleDate(winCount,playerData,enemyData);
     }
 
 
@@ -74,8 +78,12 @@ public class BattleManager : IDisposable{
                    //バトル終了
                    battleFinisheSubject.OnNext(Unit.Default);
                 }else{
+
+                    //次のエネミーを生成
+                    var enemyData = new EnemyBattleActor(E_EnemyType.Dragon);
+
                      //新しいバトルデータを生成、次のバトルへ
-                    currentBattleData = new S_BattleDate(winCount,playerData,new EnemyBattleActor(E_EnemyType.Dragon));
+                    currentBattleData = new S_BattleDate(winCount,playerData,enemyData);
                     currentPhase.Value = E_BattlePhase.StartPhase;
                 }
 
@@ -91,7 +99,7 @@ public class BattleManager : IDisposable{
         //なぜか値が勝手に代入される（なぜ？）
         disopsable = currentPhase.Subscribe((x)=>{
             Debug.Log(x+" 呼び出し");
-            CoroutineHander.OrderStartCoroutine(pahseDic[x].StartUpdatePhase(currentBattleData));
+            CoroutineHander.OrderStartCoroutine(pahseDic[x].StartPhase(currentBattleData));
         });
 
         disposableList.Add(disopsable);
