@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d44b660aa8041d49acf91d8219de567, type: 3}
+  m_Name: PlayerInitData
+  m_EditorClassIdentifier: 
+  EnemyStatus:
+    Name: "\u30B9\u30E9\u30A4\u30E0"
+    Level: 1
+    image: 0
+    HP: 10
+    MP: 10
+    Attack: 1
+    Defense: 1
+    Speed: 1
+    CriticalCorrection: 1
+    NomalDamageResistanceRate: 0
+    FlameResistanceRate: 1
+    IceResistanceRate: 1
+    ThunderResistanceRate: 1
+    ParalysisResistance: 0
+    SilenceResistance: 0
+    SleepResistance: 0
+    PoisonResistance: 0
+    VenomResistance: 0
+    TimeBombResistance: 0
+  SkillList: 0500000005000000

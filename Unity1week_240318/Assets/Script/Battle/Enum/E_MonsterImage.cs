@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BattleActorAction {
-
+public enum E_MonsterImage {
+   Slime,
+   AttackSime,
+   RearSlime,
+   Dragon
 }

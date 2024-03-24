@@ -3,5 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum E_BeforeStatusEffect {
-    BackToTitle
+    Paralysis,
+    Silence,
+    Sleep,
+    EffectProtect,
+    Non
 }

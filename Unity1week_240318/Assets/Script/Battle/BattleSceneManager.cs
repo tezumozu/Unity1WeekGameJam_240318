@@ -41,10 +41,15 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         var resultInputManager = GameObject.Find("ResultInputManager").GetComponent<ResultInputManager>();
         var pauseInputManager = GameObject.Find("PauseInputManager").GetComponent<PauseInputManager>();
         var skillListMenu = GameObject.Find("Canvas/BattleUI").GetComponent<SkillListManager>();
+        var statusUI = GameObject.Find("Canvas/PlayerUI").GetComponent<StatusUIManager>();
 
         //スキルリストをセット
         skillListMenu.setSkillList(skillList);
         //skillListMenu.setSkillList(PlayerData.GetSkillList);
+
+        //プレイヤーのステータスをセット
+        //statusUI.SetStatus(PlayerData.GetStatus);
+
 
         //バトルマネージャの終了を監視
         var disopsable = battleManager.battleFinisheAsync.Subscribe((x)=>{
@@ -71,6 +76,8 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
 
         //リザルト終了の監視
         disopsable = resultInputManager.ResultUIAsync.Subscribe((x)=>{
+            //リソースを開放
+            Resources.UnloadUnusedAssets();
             sceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 

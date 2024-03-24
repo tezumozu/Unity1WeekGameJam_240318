@@ -30,6 +30,12 @@ public class StartPhaseUpdater : PhaseUpdater{
 
     //Start時の演出処理
     public override IEnumerator StartPhase (S_BattleDate data){
+
+        //StateUIの初期化
+        //buff
+        //StatusEffect
+
+
         string dungeonInfoText;
         if(data.WinCount + 1 >= 5){
             dungeonInfoText = "最終層";

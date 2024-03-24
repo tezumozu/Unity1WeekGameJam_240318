@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class EnemyBattleActor : BattleActor{
 
-    public EnemyBattleActor(E_EnemyType type){
-        //ステータスの生成
-        
+    public EnemyBattleActor(E_EnemyType type,I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
+        //ステータス読み込み
+        //パスを生成
+        var fileName = "BattleScene/Enemy" + type.ToString();
+        //読み込む
+        var enemyData = Resources.Load<EnemyData>(fileName);
+
+        if(enemyData is null){
+            Debug.Log("Load error! : EnemyBattleActor");
+        }
+
+        //ステータスを取得 
+        maxStatus = enemyData.EnemyStatus;
+        currentStatus = enemyData.EnemyStatus;
+
+        //スキルリストを取得
+        skillList = enemyData.SkillList;
     }
 
 

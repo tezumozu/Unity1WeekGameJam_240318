@@ -87,6 +87,10 @@ public class PlayerTurnUpdater : TurnUpdater{
         }
 
 
+        //Playerのステータスを修正
+
+
+
         //勝敗チェック
         if(isFinished){
             FinishTurnSubject.OnNext(Unit.Default);

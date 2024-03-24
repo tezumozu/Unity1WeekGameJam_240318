@@ -13,5 +13,10 @@ public enum E_ActionType {
     Cure_3,
     HiAttack_1,
     HiAttack_2,
-    HiAttack_3
+    HiAttack_3,
+
+    //  状態異常系
+    Paralysis,
+    Sleep,
+    Silence
 }
