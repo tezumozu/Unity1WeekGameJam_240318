@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NormalAttackDownBuff : BattleBuff{
-    public NormalAttackDownBuff(int turn):base(turn){
-
+    public NormalAttackDownBuff(int turn):base(E_Buff.NormalAttackDown,turn){
     }
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){

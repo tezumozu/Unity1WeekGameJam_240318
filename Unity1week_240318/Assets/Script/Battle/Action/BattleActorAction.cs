@@ -5,21 +5,43 @@ using UnityEngine;
 public abstract class BattleActorAction {
     
     public readonly ActionData ActionData;
-    public BattleActorAction CurrentAction {get; protected set;}
+    protected bool isCritical = false;
 
     protected BattleActorAction(E_ActionType type){
-        //パラメータ書き換え防止
+        //パラメータ初期化のため毎回読み込み
 
         //パスを生成
-        var fileName = "BattleScene/DataList";
+        var fileName = "BattleScene/SkillDataList";
         //読み込む
         var dataList = Resources.Load<ActionDataList>(fileName);
         foreach(var data in dataList.DataList){
-            if (data.type == E_ActionType.Attack){
+            if (data.type == type){
                 ActionData = data;
             }
         }
+
+        Resources.UnloadUnusedAssets();
     }
 
-    public abstract ActionResult UseAction(BattleActor attacker,I_DamageApplicable diffender);
+    public abstract IEnumerator UseAction(S_BattleActorStatus effectedStatus,I_DamageApplicable attacker,I_DamageApplicable diffender);
+
+
+    public virtual bool CheckCritical(S_BattleActorStatus effectedStatus){
+        if(effectedStatus.CriticalCorrection * ActionData.CriticalRate > Random.Range( 0.0f , 1.0f )){
+            Debug.Log(effectedStatus.CriticalCorrection * ActionData.CriticalRate);
+            isCritical = true;
+        }else{
+            isCritical = false;
+        }
+        return isCritical;
+    }
+
+
+    public virtual bool checkSuccess(){
+        if(ActionData.SuccessRate < Random.Range(0.0f,1.0f)){
+            return false;
+        }
+        
+        return true;
+    }
 }

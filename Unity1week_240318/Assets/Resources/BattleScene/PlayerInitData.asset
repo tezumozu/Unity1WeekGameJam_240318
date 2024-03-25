@@ -22,7 +22,7 @@ MonoBehaviour:
     Defense: 1
     Speed: 1
     CriticalCorrection: 1
-    NomalDamageResistanceRate: 0
+    NomalDamageResistanceRate: 1
     FlameResistanceRate: 1
     IceResistanceRate: 1
     ThunderResistanceRate: 1

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackUPBuff : BattleBuff{
-    public AttackUPBuff(int turn):base(turn){
+    public AttackUPBuff(int turn):base(E_Buff.AttackUP,turn){
 
     }
 

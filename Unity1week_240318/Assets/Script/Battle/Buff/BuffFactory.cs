@@ -72,6 +72,10 @@ public class BuffFactory : I_BuffCreatable{
             case E_Buff.NormalAttackDown:
                 buff = new NormalAttackUPBuff(turn);
                 break;
+
+            default :
+                buff = new DefenseBuff(turn);
+                break;
         }
 
         return buff;

@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyStatus:
     Name: "\u3064\u3088\u3064\u3088"
-    Level: 50
-    HP: 300
-    MP: 150
+    Level: 100
+    image: 0
+    HP: 5555
+    MP: 5555
     Attack: 50
     Defense: 50
     Speed: 50
-    CriticalCorrection: 1
+    CriticalCorrection: 3
+    NomalDamageResistanceRate: 1
     FlameResistanceRate: 1
     IceResistanceRate: 1
     ThunderResistanceRate: 1
@@ -29,4 +31,5 @@ MonoBehaviour:
     SleepResistance: 0
     PoisonResistance: 0
     VenomResistance: 0
+    TimeBombResistance: 0
   SkillList: 02000000030000000400000005000000060000000700000008000000090000000a000000

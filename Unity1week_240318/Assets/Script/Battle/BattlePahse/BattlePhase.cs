@@ -31,18 +31,18 @@ public class BattlePhaseUpdater : PhaseUpdater{
         turnCount = 0;
 
         //もし配列に中身が入っていたら
-        if(true){
+        if(turnList[0] != null){
             Dispose();
         }
 
         //ターンを作成
         //素早さPlayer < Enemy 同じな場合はプレイヤーから
         if(data.Player.GetMaxStatus.Speed >= data.Enemy.GetMaxStatus.Speed){
-            turnList[0] = new PlayerTurnUpdater(data.Player,data.Enemy);
-            turnList[1] = new EnemyTurnUpdater(data.Enemy,data.Player);
+            turnList[0] = new TurnUpdater(data.Player,data.Enemy);
+            turnList[1] = new TurnUpdater(data.Enemy,data.Player);
         }else{
-            turnList[0] = new EnemyTurnUpdater(data.Enemy,data.Player);
-            turnList[2] = new PlayerTurnUpdater(data.Player,data.Enemy);
+            turnList[0] = new TurnUpdater(data.Enemy,data.Player);
+            turnList[1] = new TurnUpdater(data.Player,data.Enemy);
         }
 
 
@@ -72,7 +72,7 @@ public class BattlePhaseUpdater : PhaseUpdater{
                     FinishPhaseSubject.OnNext(Unit.Default);
                 }else{
                     turnCount++;
-                    turnCount = turnCount%turnMaxCount;
+                    turnCount = turnCount % turnMaxCount;
                     CoroutineHander.OrderStartCoroutine(turnList[turnCount].StartTurn());
                 }
             });      

@@ -5,26 +5,23 @@ using UnityEngine;
 public class TimeBombEffect : AfterStatusEffect{
     private int turnCount;
 
-    public TimeBombEffect(){
+    public TimeBombEffect():base(E_AfterStatusEffect.TimeBomb){
         turnCount = 4;
-        Type = E_AfterStatusEffect.TimeBomb;
-        EffectName = "時限爆弾";
-
-        EffectText = "時限爆弾のカウントが進む！";
-        RecoveryText = "時限爆弾は消え去った！";
     }
 
-    public override List<string> AppliyEffect(BattleActor actor){
-        var resultTextList = new List<string>();
+    public override IEnumerator AppliyEffect(BattleActor actor){
         turnCount--;
         if(turnCount == 0){
-            int damagePoint = actor.GetMaxStatus.HP/4;
-            actor.DamageAppliy(damagePoint,E_Element.TrueDamage);
-            resultTextList.Add(actor.GetCurrentStatus.Name + "は爆破ダメージを受けた！");
+            int damagePoint = actor.GetMaxStatus.HP/3;
+            yield return actor.AppliyDamage(damagePoint,E_Element.TrueDamage);
         }else{
-            resultTextList.Add("残り " + turnCount + " カウント！");
+            if(turnCount-1 == 0){
+                EffectData.EffectText = ("のボムが爆発した！");
+            }else{
+                EffectData.EffectText = ("爆発まで残り " + (turnCount - 1) + " ！");
+            }
+            yield return null;
         }
-        return resultTextList;
     }
 
     public override bool CheckContinueEffect(){

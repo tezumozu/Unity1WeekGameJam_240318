@@ -5,16 +5,11 @@ using UnityEngine;
 public class NonBeforeEffect : BeforeStatusEffect{
 
 
-    public NonBeforeEffect(I_ActionCreatable actionFactory):base(actionFactory){
-        Type = E_BeforeStatusEffect.Non;
-        EffectName = "Non";
-        EffectText = "";
-        EffectAction = actionFactory.CreateAction(E_ActionType.Attack);
-        RecoveryText = "";
+    public NonBeforeEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Non,actionFactory){
     }
 
-    public override bool AppliyEffect(BattleActor actor){
-        return false;
+    public override BattleActorAction AppliyEffect(E_ActionType type){
+        return actionFactory.CreateAction(type);
     }
 
     public override bool CheckContinueEffect(){

@@ -66,6 +66,7 @@ public struct S_BattleActorStatus{
                 elementResistanceRateDic[E_Element.Flame] = FlameResistanceRate;
                 elementResistanceRateDic[E_Element.Ice] = IceResistanceRate;
                 elementResistanceRateDic[E_Element.Thunder] = ThunderResistanceRate;
+                elementResistanceRateDic[E_Element.TrueDamage] = 0.0f;
             }
 
             return new Dictionary<E_Element,float>(elementResistanceRateDic);

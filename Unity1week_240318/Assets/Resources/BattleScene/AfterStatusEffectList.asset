@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3763059a53a7e954b97957f0a590d1ed, type: 3}
+  m_Name: AfterStatusEffectList
+  m_EditorClassIdentifier: 
+  DataList:
+  - EffectType: 0
+    EffectName: "\u6BD2"
+    EffectText: "\u6BD2\u72B6\u614B/n\u6BCE\u30BF\u30FC\u30F3\u306E\u7D42\u308F\u308A\u306B/n\u6700\u5927HP\u306E1/16\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u308B"
+    EffectAplliyText: "\u306F\u6BD2\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u305F\uFF01"
+    EffectRecoveryText: "\u306E\u6BD2\u306F\u6D88\u3048\u53BB\u3063\u305F\uFF01"
+  - EffectType: 1
+    EffectName: "\u731B\u6BD2"
+    EffectText: "\u731B\u6BD2\u72B6\u614B/n\u6BCE\u30BF\u30FC\u30F3\u306E\u7D42\u308F\u308A\u306B/n\u6700\u5927HP\u306E1/8\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u308B"
+    EffectAplliyText: "\u306F\u731B\u6BD2\u306E\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u305F\uFF01"
+    EffectRecoveryText: "\u306E\u731B\u6BD2\u306F\u6D88\u3048\u53BB\u3063\u305F\uFF01"
+  - EffectType: 2
+    EffectName: "\u30DC\u30E0"
+    EffectText: "\u30DC\u30E0\u72B6\u614B/n3\u30BF\u30FC\u30F3\u5F8C\u306B\u7206\u767A\u3057/n\u5927\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u308B"
+    EffectAplliyText: "\u306E\u6B8B\u308A\u30AB\u30A6\u30F3\u30C8 3"
+    EffectRecoveryText: "\u30DC\u30E0\u306F\u6D88\u3048\u53BB\u3063\u305F\uFF01"
+  - EffectType: 3
+    EffectName: "\u5B88\u8B77"
+    EffectText: "\u5B88\u8B77\u72B6\u614B/n3\u30BF\u30FC\u30F3\u306E\u9593\u72B6\u614B\u7570\u5E38\u3092\u9632\u3050"
+    EffectAplliyText: "\u306F\u5B88\u8B77\u3055\u308C\u3066\u3044\u308B\uFF01"
+    EffectRecoveryText: "\u306E\u5B88\u8B77\u304C\u6D88\u3048\u305F\uFF01"
+  - EffectType: 4
+    EffectName: "\u306A\u3057"
+    EffectText: "\u306A\u3057"
+    EffectAplliyText: "\u306A\u3057"
+    EffectRecoveryText: "\u306A\u3057"

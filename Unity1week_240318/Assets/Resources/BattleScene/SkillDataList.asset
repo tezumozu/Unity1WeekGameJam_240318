@@ -21,6 +21,7 @@ MonoBehaviour:
     Power: 50
     SkillName: "\u901A\u5E38\u653B\u6483"
     SkillText: "\u901A\u5E38\u653B\u6483"
+    ActionSkillText: "\u306E\u653B\u6483\uFF01"
   - type: 1
     Cost: 0
     Element: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
     Power: 0
     SkillName: "\u9632\u5FA1"
     SkillText: "\u6B21\u306E\u81EA\u5206\u306E\u30BF\u30FC\u30F3\u306E\u7D42\u308F\u308A\u307E\u3067/n\u53D7\u3051\u308B\u30C0\u30E1\u30FC\u30B8\u3092\u6E1B\u3089\u3059"
+    ActionSkillText: "\u306E\u9632\u5FA1\uFF01"
   - type: 5
     Cost: 10
     Element: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
     Power: 0
     SkillName: "\u56DE\u5FA9I"
     SkillText: "\u9B54\u6CD5\u3067\u50B7\u3092\u7652\u3059/nHP\u3092\u5C0F\u56DE\u5FA9"
+    ActionSkillText: "\u306E\u56DE\u5FA9I\uFF01"

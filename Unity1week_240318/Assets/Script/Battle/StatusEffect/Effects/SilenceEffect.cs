@@ -6,21 +6,15 @@ public class SilenceEffect : BeforeStatusEffect{
     private int turnCount;
 
 
-    public SilenceEffect(I_ActionCreatable actionFactory):base(actionFactory){
-        Type = E_BeforeStatusEffect.Silence;
-        turnCount = 4;
-        EffectName = "沈黙";
-
-        EffectText = "は沈黙している！";
-        EffectAction = actionFactory.CreateAction(E_ActionType.Silence);
-        RecoveryText = "の沈黙はとかれた！";
+    public SilenceEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Silence,actionFactory){
     }
 
-    public override bool AppliyEffect(BattleActor actor){
-        if(actor.CurrentAction.ActionData.Cost > 0){
-            return true;
+    public override BattleActorAction AppliyEffect(E_ActionType type){
+        var action = actionFactory.CreateAction(type);
+        if(action.ActionData.Cost > 0){
+            return actionFactory.CreateAction(E_ActionType.Silence);
         }
-        return false;
+        return action;
     }
 
     public override bool CheckContinueEffect(){

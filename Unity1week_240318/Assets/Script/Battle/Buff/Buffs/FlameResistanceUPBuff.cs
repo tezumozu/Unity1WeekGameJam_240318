@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlameResistanceUPBuff : BattleBuff{
-    public FlameResistanceUPBuff(int turn):base(turn){
-
+    public FlameResistanceUPBuff(int turn):base(E_Buff.FlameResistanceUP,turn){
     }
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6259066418982937805}
   - component: {fileID: 7156461352508387089}
   - component: {fileID: 5982325724022022110}
-  - component: {fileID: 7328057572466709007}
+  - component: {fileID: 1494785547275540575}
+  - component: {fileID: 860800733662085862}
   m_Layer: 5
   m_Name: SkillButton
   m_TagString: Untagged
@@ -125,8 +126,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7328057572466709007}
-        m_TargetAssemblyTypeName: BattleActionButton, Assembly-CSharp
+      - m_Target: {fileID: 860800733662085862}
+        m_TargetAssemblyTypeName: SkillActionButton, Assembly-CSharp
         m_MethodName: OnClickButton
         m_Mode: 1
         m_Arguments:
@@ -137,7 +138,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7328057572466709007
+--- !u!114 &1494785547275540575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,10 +147,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 4052825163085187597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402a8f6a0a1e36c4b9cacf2e9231c4f9, type: 3}
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 860800733662085862}
+          m_TargetAssemblyTypeName: SkillActionButton, Assembly-CSharp
+          m_MethodName: OnPointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 860800733662085862}
+          m_TargetAssemblyTypeName: SkillActionButton, Assembly-CSharp
+          m_MethodName: OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &860800733662085862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052825163085187597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2fba68299d95f24a821c72a57559743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MyType: 2
+  skillName: {fileID: 8819465109913699639}
+  skillCost: {fileID: 653827894560922763}
 --- !u!1 &6861870685947107374
 GameObject:
   m_ObjectHideFlags: 0

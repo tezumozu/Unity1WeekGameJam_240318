@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IceResistanceUPBuff : BattleBuff{
-    public IceResistanceUPBuff(int turn):base(turn){
-
+    public IceResistanceUPBuff(int turn):base(E_Buff.IceResistanceUP,turn){
     }
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){

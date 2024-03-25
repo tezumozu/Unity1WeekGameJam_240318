@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class ParalysisEffect : BeforeStatusEffect{
 
-    public ParalysisEffect(I_ActionCreatable actionFactory):base(actionFactory){
-        Type = E_BeforeStatusEffect.Paralysis;
-
-        EffectName = "麻痺";
-
-        EffectText = "は麻痺している！";
-        EffectAction = actionFactory.CreateAction(E_ActionType.Paralysis);
-        RecoveryText = "は麻痺が治った！";
+    public ParalysisEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Paralysis,actionFactory){
+        
     }
 
-    public override bool AppliyEffect(BattleActor actor){
+    public override BattleActorAction AppliyEffect(E_ActionType type){
         if(Random.Range(0.0f,0.1f) < 0.3f){
-            return true;
+            return actionFactory.CreateAction(E_ActionType.Paralysis);
         }
 
-        return false;
+        return actionFactory.CreateAction(type);
     }
 
     public override bool CheckContinueEffect(){

@@ -41,14 +41,13 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         var resultInputManager = GameObject.Find("ResultInputManager").GetComponent<ResultInputManager>();
         var pauseInputManager = GameObject.Find("PauseInputManager").GetComponent<PauseInputManager>();
         var skillListMenu = GameObject.Find("Canvas/BattleUI").GetComponent<SkillListManager>();
-        var statusUI = GameObject.Find("Canvas/PlayerUI").GetComponent<StatusUIManager>();
+        var statusUI = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorUIManager>();
 
         //スキルリストをセット
-        skillListMenu.setSkillList(skillList);
-        //skillListMenu.setSkillList(PlayerData.GetSkillList);
+        skillListMenu.setSkillList(PlayerData.GetPlayerSkillList);
 
         //プレイヤーのステータスをセット
-        //statusUI.SetStatus(PlayerData.GetStatus);
+        statusUI.SetStatus(PlayerData.GetPlayerStatus,PlayerData.GetPlayerStatus);
 
 
         //バトルマネージャの終了を監視
@@ -91,6 +90,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         });
 
         disposableList.Add(disopsable);
+
     }
 
 
@@ -98,6 +98,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
     public void StartBattle(){
         currentState.Value = E_BattleSceneState.Battle;
         battleManager.StartBattle();
+    
     }
 
 

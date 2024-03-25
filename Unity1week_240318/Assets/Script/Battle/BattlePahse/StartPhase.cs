@@ -9,15 +9,24 @@ public class StartPhaseUpdater : PhaseUpdater{
 
     bool isAnimFin;
     bool isClicked;
+
     DungeonInfoUIManager dungeonInfo;
+    BlackOutManager blackOut;
+
     BattleTextManager textManager;
 
     IDisposable animFinDisposable;
+    IDisposable blackOutDisposable;
     IDisposable clickDisposable;
 
     public StartPhaseUpdater(){
         dungeonInfo = GameObject.Find("Canvas/DungeonInfo").GetComponent<DungeonInfoUIManager>();
         animFinDisposable = dungeonInfo.FinishAnimAsync.Subscribe((x)=>{
+            isAnimFin = true;
+        });
+
+        blackOut = GameObject.Find("Canvas/BlackOutAnim").GetComponent<BlackOutManager>();
+        blackOutDisposable = blackOut.FinishAnimAsync.Subscribe((x)=>{
             isAnimFin = true;
         });
 
@@ -41,6 +50,16 @@ public class StartPhaseUpdater : PhaseUpdater{
             dungeonInfoText = "最終層";
         }else{
             dungeonInfoText = "第" + (data.WinCount + 1) + "層";
+        }
+
+        dungeonInfo.SetInfo(dungeonInfoText);
+
+        //アニメーション終了待ち
+        isAnimFin = false;
+        blackOut.StartBlackInAnim();
+
+        while (!isAnimFin){
+            yield return null;
         }
 
         dungeonInfo.SetInfo(dungeonInfoText);
@@ -75,6 +94,7 @@ public class StartPhaseUpdater : PhaseUpdater{
     // このクラスがDisposeされたら購読も止める
     public override void Dispose(){
         animFinDisposable.Dispose();
+        blackOutDisposable.Dispose();
         clickDisposable.Dispose();
     }
 }

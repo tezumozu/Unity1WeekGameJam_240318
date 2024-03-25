@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MagicUPBuff : BattleBuff{
-    public MagicUPBuff(int turn):base(turn){
-
+    public MagicUPBuff(int turn):base(E_Buff.MagicUP,turn){
     }
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){

@@ -14,6 +14,10 @@ public class SkillListManager : MonoBehaviour{
     [SerializeField]
     private GameObject ButtonPrefb;
 
+    [SerializeField]
+    private GameObject infoUI;
+    private SkillInfoUIManager infoUIManager;
+
 
 
     private Subject<List<BattleActionButton>> UpdateUISubject = new Subject<List<BattleActionButton>>();
@@ -23,6 +27,7 @@ public class SkillListManager : MonoBehaviour{
 
     void Start(){
         BackButton = gameObject.transform.Find("SkillMenu/BackButton").gameObject.GetComponent<BattleUIControlButton>();
+        infoUIManager = infoUI.GetComponent<SkillInfoUIManager>();
     }
 
     public void setSkillList(List<E_ActionType> skillList){
@@ -65,8 +70,8 @@ public class SkillListManager : MonoBehaviour{
             rect_transform.position = pos;
 
             //buttonを初期化
-            var button = buttonObject.GetComponent<BattleActionButton>();
-            button.SetButtonData(skill);
+            var button = buttonObject.GetComponent<SkillActionButton>();
+            button.InitSkillButton(skill,infoUIManager,new ActionFactory());
 
             //Contensへ格納
             buttonObject.transform.SetParent(content,false);

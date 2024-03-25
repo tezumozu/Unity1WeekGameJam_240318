@@ -4,10 +4,10 @@ using UnityEngine;
 
 public struct S_BattleDate{
     public int WinCount;
-    public PlayerBattleActor Player;
-    public EnemyBattleActor Enemy;
+    public BattleActor Player;
+    public BattleActor Enemy;
 
-    public S_BattleDate(int WinCount,PlayerBattleActor Player,EnemyBattleActor Enemy){
+    public S_BattleDate(int WinCount,BattleActor Player,BattleActor Enemy){
         this.WinCount = WinCount;
         this.Player = Player;
         this.Enemy = Enemy;

@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class NonAfterEffect : AfterStatusEffect{
 
-    public NonAfterEffect(){
-        Type = E_AfterStatusEffect.Non;
-        EffectName ="Non";
-        EffectText = "";
-        RecoveryText = "";
+    public NonAfterEffect():base(E_AfterStatusEffect.Non){
     }
 
-    public override List<string> AppliyEffect(BattleActor actor){
-        var resultTextList = new List<string>();
-        return resultTextList;
+    public override IEnumerator AppliyEffect(BattleActor actor){
+        yield return null;
     }
 
     public override bool CheckContinueEffect(){

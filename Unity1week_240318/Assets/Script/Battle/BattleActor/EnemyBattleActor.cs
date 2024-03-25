@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class EnemyBattleActor : BattleActor{
 
+    protected static Dictionary<E_EnemyType,string> enemyNameDic;
+
     public EnemyBattleActor(E_EnemyType type,I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
+        
+        //マネージャの取得
+        statusUIManager = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
+
+        if(enemyNameDic is null){
+            enemyNameDic = new Dictionary<E_EnemyType,string>();
+            enemyNameDic[E_EnemyType.Dragon] = "Dragon";
+            enemyNameDic[E_EnemyType.Test] = "TestEnemy";
+        }
+        
         //ステータス読み込み
         //パスを生成
-        var fileName = "BattleScene/Enemy" + type.ToString();
+        var fileName = "BattleScene/Enemy/" +  enemyNameDic[type];
         //読み込む
         var enemyData = Resources.Load<EnemyData>(fileName);
 
@@ -24,37 +36,10 @@ public class EnemyBattleActor : BattleActor{
     }
 
 
-    public override List<string> CheckBeforeStatusEffect(){
-        var resultTextList = new List<string>();
 
-        return resultTextList;
+    public override IEnumerator SetNextAction(){
+        currentActionType  = E_ActionType.Attack;
+        yield return null;
     }
 
-
-    public override List<string> ActionBattleActor(E_ActionType type,I_DamageApplicable enemy){
-        var resultTextList = new List<string>();
-
-        return resultTextList;
-    }
-
-
-    public override List<string> CheckAfterStatusEffect(){
-        var resultTextList = new List<string>();
-
-        return resultTextList;
-    }
-
-
-    public override List<string> RefreshBattleActor(){
-        var resultTextList = new List<string>();
-
-        return resultTextList;
-    }
-
-    //ランダムで行動が必要な時用(混乱時など)
-    protected List<string> ActionBattleActor(I_DamageApplicable enemy){
-        var resultTextList = new List<string>();
-
-        return resultTextList;
-    }
 }

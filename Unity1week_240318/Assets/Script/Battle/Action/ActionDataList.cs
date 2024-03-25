@@ -32,4 +32,7 @@ public class ActionData {
 
     [SerializeField]
     public string SkillText;
+
+    [SerializeField]
+    public string ActionSkillText;
 }

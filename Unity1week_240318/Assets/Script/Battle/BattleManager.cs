@@ -10,7 +10,8 @@ public class BattleManager : IDisposable{
     private Dictionary<E_BattlePhase,PhaseUpdater> pahseDic;
     private int winCount;
     private readonly int maxWinCount;
-    private PlayerBattleActor playerData;
+    private PlayerBattleActor playerActor;
+    private EnemyBattleActor enemyActor;
     private S_BattleDate currentBattleData;
 
     //Subjects
@@ -36,12 +37,18 @@ public class BattleManager : IDisposable{
         pahseDic[E_BattlePhase.BattlePhase] = new BattlePhaseUpdater();
         pahseDic[E_BattlePhase.FinishPhase] = new FinishPhaseUpdater();
 
-        playerData = new PlayerBattleActor(new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+        playerActor = new PlayerBattleActor(new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
         //最初のエネミーを生成
-        var enemyData = new EnemyBattleActor(E_EnemyType.Dragon,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+        enemyActor = new EnemyBattleActor(E_EnemyType.Test,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
-        currentBattleData = new S_BattleDate(winCount,playerData,enemyData);
+
+        //エネミーUIを更新
+        var statusUI = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
+        statusUI.SetStatus(enemyActor.GetMaxStatus,enemyActor.GetMaxStatus);
+
+
+        currentBattleData = new S_BattleDate(winCount,playerActor,enemyActor);
     }
 
 
@@ -69,7 +76,7 @@ public class BattleManager : IDisposable{
         disopsable = pahseDic[E_BattlePhase.FinishPhase].FinishPhaseAsync.Subscribe((x)=>{
             Debug.Log("Finish終了");
             //もしプレイヤーが勝利したら
-            if(playerData.GetCurrentStatus.HP > 0){
+            if(playerActor.GetCurrentStatus.HP > 0){
 
                 //勝利回数を加算
                 winCount++;
@@ -79,14 +86,20 @@ public class BattleManager : IDisposable{
                    battleFinisheSubject.OnNext(Unit.Default);
                 }else{
 
+                    enemyActor.Dispose();
+
                     //次のエネミーを生成
-                    var enemyData = new EnemyBattleActor(E_EnemyType.Dragon,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+                    enemyActor = new EnemyBattleActor(E_EnemyType.Dragon,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+
+                    //エネミーUIを更新
+                    var statusUI = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
+                    statusUI.SetStatus(enemyActor.GetMaxStatus,enemyActor.GetMaxStatus);
 
                     //プレイヤーの状態を回復
-                    playerData.ResetState();
+                    playerActor.ResetState();
 
                     //新しいバトルデータを生成、次のバトルへ
-                    currentBattleData = new S_BattleDate(winCount,playerData,enemyData);
+                    currentBattleData = new S_BattleDate(winCount,playerActor,enemyActor);
                     currentPhase.Value = E_BattlePhase.StartPhase;
                 }
 
@@ -125,6 +138,9 @@ public class BattleManager : IDisposable{
         foreach (var disopsable in pahseDic){
             disopsable.Value.Dispose();
         }
+
+        playerActor.Dispose();
+        enemyActor.Dispose();
     }
 
 }
