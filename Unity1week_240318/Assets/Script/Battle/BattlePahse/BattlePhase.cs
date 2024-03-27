@@ -15,8 +15,6 @@ public class BattlePhaseUpdater : PhaseUpdater{
     //dispos
     private readonly List<IDisposable> disposableList;
 
-
-
     public BattlePhaseUpdater (){
         turnList = new TurnUpdater[2];
         disposableList = new List<IDisposable>();
@@ -66,12 +64,15 @@ public class BattlePhaseUpdater : PhaseUpdater{
         //各ターンの終了を監視
         for (int i = 0; i < turnMaxCount; i++){
            disposable = turnList[i].FinishTurnAsync.Subscribe((x)=>{
+                TakeTurnCount++;
+                
                 if(isFinishBattle){
-                    Debug.Log("戦闘終了");
                     //戦闘を終了させる
                     FinishPhaseSubject.OnNext(Unit.Default);
                 }else{
                     turnCount++;
+                    
+                    Debug.Log(TakeTurnCount);
                     turnCount = turnCount % turnMaxCount;
                     CoroutineHander.OrderStartCoroutine(turnList[turnCount].StartTurn());
                 }

@@ -16,6 +16,9 @@ public class PauseUIManager : MonoBehaviour{
     [SerializeField]
     GameObject CheckDisitionUI;
 
+    [SerializeField]
+    SoundManager soundManager;
+
     public void OnPushBackToTitleButton(){
         CheckDisitionUI.SetActive(true);
     }
@@ -31,5 +34,6 @@ public class PauseUIManager : MonoBehaviour{
     public void SetActive(bool flag){
         if(!flag) CheckDisitionUI.SetActive(false);
         gameObject.SetActive(flag);
+        soundManager.SetActive(flag);
     }
 }

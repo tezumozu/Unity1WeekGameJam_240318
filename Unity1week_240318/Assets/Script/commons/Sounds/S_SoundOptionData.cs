@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class S_SoundOptionData : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public struct S_SoundOptionData{
+    public readonly float Sound;
+    public readonly float SE;
+    public readonly float BGM;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public S_SoundOptionData(float sound, float se, float bgm){
+        Sound = sound;
+        SE = se;
+        BGM = bgm;
     }
 }

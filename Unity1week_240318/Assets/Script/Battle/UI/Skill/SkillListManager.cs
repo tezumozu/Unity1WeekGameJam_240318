@@ -22,7 +22,6 @@ public class SkillListManager : MonoBehaviour{
     private SkillInfoUIManager infoUIManager;
 
 
-
     private Subject<List<BattleActionButton>> UpdateUISubject = new Subject<List<BattleActionButton>>();
     public IObservable<List<BattleActionButton>> UpdateUIAsync => UpdateUISubject;
 
@@ -35,6 +34,7 @@ public class SkillListManager : MonoBehaviour{
 
     public void setSkillList(List<E_ActionType> skillList){
         var buttonList = new List<BattleActionButton>();
+
         float ButtonHight = 50;
         float ButtonWidth = 200;
 

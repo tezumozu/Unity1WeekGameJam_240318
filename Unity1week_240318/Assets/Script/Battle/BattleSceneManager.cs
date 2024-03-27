@@ -41,13 +41,16 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         var resultInputManager = GameObject.Find("ResultInputManager").GetComponent<ResultInputManager>();
         var pauseInputManager = GameObject.Find("PauseInputManager").GetComponent<PauseInputManager>();
         var pauseUIManager = GameObject.Find("Canvas/PauseUI").GetComponent<PauseUIManager>();
+        var resultUIManager = GameObject.Find("Canvas/ResultUI").GetComponent<ResultUIManager>();
 
         pauseUIManager.SetActive(false);
+        resultUIManager.SetActive(false);
 
 
         //バトルマネージャの終了を監視
         var disopsable = battleManager.battleFinisheAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Result;
+            resultUIManager.SetActive(true);
         });
 
         disposableList.Add(disopsable);
@@ -70,16 +73,6 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         disposableList.Add(disopsable);
 
 
-        //リザルト終了の監視
-        disopsable = resultInputManager.ResultUIAsync.Subscribe((x)=>{
-            //リソースを開放
-            Resources.UnloadUnusedAssets();
-            sceneLoadSubject.OnNext(E_SceneName.TitleScene);
-        });
-
-        disposableList.Add(disopsable);
-
-
         //タイトルへ戻るか監視
         disopsable = pauseUIManager.BackToTitleAsync.Subscribe((x)=>{
             //リソースを開放
@@ -91,14 +84,15 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         disposableList.Add(disopsable);
 
 
-
-        //テスト用
-        disopsable = currentStateAsync.Subscribe((x)=>{
-            Debug.Log(x);
+        //リザルト終了の監視
+        disopsable = resultUIManager.BackToTitleAsync.Subscribe((x)=>{
+            //リソースを開放
+            Resources.UnloadUnusedAssets();
+            CoroutineHander.StopAllCoroutine();
+            sceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 
         disposableList.Add(disopsable);
-
     }
 
 

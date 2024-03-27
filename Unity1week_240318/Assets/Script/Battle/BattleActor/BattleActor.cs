@@ -94,7 +94,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
     public abstract IEnumerator SetNextAction();
 
 
-    public virtual IEnumerator ActionBattleActor(I_DamageApplicable defender){
+    public virtual IEnumerator ActionBattleActor(BattleActor defender){
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
@@ -126,7 +126,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         
 
         //アクションの成功判定
-        if(!action.checkSuccess()){
+        if(!action.checkSuccess(this,defender)){
             textUIManager.SetText("しかし、うまく決まらなかった！");
 
             //クリック待ちをする
@@ -146,6 +146,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
                     yield return null;
                 }
             }
+
+            //ボーナスチェック
+            effectedStatus = action.CheckBonus(effectedStatus,this,defender);
 
             //アクションの実行 アクションの終了待ちをする
             yield return action.UseAction(effectedStatus,this,defender);

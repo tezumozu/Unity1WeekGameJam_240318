@@ -37,11 +37,15 @@ public abstract class BattleActorAction {
     }
 
 
-    public virtual bool checkSuccess(){
+    public virtual bool checkSuccess(BattleActor Player,BattleActor Enemy){
         if(ActionData.SuccessRate < Random.Range(0.0f,1.0f)){
             return false;
         }
         
         return true;
+    }
+
+    public virtual S_BattleActorStatus CheckBonus(S_BattleActorStatus status , BattleActor Player,BattleActor Enemy){
+        return status;
     }
 }

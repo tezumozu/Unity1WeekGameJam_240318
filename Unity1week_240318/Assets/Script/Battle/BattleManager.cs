@@ -13,6 +13,7 @@ public class BattleManager : IDisposable{
     private PlayerBattleActor playerActor;
     private EnemyBattleActor enemyActor;
     private S_BattleDate currentBattleData;
+    private ResultUIManager resultUIManager;
 
     //Subjects
     private ReactiveProperty<E_BattlePhase> currentPhase;
@@ -31,6 +32,7 @@ public class BattleManager : IDisposable{
         winCount = 0;
         maxWinCount = 5;
         disposableList = new List<IDisposable>();
+        resultUIManager = GameObject.Find("Canvas/ResultUI").GetComponent<ResultUIManager>();
 
         //Dic初期化
         pahseDic[E_BattlePhase.StartPhase] = new StartPhaseUpdater();
@@ -51,7 +53,6 @@ public class BattleManager : IDisposable{
 
         //コルーチン終了時
         var disopsable = pahseDic[E_BattlePhase.StartPhase].FinishPhaseAsync.Subscribe((x)=>{
-            Debug.Log("Start終了");
             currentPhase.Value = E_BattlePhase.BattlePhase;
         });
 
@@ -60,7 +61,6 @@ public class BattleManager : IDisposable{
 
 
         disopsable = pahseDic[E_BattlePhase.BattlePhase].FinishPhaseAsync.Subscribe((x)=>{
-            Debug.Log("Battle終了");
             currentPhase.Value = E_BattlePhase.FinishPhase;
         });
 
@@ -75,16 +75,17 @@ public class BattleManager : IDisposable{
 
                 //勝利回数を加算
                 winCount++;
-                //全ての勝負に勝利していないなら
+                //全ての勝負に勝利しているか
                 if(winCount == maxWinCount){
                    //バトル終了
                    battleFinisheSubject.OnNext(Unit.Default);
+                   resultUIManager.SetResult(playerActor.GetMaxStatus , playerActor.GetSkillList , winCount , pahseDic[E_BattlePhase.BattlePhase].TakeTurnCount);
                 }else{
 
                     enemyActor.Dispose();
 
                     //次のエネミーを生成
-                    enemyActor = new EnemyBattleActor(E_EnemyType.Dragon,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+                    enemyActor = new EnemyBattleActor(E_EnemyType.TestEnemy,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
                     //プレイヤーの状態を回復
                     playerActor.ResetState();
@@ -108,7 +109,6 @@ public class BattleManager : IDisposable{
 
         //なぜか値が勝手に代入される（なぜ？）
         disopsable = currentPhase.Subscribe((x)=>{
-            Debug.Log(x+" 呼び出し");
             CoroutineHander.OrderStartCoroutine(pahseDic[x].StartPhase(currentBattleData));
         });
 

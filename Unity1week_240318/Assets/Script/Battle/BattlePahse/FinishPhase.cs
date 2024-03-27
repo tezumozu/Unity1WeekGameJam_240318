@@ -49,6 +49,16 @@ public class FinishPhaseUpdater : PhaseUpdater{
         //テキストを変更
         if(data.WinCount + 1 >= 5){
            textManager.SetText("ダンジョンクリア！");
+
+            isClicked = false;
+            while(!isClicked){
+                yield return null;
+            }
+
+            FinishPhaseSubject.OnNext(Unit.Default);
+
+            yield break;
+
         }else{
             textManager.SetText("次の階層へ！");
         }
