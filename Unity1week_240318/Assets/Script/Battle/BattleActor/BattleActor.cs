@@ -151,6 +151,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return action.UseAction(effectedStatus,this,defender);
         }
 
+        //反動ダメージなどを考慮してUI更新
+        statusUIManager.SetStatus(currentStatus,maxStatus);
+
     }
 
 
@@ -214,6 +217,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             }
         }
 
+        statusUIManager.SetBuffList(buffDic.Values);
+
+
         //状態異常の更新
         if(!currentBeforeStatusEffect.CheckContinueEffect()){
             //テキスト変更
@@ -227,6 +233,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
             currentBeforeStatusEffect = statusEffectFactory.CreateEffect(E_BeforeStatusEffect.Non);
         }
+
+        statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+
 
 
         if(!currentAfterStatusEffect.CheckContinueEffect()){
@@ -243,6 +252,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
 
         //UI更新
+        statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
 
         yield return null;
     }
@@ -334,6 +344,8 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return null;
         }
 
+        statusUIManager.SetBuffList(buffDic.Values);
+
         yield return null;
     }
 
@@ -367,6 +379,8 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             while(!isClicked){
                 yield return null;
             }
+
+            statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
         }
     }
 
@@ -401,6 +415,8 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             while(!isClicked){
                 yield return null;
             }
+
+            statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
         }
     }
 
@@ -413,6 +429,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         buffDic.Clear();
         
         //UI変更
+        statusUIManager.SetBuffList(buffDic.Values);
         //Text変更
         textUIManager.SetText(currentStatus.Name + " の能力値変化がもとに戻った！");
 
@@ -444,6 +461,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         while(!isClicked){
             yield return null;
         }
+
+        statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+        statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
         
     }
 

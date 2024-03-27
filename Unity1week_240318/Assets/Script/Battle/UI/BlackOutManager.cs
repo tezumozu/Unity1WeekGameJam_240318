@@ -27,6 +27,10 @@ public class BlackOutManager : MonoBehaviour{
 
     public void FinishAnim(){
         FinishAnimSubject.OnNext(Unit.Default);
+    }
+
+     public void FinishAnimAndSetNotActive(){
+        FinishAnimSubject.OnNext(Unit.Default);
         gameObject.SetActive(false);
     }
 }

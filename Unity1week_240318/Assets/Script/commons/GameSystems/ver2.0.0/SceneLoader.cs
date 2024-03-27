@@ -20,6 +20,10 @@ namespace My1WeekGameSystems_ver2{
         }
         
         public IEnumerator LoadScene(E_SceneName sceneName){
+
+            //UIを表示する
+            loadingSlider.gameObject.SetActive(true);
+
             //シーン読み込み開始
             asyncLoad = SceneManager.LoadSceneAsync(Enum.GetName(typeof(E_SceneName),sceneName));
 

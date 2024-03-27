@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UniRx;
+
 public class PlayerUIManager : ActorUIManager{
     // Start is called before the first frame update
-    Slider HPSlider;
-    Text HPSliderNum;
     Slider MPSlider;
     Text MPSliderNum;
+
+    private Subject<S_BattleActorStatus> UpdateStatusSubject;
+    public IObservable<S_BattleActorStatus> UpdateStatusAsync => UpdateStatusSubject;
 
     void Start(){
         //HPbarを取得
@@ -18,6 +22,7 @@ public class PlayerUIManager : ActorUIManager{
         MPSlider = StatusBer.transform.Find("MPBer/Slider").gameObject.GetComponent<Slider>();
         MPSliderNum = StatusBer.transform.Find("MPBer/Num").gameObject.GetComponent<Text>();
         
+        UpdateStatusSubject = new Subject<S_BattleActorStatus>();
     }
 
     public override void SetStatus(S_BattleActorStatus currentStatus,S_BattleActorStatus maxStatus){
@@ -27,21 +32,11 @@ public class PlayerUIManager : ActorUIManager{
 
         MPSlider.value = (float)currentStatus.MP / (float)maxStatus.MP;
         MPSliderNum.text = currentStatus.MP.ToString();
+
+        UpdateStatusSubject.OnNext(currentStatus);
     }
 
-    public override void SetActiveBeforeStatusEffect(E_BeforeStatusEffect type,bool flag){
-
-    }
-
-    public override void SetActiveAfterStatusEffect(E_AfterStatusEffect type,bool flag){
-
-    }
-
-    public override void UpdateBuff(List<E_Buff> buffList){
-
-    }
-
-    public override IEnumerator StartActorAnim(E_ActorAnim anim){
-        yield return null;
+    public override void SetBuffList(IEnumerable<BattleBuff> buffList){
+        buffListUIManager.SetList(buffList,true);
     }
 }

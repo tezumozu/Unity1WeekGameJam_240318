@@ -7,7 +7,7 @@ public abstract class AfterStatusEffect {
 
     public AfterStatusEffect (E_AfterStatusEffect effectType){
         //パスを生成
-        var fileName = "BattleScene/AfterStatusEffectList";
+        var fileName = "BattleScene/Effect/AfterStatusEffectList";
         //読み込む
         var dataList = Resources.Load<AfterStatusEffectDataList>(fileName);
         foreach(var data in dataList.DataList){

@@ -10,16 +10,10 @@ public class EnemyBattleActor : BattleActor{
         
         //マネージャの取得
         statusUIManager = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
-
-        if(enemyNameDic is null){
-            enemyNameDic = new Dictionary<E_EnemyType,string>();
-            enemyNameDic[E_EnemyType.Dragon] = "Dragon";
-            enemyNameDic[E_EnemyType.Test] = "TestEnemy";
-        }
         
         //ステータス読み込み
         //パスを生成
-        var fileName = "BattleScene/Enemy/" +  enemyNameDic[type];
+        var fileName = "BattleScene/Enemy/" +  type.ToString();
         //読み込む
         var enemyData = Resources.Load<EnemyData>(fileName);
 
@@ -33,6 +27,13 @@ public class EnemyBattleActor : BattleActor{
 
         //スキルリストを取得
         skillList = enemyData.SkillList;
+
+        //UI初期化
+        //ステータスをセット
+        statusUIManager.SetStatus(currentStatus,currentStatus);
+        statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+        statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
+        statusUIManager.SetBuffList(buffDic.Values);
     }
 
 

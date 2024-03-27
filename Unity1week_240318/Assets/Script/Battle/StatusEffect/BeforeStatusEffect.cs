@@ -12,7 +12,7 @@ public abstract class BeforeStatusEffect{
         this.actionFactory = actionFactory;
 
         //パスを生成
-        var fileName = "BattleScene/BeforeStatusEffectList";
+        var fileName = "BattleScene/Effect/BeforeStatusEffectList";
         //読み込む
         var dataList = Resources.Load<BeforeStatusEffectDataList>(fileName);
         foreach(var data in dataList.DataList){

@@ -62,8 +62,6 @@ public class StartPhaseUpdater : PhaseUpdater{
             yield return null;
         }
 
-        dungeonInfo.SetInfo(dungeonInfoText);
-
         //アニメーション終了待ち
         isAnimFin = false;
         dungeonInfo.StartAnim();

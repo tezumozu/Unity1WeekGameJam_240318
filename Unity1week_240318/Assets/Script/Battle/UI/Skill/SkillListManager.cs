@@ -15,6 +15,9 @@ public class SkillListManager : MonoBehaviour{
     private GameObject ButtonPrefb;
 
     [SerializeField]
+    private PlayerUIManager statusManager;
+
+    [SerializeField]
     private GameObject infoUI;
     private SkillInfoUIManager infoUIManager;
 
@@ -71,7 +74,7 @@ public class SkillListManager : MonoBehaviour{
 
             //buttonを初期化
             var button = buttonObject.GetComponent<SkillActionButton>();
-            button.InitSkillButton(skill,infoUIManager,new ActionFactory());
+            button.InitSkillButton(skill,infoUIManager,new ActionFactory(),statusManager);
 
             //Contensへ格納
             buttonObject.transform.SetParent(content,false);

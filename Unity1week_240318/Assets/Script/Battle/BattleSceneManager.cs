@@ -40,14 +40,9 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         var battleInputManager = GameObject.Find("BattleInputManager").GetComponent<BattleInputManager>();
         var resultInputManager = GameObject.Find("ResultInputManager").GetComponent<ResultInputManager>();
         var pauseInputManager = GameObject.Find("PauseInputManager").GetComponent<PauseInputManager>();
-        var skillListMenu = GameObject.Find("Canvas/BattleUI").GetComponent<SkillListManager>();
-        var statusUI = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorUIManager>();
+        var pauseUIManager = GameObject.Find("Canvas/PauseUI").GetComponent<PauseUIManager>();
 
-        //スキルリストをセット
-        skillListMenu.setSkillList(PlayerData.GetPlayerSkillList);
-
-        //プレイヤーのステータスをセット
-        statusUI.SetStatus(PlayerData.GetPlayerStatus,PlayerData.GetPlayerStatus);
+        pauseUIManager.SetActive(false);
 
 
         //バトルマネージャの終了を監視
@@ -61,6 +56,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         //escの入力を監視
         disopsable = battleInputManager.escAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Pause;
+            pauseUIManager.SetActive(true);
         });
 
         disposableList.Add(disopsable);
@@ -68,6 +64,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
 
         disopsable = pauseInputManager.escAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Battle;
+            pauseUIManager.SetActive(false);
         });
 
         disposableList.Add(disopsable);
@@ -77,6 +74,17 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         disopsable = resultInputManager.ResultUIAsync.Subscribe((x)=>{
             //リソースを開放
             Resources.UnloadUnusedAssets();
+            sceneLoadSubject.OnNext(E_SceneName.TitleScene);
+        });
+
+        disposableList.Add(disopsable);
+
+
+        //タイトルへ戻るか監視
+        disopsable = pauseUIManager.BackToTitleAsync.Subscribe((x)=>{
+            //リソースを開放
+            Resources.UnloadUnusedAssets();
+            CoroutineHander.StopAllCoroutine();
             sceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 

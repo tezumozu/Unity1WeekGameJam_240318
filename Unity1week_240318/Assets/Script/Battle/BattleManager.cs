@@ -40,12 +40,7 @@ public class BattleManager : IDisposable{
         playerActor = new PlayerBattleActor(new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
         //最初のエネミーを生成
-        enemyActor = new EnemyBattleActor(E_EnemyType.Test,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
-
-
-        //エネミーUIを更新
-        var statusUI = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
-        statusUI.SetStatus(enemyActor.GetMaxStatus,enemyActor.GetMaxStatus);
+        enemyActor = new EnemyBattleActor(E_EnemyType.TestEnemy,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
 
         currentBattleData = new S_BattleDate(winCount,playerActor,enemyActor);
@@ -90,10 +85,6 @@ public class BattleManager : IDisposable{
 
                     //次のエネミーを生成
                     enemyActor = new EnemyBattleActor(E_EnemyType.Dragon,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
-
-                    //エネミーUIを更新
-                    var statusUI = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
-                    statusUI.SetStatus(enemyActor.GetMaxStatus,enemyActor.GetMaxStatus);
 
                     //プレイヤーの状態を回復
                     playerActor.ResetState();

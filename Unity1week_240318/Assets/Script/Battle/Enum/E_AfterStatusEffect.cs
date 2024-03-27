@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum E_AfterStatusEffect {
-    Poison,
-    Venom,
-    TimeBomb,
-    EffectProtect,
-    Non
+    Poison = 0,
+    Venom = 1,
+    TimeBomb = 2,
+    EffectProtect = 3,
+    Non = 99
 }

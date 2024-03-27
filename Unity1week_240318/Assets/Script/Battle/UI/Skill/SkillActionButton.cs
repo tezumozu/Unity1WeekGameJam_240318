@@ -14,6 +14,15 @@ public class SkillActionButton : BattleActionButton{
     [SerializeField]
     Text skillCost;
 
+    [SerializeField]
+    Button button;
+
+    [SerializeField]
+    Image buttonImage;
+
+    [SerializeField]
+    Sprite NotActiveButtonImage;
+
 
     SkillInfoUIManager skillInfoUIManager;
     E_ActionType skillType;
@@ -26,7 +35,7 @@ public class SkillActionButton : BattleActionButton{
     }
 
 
-    public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory){
+    public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory , PlayerUIManager statusManager){
         skillInfoUIManager = infoUI;
         skillType = type;
        
@@ -34,6 +43,12 @@ public class SkillActionButton : BattleActionButton{
 
         skillName.text = actionData.SkillName;
         skillCost.text = actionData.Cost.ToString();
+
+        statusManager.UpdateStatusAsync
+        .Subscribe((status) => {
+            UpDateStatus(status.MP);
+        })
+        .AddTo(this);
     }
 
     // オブジェクトの範囲内にマウスポインタが入った際に呼び出されます。
@@ -47,5 +62,13 @@ public class SkillActionButton : BattleActionButton{
     // 
     public void OnPointerExit( ){
         skillInfoUIManager.SetActive(false);
+    }
+
+    //ステータス更新時の処理
+    private void UpDateStatus(int MP){
+        if(actionData.Cost > MP){
+            button.interactable = false;
+            buttonImage.sprite = NotActiveButtonImage;
+        }
     }
 }

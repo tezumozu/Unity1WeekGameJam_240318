@@ -13,6 +13,7 @@ public class PlayerBattleActor : BattleActor{
     public PlayerBattleActor(I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
         //マネージャの取得
         statusUIManager = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorUIManager>();
+        var skillListMenu = GameObject.Find("Canvas/BattleUI").GetComponent<SkillListManager>();
         
         //ステータスの生成
         //スキルリストを取得
@@ -28,6 +29,14 @@ public class PlayerBattleActor : BattleActor{
             isActinInputed = true;
         });
 
+        //UI初期化
+        //スキルリストをセット
+        skillListMenu.setSkillList(skillList);
+        //プレイヤーのステータスをセット
+        statusUIManager.SetStatus(currentStatus,currentStatus);
+        statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+        statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
+        statusUIManager.SetBuffList(buffDic.Values);
     }
 
 
@@ -59,6 +68,9 @@ public class PlayerBattleActor : BattleActor{
         currentAfterStatusEffect = statusEffectFactory.CreateEffect(E_AfterStatusEffect.Non);
 
         //UI更新
+        statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+        statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
+        statusUIManager.SetBuffList(buffDic.Values);
     }
 
     public override void Dispose(){
