@@ -8,8 +8,8 @@ public class MagicDownBuff : BattleBuff{
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){
 
-        if(action.ActionData.Cost > 0){
-            status.Attack = (int)(status.Attack / 1.5f);
+        if(action.ActionData.AttackType == E_AttackType.Magic){
+            status.Attack = (int)((float)status.Attack / 1.5f);
         }
 
         return status;

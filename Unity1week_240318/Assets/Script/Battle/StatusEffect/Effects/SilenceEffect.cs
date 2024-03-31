@@ -9,9 +9,9 @@ public class SilenceEffect : BeforeStatusEffect{
     public SilenceEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Silence,actionFactory){
     }
 
-    public override BattleActorAction AppliyEffect(E_ActionType type){
-        var action = actionFactory.CreateAction(type);
-        if(action.ActionData.Cost > 0){
+    public override BattleActorAction AppliyEffect(BattleActorAction action){
+
+        if(action.ActionData.AttackType == E_AttackType.Magic){
             return actionFactory.CreateAction(E_ActionType.Silence);
         }
         return action;

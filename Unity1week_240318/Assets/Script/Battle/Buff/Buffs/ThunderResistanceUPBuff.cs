@@ -6,7 +6,7 @@ public class ThunderResistanceUPBuff : BattleBuff{
     public ThunderResistanceUPBuff(int turn):base(E_Buff.ThunderResistanceUP,turn){
     }
 
-    public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){
+    public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status){
 
         status.ElementResistanceRateDic[E_Element.Thunder] = status.ElementResistanceRateDic[E_Element.Thunder] / 1.5f;
         return status;

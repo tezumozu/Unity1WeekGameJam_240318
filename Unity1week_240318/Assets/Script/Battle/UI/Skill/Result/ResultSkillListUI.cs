@@ -20,7 +20,7 @@ public class ResultSkillListManager : MonoBehaviour{
     public void SetSkillList(List<E_ActionType> skillList){
 
         float ButtonHight = 30.0f;
-        float ButtonWidth = 160.0f;
+        //float ButtonWidth = 160.0f;
 
         //リストのサイズからContensのHightを変更
         float ContentHight = 12.5f + (ButtonHight + 12.5f) * skillList.Count;
@@ -61,5 +61,8 @@ public class ResultSkillListManager : MonoBehaviour{
 
             count++;
         }
+
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
     }
 }

@@ -11,7 +11,7 @@ public struct S_BattleActorStatus{
     [SerializeField]
     public int Level;
     [SerializeField]
-    public E_MonsterImage image;
+    public E_MonsterImage Image;
     [SerializeField]
     public int HP;
     [SerializeField]

@@ -28,10 +28,10 @@ public class BuffIconUI : MonoBehaviour{
             Debug.Log("noImage");
         }
 
-        var oldSprite = IconImage.sprite;
         IconImage.sprite = newSprite;
 
-        Destroy(oldSprite);
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
     }
 
     // オブジェクトの範囲内にマウスポインタが入った際に呼び出されます。

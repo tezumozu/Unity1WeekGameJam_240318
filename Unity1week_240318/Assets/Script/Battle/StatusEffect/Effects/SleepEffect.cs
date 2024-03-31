@@ -9,7 +9,8 @@ public class SleepEffect : BeforeStatusEffect{
         turnCount = 2;
     }
 
-    public override BattleActorAction AppliyEffect(E_ActionType type){
+    public override BattleActorAction AppliyEffect(BattleActorAction action){
+
         return actionFactory.CreateAction(E_ActionType.Sleep);
     }
 

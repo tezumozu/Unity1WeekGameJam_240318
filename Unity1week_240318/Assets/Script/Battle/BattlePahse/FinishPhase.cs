@@ -9,22 +9,30 @@ public class FinishPhaseUpdater : PhaseUpdater{
 
     BattleTextManager textManager;
     BlackOutManager blackOut;
+    ActorAnimManager enemyAnime;
+    ActorAnimManager playerAnime;
 
-    bool isClicked;
     bool isAnimFin;
 
-    IDisposable clickDisposable;
     IDisposable blackOutDisposable;
+    IDisposable enemyAnimDisposable;
+    IDisposable playerAnimDisposable;
 
     public FinishPhaseUpdater(){
         textManager = GameObject.Find("Canvas/BattleUI").GetComponent<BattleTextManager>();
 
-        clickDisposable = inputManager.clickAsync.Subscribe((x)=>{
-            isClicked = true;
-        });
-
         blackOut = GameObject.Find("Canvas/BlackOutAnim").GetComponent<BlackOutManager>();
         blackOutDisposable = blackOut.FinishAnimAsync.Subscribe((x)=>{
+            isAnimFin = true;
+        });
+
+        playerAnime = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorAnimManager>();
+        playerAnimDisposable = playerAnime.FinishAnimAsync.Subscribe((x)=>{
+            isAnimFin = true;
+        });
+
+        enemyAnime = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorAnimManager>();
+        enemyAnimDisposable = enemyAnime.FinishAnimAsync.Subscribe((x)=>{
             isAnimFin = true;
         });
     }
@@ -33,27 +41,35 @@ public class FinishPhaseUpdater : PhaseUpdater{
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
+
+        isAnimFin = false;
+        if(data.Player.GetCurrentStatus.HP > 0){
+            enemyAnime.StartDeadAnim();
+        }else{
+            playerAnime.StartDeadAnim();
+        }
+
+        //アニメーション終了待ち
+        while (!isAnimFin){
+            yield return null;
+        }
+
         //テキストを変更
         if(data.Player.GetCurrentStatus.HP > 0){
-           textManager.SetText("モンスターを倒した！");
+            
+            textManager.SetText("モンスターを倒した！");
         }else{
+
             textManager.SetText("プレイヤーはたおれてしまった！");
         }
 
-        //クリック待ちをする
-        isClicked = false;
-        while(!isClicked){
-            yield return null;
-        }
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
         //テキストを変更
         if(data.WinCount + 1 >= 5){
            textManager.SetText("ダンジョンクリア！");
 
-            isClicked = false;
-            while(!isClicked){
-                yield return null;
-            }
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
             FinishPhaseSubject.OnNext(Unit.Default);
 
@@ -64,10 +80,7 @@ public class FinishPhaseUpdater : PhaseUpdater{
         }
 
         //クリック待ちをする
-        isClicked = false;
-        while(!isClicked){
-            yield return null;
-        }
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
         //アニメーション終了待ち
         isAnimFin = false;
@@ -77,15 +90,20 @@ public class FinishPhaseUpdater : PhaseUpdater{
             yield return null;
         }
 
-        textManager.SetText("");
+        textManager.SetText(" ");
+
+        //アニメーションのリセット
+        playerAnime.InitAnim();
+        enemyAnime.InitAnim();
 
         FinishPhaseSubject.OnNext(Unit.Default);
     }
 
     // このクラスがDisposeされたら購読も止める
     public override void Dispose(){
-        clickDisposable.Dispose();
         blackOutDisposable.Dispose();
+        enemyAnimDisposable.Dispose();
+        playerAnimDisposable.Dispose();
     }
 
 }

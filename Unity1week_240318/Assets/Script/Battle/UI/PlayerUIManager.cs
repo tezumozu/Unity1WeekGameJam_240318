@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UniRx;
 
 public class PlayerUIManager : ActorUIManager{
-    // Start is called before the first frame update
+
     Slider MPSlider;
     Text MPSliderNum;
 
@@ -26,7 +26,6 @@ public class PlayerUIManager : ActorUIManager{
     }
 
     public override void SetStatus(S_BattleActorStatus currentStatus,S_BattleActorStatus maxStatus){
-        Debug.Log("test");
         HPSlider.value = (float)currentStatus.HP / (float)maxStatus.HP;
         HPSliderNum.text = currentStatus.HP.ToString();
 

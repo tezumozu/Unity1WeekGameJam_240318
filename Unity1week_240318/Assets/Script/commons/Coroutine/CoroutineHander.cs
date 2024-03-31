@@ -16,7 +16,6 @@ public class CoroutineHander : MonoSingleton<CoroutineHander>{
         if(FinishCoroutinSubject is null){
             FinishCoroutinSubject = new Subject<Coroutine>();
 
-
             FinishCoroutinSubject.Subscribe((coroutine)=>{
                 //終了したコルーチンをリストから削除する
                 ActiveCoroutinList.Remove(coroutine);
@@ -26,8 +25,9 @@ public class CoroutineHander : MonoSingleton<CoroutineHander>{
     }
 
 
-    public static void OrderStartCoroutine(IEnumerator coroutine){
-        instance.StartCoroutine(CheckFinishCoroutine(coroutine));
+    public static Coroutine OrderStartCoroutine(IEnumerator coroutine){
+        var result = instance.StartCoroutine(CheckFinishCoroutine(coroutine));
+        return result;
     }
 
 
@@ -38,7 +38,7 @@ public class CoroutineHander : MonoSingleton<CoroutineHander>{
     }
 
 
-    static IEnumerator CheckFinishCoroutine(IEnumerator coroutine){
+    private static IEnumerator CheckFinishCoroutine(IEnumerator coroutine){
         var activeCoroutine = instance.StartCoroutine(coroutine);
 
         ActiveCoroutinList.Add(activeCoroutine);

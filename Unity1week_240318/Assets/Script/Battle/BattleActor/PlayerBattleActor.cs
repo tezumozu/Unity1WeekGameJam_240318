@@ -6,13 +6,12 @@ using UnityEngine;
 using UniRx;
 
 public class PlayerBattleActor : BattleActor{
-    IDisposable actionInputedDisposable;
-    bool isActinInputed;
 
 
     public PlayerBattleActor(I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
         //マネージャの取得
         statusUIManager = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorUIManager>();
+        actorAnimManager = GameObject.Find("Canvas/PlayerUI").GetComponent<ActorAnimManager>();
         var skillListMenu = GameObject.Find("Canvas/BattleUI").GetComponent<SkillListManager>();
         
         //ステータスの生成
@@ -21,22 +20,19 @@ public class PlayerBattleActor : BattleActor{
         currentStatus = PlayerData.GetPlayerStatus;
         skillList = PlayerData.GetPlayerSkillList;
 
-        //購読
-        isActinInputed = false;
-
-        actionInputedDisposable = inputManager.ActionUIAsync.Subscribe((type)=>{
-            currentActionType = type;
-            isActinInputed = true;
-        });
-
         //UI初期化
         //スキルリストをセット
         skillListMenu.setSkillList(skillList);
         //プレイヤーのステータスをセット
         statusUIManager.SetStatus(currentStatus,currentStatus);
+        statusUIManager.SetSprite(currentStatus.Image);
         statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
         statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
         statusUIManager.SetBuffList(buffDic.Values);
+
+        finishAnimDispose = actorAnimManager.FinishAnimAsync.Subscribe((type)=>{
+            isFinishAnim = true;
+        });
     }
 
 
@@ -45,17 +41,19 @@ public class PlayerBattleActor : BattleActor{
         //UIを切り替える
         uiManager.ChangeUI(E_BattleUIType.MeinMenu);
 
+        var coroutine = inputManager.WaitPushButton();
+        CoroutineHander.OrderStartCoroutine(coroutine);
+
         //入力待ちをする
-        isActinInputed = false;
-        while (!isActinInputed){
-            yield return null;
-        }
+        yield return coroutine;
+
+        currentAction = actionFactory.CreateAction((E_ActionType)coroutine.Current);
+
     }
 
 
 
     public void ResetState(){
-        Debug.Log(currentActionType);
         
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
@@ -67,6 +65,9 @@ public class PlayerBattleActor : BattleActor{
         currentBeforeStatusEffect = statusEffectFactory.CreateEffect(E_BeforeStatusEffect.Non);
         currentAfterStatusEffect = statusEffectFactory.CreateEffect(E_AfterStatusEffect.Non);
 
+        //アクションリセット
+        currentAction = actionFactory.CreateAction(E_ActionType.Attack);
+
         //UI更新
         statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
         statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
@@ -75,6 +76,5 @@ public class PlayerBattleActor : BattleActor{
 
     public override void Dispose(){
         base.Dispose();
-        actionInputedDisposable.Dispose();
     }
 }

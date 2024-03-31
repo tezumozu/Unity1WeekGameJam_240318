@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using UniRx;
 
 public class EnemyBattleActor : BattleActor{
 
@@ -10,6 +13,7 @@ public class EnemyBattleActor : BattleActor{
         
         //マネージャの取得
         statusUIManager = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
+        actorAnimManager = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorAnimManager>();
         
         //ステータス読み込み
         //パスを生成
@@ -31,15 +35,30 @@ public class EnemyBattleActor : BattleActor{
         //UI初期化
         //ステータスをセット
         statusUIManager.SetStatus(currentStatus,currentStatus);
+        statusUIManager.SetSprite(currentStatus.Image);
         statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
         statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
         statusUIManager.SetBuffList(buffDic.Values);
+
+        finishAnimDispose = actorAnimManager.FinishAnimAsync.Subscribe((type)=>{
+            isFinishAnim = true;
+        });
     }
 
 
 
     public override IEnumerator SetNextAction(){
-        currentActionType  = E_ActionType.Attack;
+        currentAction = actionFactory.CreateAction(E_ActionType.Attack);
+
+        //次の行動が決まっているか確認
+        if(currentAction.IsNextAction){
+            currentAction = actionFactory.CreateAction(currentAction.NextAction);
+        }else{
+            //使用率に合わせてランダムに取得する
+        }
+
+
+
         yield return null;
     }
 

@@ -89,6 +89,8 @@ public class SkillListManager : MonoBehaviour{
             }
         }
 
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
 
         UpdateUISubject.OnNext(buttonList);
     }

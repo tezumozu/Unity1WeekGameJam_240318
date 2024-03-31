@@ -8,8 +8,9 @@ public class NonBeforeEffect : BeforeStatusEffect{
     public NonBeforeEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Non,actionFactory){
     }
 
-    public override BattleActorAction AppliyEffect(E_ActionType type){
-        return actionFactory.CreateAction(type);
+    public override BattleActorAction AppliyEffect(BattleActorAction action){
+
+        return action;
     }
 
     public override bool CheckContinueEffect(){

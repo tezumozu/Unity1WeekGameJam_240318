@@ -23,7 +23,13 @@ public abstract class BattleBuff {
         TurnCount = turn+1;
     }
 
-    public abstract S_BattleActorStatus EffectedBuff(S_BattleActorStatus status,BattleActorAction action);
+    public virtual S_BattleActorStatus EffectedBuff(S_BattleActorStatus status,BattleActorAction action){
+        return EffectedBuff(status);
+    }
+    
+    public virtual S_BattleActorStatus EffectedBuff(S_BattleActorStatus status){
+        return status;
+    }
 
     public bool CheckContinueBuff(){
         TurnCount--;

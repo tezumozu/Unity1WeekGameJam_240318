@@ -55,10 +55,10 @@ public class StatusEffectIconUI : MonoBehaviour{
             Debug.Log("noImage");
         }
 
-        var oldSprite = Icon.sprite;
         Icon.sprite = newSprite;
 
-        Destroy(oldSprite);
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
 
         this.EffectName = EffectName;
         this.EffectText = EffectText;

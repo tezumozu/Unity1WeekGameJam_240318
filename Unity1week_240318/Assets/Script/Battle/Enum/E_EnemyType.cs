@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum E_EnemyType {
     Srime = 0,
-    Bat = 1,
-    Scorpion = 2,
-    Knight = 3,
+    Skeleton = 1,
+    Mimic = 2,
+    Golem = 3,
     Dragon = 4,
     TestEnemy = 999,
 }

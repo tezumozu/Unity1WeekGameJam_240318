@@ -7,16 +7,16 @@ using UniRx;
 
 public class BattleInputManager : MonoBehaviour{
 
-    private Subject<Unit> clickSubject = new Subject<Unit>();
     private Subject<Unit> escSubject = new Subject<Unit>();
-    private Subject<E_ActionType> ActionUISubject = new Subject<E_ActionType>();
 
-    public IObservable<Unit> clickAsync => clickSubject;
     public IObservable<Unit> escAsync => escSubject;
-    public IObservable<E_ActionType> ActionUIAsync => ActionUISubject;
 
     private bool isActiveForCurrentState = false;
     private bool isChangeMode = false;
+
+    private E_ActionType inputActionType;
+    private bool isWaitPushButton;
+    private bool isWaitClick;
 
     private void Start() {
         BattleSceneManager.currentStateAsync
@@ -37,15 +37,19 @@ public class BattleInputManager : MonoBehaviour{
 
         //攻撃
         battleMenu.AttackButton.PushButtonAsync
+        .Where(_ => isWaitPushButton)
         .Subscribe((type)=>{
-            ActionUISubject.OnNext(type);
+            isWaitPushButton = false;
+            inputActionType = type;
         })
         .AddTo(this);
 
         //防御
         battleMenu.DefenseButton.PushButtonAsync
-        .Subscribe((type)=>{
-            ActionUISubject.OnNext(type);
+        .Where(_ => isWaitPushButton)
+        .Subscribe( (type) => {
+            isWaitPushButton = false;
+            inputActionType = type;
         })
         .AddTo(this);
 
@@ -56,14 +60,20 @@ public class BattleInputManager : MonoBehaviour{
             foreach (var item in skillList){
 
                 item.PushButtonAsync
+                .Where(_ => isWaitPushButton)
                 .Subscribe((type)=>{
-                    ActionUISubject.OnNext(type);
+                    isWaitPushButton = false;
+                    inputActionType = type;
                 })
                 .AddTo(this);
 
             }
         })
         .AddTo(this);
+
+
+        isWaitPushButton = false;
+        isWaitClick = false;
     }
 
 
@@ -79,9 +89,30 @@ public class BattleInputManager : MonoBehaviour{
             escSubject.OnNext(Unit.Default);
 
         }else if(Input.GetMouseButtonDown(0)){
-            clickSubject.OnNext(Unit.Default);
+            isWaitClick = false;
+        }
+    }
+
+
+    public IEnumerator WaitClickInput(){
+        isWaitClick = true;
+
+        while(isWaitClick){
+            yield return null;
         }
 
+        //効果音を鳴らす;
+    }
 
+    public IEnumerator WaitPushButton(){
+        isWaitPushButton = true;
+
+        while(isWaitPushButton){
+            yield return null;
+        }
+
+        //効果音を鳴らす;
+
+        yield return inputActionType;
     }
 }

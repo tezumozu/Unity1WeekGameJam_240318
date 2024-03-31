@@ -24,6 +24,6 @@ public abstract class BeforeStatusEffect{
         Resources.UnloadUnusedAssets();
     }
 
-    public abstract BattleActorAction AppliyEffect(E_ActionType type);
+    public abstract BattleActorAction AppliyEffect(BattleActorAction action);
     public abstract bool CheckContinueEffect();
 }

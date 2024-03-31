@@ -7,9 +7,9 @@ public class AttackUPBuff : BattleBuff{
 
     }
 
-    public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status , BattleActorAction action){
+    public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status){
 
-        status.Attack = (int)(status.Attack * 1.5f);
+        status.Attack = (int)((float)status.Attack * 1.5f);
         return status;
     }
 }

@@ -8,7 +8,6 @@ using UniRx;
 public class StartPhaseUpdater : PhaseUpdater{
 
     bool isAnimFin;
-    bool isClicked;
 
     DungeonInfoUIManager dungeonInfo;
     BlackOutManager blackOut;
@@ -17,7 +16,6 @@ public class StartPhaseUpdater : PhaseUpdater{
 
     IDisposable animFinDisposable;
     IDisposable blackOutDisposable;
-    IDisposable clickDisposable;
 
     public StartPhaseUpdater(){
         dungeonInfo = GameObject.Find("Canvas/DungeonInfo").GetComponent<DungeonInfoUIManager>();
@@ -31,10 +29,6 @@ public class StartPhaseUpdater : PhaseUpdater{
         });
 
         textManager = GameObject.Find("Canvas/BattleUI").GetComponent<BattleTextManager>();
-        
-        clickDisposable = inputManager.clickAsync.Subscribe((x)=>{
-            isClicked = true;
-        });
     }
 
     //Start時の演出処理
@@ -81,10 +75,9 @@ public class StartPhaseUpdater : PhaseUpdater{
         }
 
         //クリック待ちをする
-        isClicked = false;
-        while(!isClicked){
-            yield return null;
-        }
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        textManager.SetText(" ");
 
         FinishPhaseSubject.OnNext(Unit.Default);
     }
@@ -93,6 +86,5 @@ public class StartPhaseUpdater : PhaseUpdater{
     public override void Dispose(){
         animFinDisposable.Dispose();
         blackOutDisposable.Dispose();
-        clickDisposable.Dispose();
     }
 }

@@ -41,4 +41,17 @@ public abstract class ActorUIManager : MonoBehaviour{
     }
 
     public abstract void SetBuffList(IEnumerable<BattleBuff> buffList);
+
+
+
+    public virtual void SetSprite(E_MonsterImage imageType){
+        //スプライト読み込み
+        var newSprite = Resources.Load<Sprite>( "BattleScene/ActorImage/" + ((int)imageType).ToString() );
+        if(newSprite is null) Debug.Log("No Image!");
+        
+        ActorImage.sprite = newSprite;
+
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
+    }
 }

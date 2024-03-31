@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyUIManager : ActorUIManager{
 
-    // Start is called before the first frame update
     void Start(){
         //HPbarを取得
         HPSlider = StatusBer.transform.Find("Slider").gameObject.GetComponent<Slider>();

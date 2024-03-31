@@ -25,6 +25,12 @@ public class ActionData {
     public float SuccessRate = 1.0f;
 
     [SerializeField]
+    public bool IsStatusEffectApplicable = false;
+
+    [SerializeField]
+    public E_AttackType AttackType;
+
+    [SerializeField]
     public int Power;
 
     [SerializeField]

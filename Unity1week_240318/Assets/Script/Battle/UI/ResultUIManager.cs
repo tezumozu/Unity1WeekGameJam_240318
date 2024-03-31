@@ -47,6 +47,13 @@ public class ResultUIManager : MonoBehaviour{
 
     public void SetResult(S_BattleActorStatus data , List<E_ActionType> list, int ClearFloor , int TakeTurn){
         //スプライト読み込み
+        var newSprite = Resources.Load<Sprite>( "BattleScene/ActorImage/" + ((int)data.Image).ToString() );
+        if(newSprite is null) Debug.Log("No Image!");
+        
+        PlayerImage.sprite = newSprite;
+
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
 
         Name.text = data.Name;
         Level.text = data.Level.ToString();

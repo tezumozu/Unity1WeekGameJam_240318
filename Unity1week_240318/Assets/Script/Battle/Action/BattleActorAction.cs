@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class BattleActorAction {
     
     public readonly ActionData ActionData;
+    public bool IsNextAction {get; protected set;}
+    public E_ActionType NextAction {get; protected set;}
     protected bool isCritical = false;
 
     protected BattleActorAction(E_ActionType type){
@@ -19,6 +21,9 @@ public abstract class BattleActorAction {
                 ActionData = data;
             }
         }
+
+        IsNextAction = false;
+        NextAction = E_ActionType.Attack;
 
         Resources.UnloadUnusedAssets();
     }
