@@ -41,43 +41,39 @@ public class FinishPhaseUpdater : PhaseUpdater{
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
+        //プレイヤーが負けていたら
+        if(data.Player.GetCurrentStatus.HP <= 0){
 
-        isAnimFin = false;
-        if(data.Player.GetCurrentStatus.HP > 0){
-            enemyAnime.StartDeadAnim();
-        }else{
-            playerAnime.StartDeadAnim();
-        }
-
-        //アニメーション終了待ち
-        while (!isAnimFin){
-            yield return null;
-        }
-
-        //テキストを変更
-        if(data.Player.GetCurrentStatus.HP > 0){
-            
-            textManager.SetText("モンスターを倒した！");
-        }else{
-
-            textManager.SetText("プレイヤーはたおれてしまった！");
-        }
-
-        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
-
-        //テキストを変更
-        if(data.WinCount + 1 >= 5){
-           textManager.SetText("ダンジョンクリア！");
+            //テキスト更新
+            textManager.SetText(data.Player.GetCurrentStatus.Name + " は敗れてしまった......");
 
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
-            FinishPhaseSubject.OnNext(Unit.Default);
+            FinishPhaseSubject.OnNext(data);
+            yield break;
+        }
+
+        //勝利数を加算
+        data.WinCount++;
+
+        //クリアしたか？
+        if(data.WinCount >= 5){
+            textManager.SetText("ダンジョンクリア！");
+
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            FinishPhaseSubject.OnNext(data);
 
             yield break;
 
-        }else{
-            textManager.SetText("次の階層へ！");
         }
+
+        textManager.SetText("モンスターをたおした！");
+
+        //クリック待ちをする
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        textManager.SetText("次の階層へ！");
 
         //クリック待ちをする
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
@@ -96,7 +92,7 @@ public class FinishPhaseUpdater : PhaseUpdater{
         playerAnime.InitAnim();
         enemyAnime.InitAnim();
 
-        FinishPhaseSubject.OnNext(Unit.Default);
+        FinishPhaseSubject.OnNext(data);
     }
 
     // このクラスがDisposeされたら購読も止める

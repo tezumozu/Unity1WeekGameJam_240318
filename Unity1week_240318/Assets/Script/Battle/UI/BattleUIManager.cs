@@ -6,6 +6,17 @@ using UnityEngine;
 using UniRx;
 
 public class BattleUIManager : MonoBehaviour{
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip desitionSE;
+
+    [SerializeField]
+    AudioClip cancellSE;
+
+
+
     private GameObject menuTextUI;
     private GameObject commandButtonUI;
     private GameObject skillListUI;
@@ -34,6 +45,7 @@ public class BattleUIManager : MonoBehaviour{
         //魔法
         battleMenu.MagicButton.PushButtonAsync
         .Subscribe((type)=>{
+            soundPlayer.PlaySE(desitionSE);
             ChangeUI(type);
         })
         .AddTo(this);
@@ -42,6 +54,7 @@ public class BattleUIManager : MonoBehaviour{
         //戻る
         skillListMenu.BackButton.PushButtonAsync
         .Subscribe((type)=>{
+            soundPlayer.PlaySE(cancellSE);
             ChangeUI(type);
         })
         .AddTo(this);

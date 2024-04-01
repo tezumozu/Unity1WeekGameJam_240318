@@ -37,20 +37,17 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         //必要なクラスの取得、初期化
         disposableList = new List<IDisposable>();
         battleManager = new BattleManager();
+
+        var canvas = GameObject.Find("Canvas");
+
         var battleInputManager = GameObject.Find("BattleInputManager").GetComponent<BattleInputManager>();
-        var resultInputManager = GameObject.Find("ResultInputManager").GetComponent<ResultInputManager>();
         var pauseInputManager = GameObject.Find("PauseInputManager").GetComponent<PauseInputManager>();
-        var pauseUIManager = GameObject.Find("Canvas/PauseUI").GetComponent<PauseUIManager>();
-        var resultUIManager = GameObject.Find("Canvas/ResultUI").GetComponent<ResultUIManager>();
-
-        pauseUIManager.SetActive(false);
-        resultUIManager.SetActive(false);
-
+        var pauseUIManager = canvas.transform.Find("PauseUI").gameObject.GetComponent<PauseUIManager>();
+        var resultUIManager = canvas.transform.Find("ResultUI").gameObject.GetComponent<ResultUIManager>();
 
         //バトルマネージャの終了を監視
-        var disopsable = battleManager.battleFinisheAsync.Subscribe((x)=>{
+        var disopsable = BattleManager.battleFinisheAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Result;
-            resultUIManager.SetActive(true);
         });
 
         disposableList.Add(disopsable);
@@ -59,7 +56,6 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         //escの入力を監視
         disopsable = battleInputManager.escAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Pause;
-            pauseUIManager.SetActive(true);
         });
 
         disposableList.Add(disopsable);
@@ -67,7 +63,6 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
 
         disopsable = pauseInputManager.escAsync.Subscribe((x)=>{
             currentState.Value = E_BattleSceneState.Battle;
-            pauseUIManager.SetActive(false);
         });
 
         disposableList.Add(disopsable);

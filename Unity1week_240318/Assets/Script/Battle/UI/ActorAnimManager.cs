@@ -6,6 +6,10 @@ using UnityEngine;
 using UniRx;
 
 public class ActorAnimManager : MonoBehaviour{
+
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
     [SerializeField]
     Animator actorAnimator;
 

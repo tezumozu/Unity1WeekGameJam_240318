@@ -79,7 +79,7 @@ public class StartPhaseUpdater : PhaseUpdater{
 
         textManager.SetText(" ");
 
-        FinishPhaseSubject.OnNext(Unit.Default);
+        FinishPhaseSubject.OnNext(data);
     }
 
     // このクラスがDisposeされたら購読も止める

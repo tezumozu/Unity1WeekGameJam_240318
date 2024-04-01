@@ -264,7 +264,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
            effectedStatus = item.Value.EffectedBuff(effectedStatus);
         }
 
-        int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.Level * (float)effectedStatus.ElementResistanceRateDic[elementType] * 0.8);
+        int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType] * 0.5);
 
         //ダメージ計算
         int damage = (int)((float)attackPoint / (float)defensePoint * getDamageRamd()) + 1;
@@ -273,7 +273,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         currentStatus.HP = currentStatus.HP - damage;
 
         if(currentStatus.HP <= 0){
-            isDeadSubject.OnNext(Unit.Default);
+            currentStatus.HP = 0;
         }
 
         //クリック待ちとアニメーション終了待ちをする
@@ -287,7 +287,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return null;
         }
 
-
         //UIの更新
         statusUIManager.SetStatus(currentStatus,maxStatus);
         
@@ -296,6 +295,29 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
        //クリック待ち
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        //もし倒されたら
+        if(currentStatus.HP <= 0){
+            currentStatus.HP = 0;
+
+            //クリック待ちとアニメーション終了待ちをする
+            isFinishAnim = false;
+
+            actorAnimManager.StartDeadAnim();
+
+            while(!isFinishAnim){
+                yield return null;
+            }
+
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            //Text変更
+            textUIManager.SetText(currentStatus.Name + " は たおれた！");
+
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            isDeadSubject.OnNext(Unit.Default);
+        }
 
         yield return damage;
     }

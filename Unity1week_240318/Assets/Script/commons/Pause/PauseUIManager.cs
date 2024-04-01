@@ -17,23 +17,55 @@ public class PauseUIManager : MonoBehaviour{
     GameObject CheckDisitionUI;
 
     [SerializeField]
-    SoundManager soundManager;
+    BattleInputManager battleInputManager;
+
+    [SerializeField]
+    PauseInputManager pauseInputManager;
+
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip desitionSE;
+
+    [SerializeField]
+    AudioClip cancellSE;
+
+    private void Start() {
+        battleInputManager.escAsync
+        .Subscribe((_)=>{
+            soundPlayer.PlaySE(desitionSE);
+            SetActive(true);
+        })
+        .AddTo(this);
+
+        pauseInputManager.escAsync
+        .Subscribe((_)=>{
+            soundPlayer.PlaySE(cancellSE);
+            SetActive(false);
+        })
+        .AddTo(this);
+
+        SetActive(false);
+    }
 
     public void OnPushBackToTitleButton(){
+        soundPlayer.PlaySE(desitionSE);
         CheckDisitionUI.SetActive(true);
     }
 
     public void CanselBackToTitle(){
+        soundPlayer.PlaySE(cancellSE);
         CheckDisitionUI.SetActive(false);
     }
 
     public void DisitionBackToTitle(){
+        soundPlayer.PlaySE(desitionSE);
         BackToTitleSubject.OnNext(Unit.Default);
     }
 
-    public void SetActive(bool flag){
+    private void SetActive(bool flag){
         if(!flag) CheckDisitionUI.SetActive(false);
         gameObject.SetActive(flag);
-        soundManager.SetActive(flag);
     }
 }

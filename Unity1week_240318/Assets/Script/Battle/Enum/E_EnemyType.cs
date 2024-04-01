@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum E_EnemyType {
-    Srime = 0,
+    Slime = 0,
     Skeleton = 1,
     Mimic = 2,
     Golem = 3,

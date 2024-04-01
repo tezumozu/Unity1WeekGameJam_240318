@@ -40,9 +40,11 @@ public class PauseInputManager : MonoBehaviour{
         }
 
         if(Input.GetKeyDown(KeyCode.Escape)){
+            //効果音を鳴らす
             escSubject.OnNext(Unit.Default);
 
         }else if(Input.GetMouseButtonDown(0)){
+            //効果音を鳴らす
             clickSubject.OnNext(Unit.Default);
         }
 

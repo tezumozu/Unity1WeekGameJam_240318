@@ -64,15 +64,13 @@ public class BattlePhaseUpdater : PhaseUpdater{
         //各ターンの終了を監視
         for (int i = 0; i < turnMaxCount; i++){
            disposable = turnList[i].FinishTurnAsync.Subscribe((x)=>{
-                TakeTurnCount++;
-                
+                data.TakeTurn++;
                 if(isFinishBattle){
                     //戦闘を終了させる
-                    FinishPhaseSubject.OnNext(Unit.Default);
+                    FinishPhaseSubject.OnNext(data);
                 }else{
                     turnCount++;
                     
-                    Debug.Log(TakeTurnCount);
                     turnCount = turnCount % turnMaxCount;
                     CoroutineHander.OrderStartCoroutine(turnList[turnCount].StartTurn());
                 }

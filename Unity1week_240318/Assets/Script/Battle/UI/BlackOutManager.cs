@@ -11,6 +11,12 @@ public class BlackOutManager : MonoBehaviour{
     [SerializeField]
     private Animator BlackOutAnimator;
 
+    [SerializeField]
+    AudioClip WalkSE;
+
+    [SerializeField]
+    SoundPlayer player;
+
 
     private Subject<Unit> FinishAnimSubject = new Subject<Unit>();
     public IObservable<Unit> FinishAnimAsync => FinishAnimSubject;
@@ -32,5 +38,9 @@ public class BlackOutManager : MonoBehaviour{
      public void FinishAnimAndSetNotActive(){
         FinishAnimSubject.OnNext(Unit.Default);
         gameObject.SetActive(false);
+    }
+
+    public void PlayWalkSE(){
+        player.PlaySE(WalkSE);
     }
 }

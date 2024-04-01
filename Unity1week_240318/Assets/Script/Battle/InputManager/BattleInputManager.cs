@@ -7,6 +7,12 @@ using UniRx;
 
 public class BattleInputManager : MonoBehaviour{
 
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip desitionSE;
+
     private Subject<Unit> escSubject = new Subject<Unit>();
 
     public IObservable<Unit> escAsync => escSubject;
@@ -102,6 +108,7 @@ public class BattleInputManager : MonoBehaviour{
         }
 
         //効果音を鳴らす;
+        soundPlayer.PlaySE(desitionSE);
     }
 
     public IEnumerator WaitPushButton(){
@@ -112,6 +119,7 @@ public class BattleInputManager : MonoBehaviour{
         }
 
         //効果音を鳴らす;
+        soundPlayer.PlaySE(desitionSE);
 
         yield return inputActionType;
     }

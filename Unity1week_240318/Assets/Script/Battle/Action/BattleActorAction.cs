@@ -33,7 +33,6 @@ public abstract class BattleActorAction {
 
     public virtual bool CheckCritical(S_BattleActorStatus effectedStatus){
         if(effectedStatus.CriticalCorrection * ActionData.CriticalRate > Random.Range( 0.0f , 1.0f )){
-            Debug.Log(effectedStatus.CriticalCorrection * ActionData.CriticalRate);
             isCritical = true;
         }else{
             isCritical = false;

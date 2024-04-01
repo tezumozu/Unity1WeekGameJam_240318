@@ -40,13 +40,10 @@ public class SkillListManager : MonoBehaviour{
 
         //リストのサイズからContensのHightを変更
         float ContentHight = Mathf.Ceil(((float)skillList.Count)/3) * ButtonHight + 25 * (Mathf.Ceil(((float)skillList.Count)/3)-1) + 50;
-        Debug.Log(ContentHight);
 
         if(ContentHight < 175.0f){
             ContentHight = 175.0f;
         }
-
-        Debug.Log(ContentHight);
 
         content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,ContentHight);
 
