@@ -10,7 +10,7 @@ public class ParalysisEffect : BeforeStatusEffect{
 
     public override BattleActorAction AppliyEffect(BattleActorAction action){
         if(Random.Range(0.0f,1.0f) < 0.3f){
-            return actionFactory.CreateAction(E_ActionType.Paralysis);
+            return actionFactory.CreateAction(E_ActionType.ParalysisEffect);
         }
 
         return action;

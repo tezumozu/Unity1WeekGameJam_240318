@@ -31,8 +31,12 @@ public class PlayerData:MonoBehaviour{
                 //ステータスを取得 
                 BattleStatus = InitData.EnemyStatus;
 
+                skillList = new List<E_ActionType>();
+
                 //スキルリストを取得
-                skillList = InitData.SkillList;
+                foreach(var item in InitData.SkillList){
+                    skillList.Add(item.Skill);
+                }
             }
 
 
@@ -58,7 +62,12 @@ public class PlayerData:MonoBehaviour{
                 BattleStatus = InitData.EnemyStatus;
 
                 //スキルリストを取得
-                skillList = InitData.SkillList;
+                skillList = new List<E_ActionType>();
+
+                //スキルリストを取得
+                foreach(var item in InitData.SkillList){
+                    skillList.Add(item.Skill);
+                }
             }
 
 

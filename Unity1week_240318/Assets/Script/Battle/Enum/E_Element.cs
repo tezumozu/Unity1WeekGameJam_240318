@@ -7,5 +7,6 @@ public enum E_Element{
     Flame,
     Ice,
     Thunder,
-    TrueDamage
+    TrueDamage,
+    Weakness
 } 

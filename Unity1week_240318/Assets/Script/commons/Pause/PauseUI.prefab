@@ -502,7 +502,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseUI: {fileID: 3582929522384517065}
   CheckDisitionUI: {fileID: 3235193726314073744}
-  soundManager: {fileID: 1347643495765441742}
+  battleInputManager: {fileID: 0}
+  pauseInputManager: {fileID: 0}
+  soundPlayer: {fileID: 0}
+  desitionSE: {fileID: 8300000, guid: e2f6cf3c8f04dac41aaa7442a677f020, type: 3}
+  cancellSE: {fileID: 8300000, guid: 6cc595aa6de7ed34ca5a5ac6ec26f711, type: 3}
 --- !u!1 &4008098975685504736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,6 +1558,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1572426674890316239, guid: 1c9d4af2212124845832af2d2ac166a1, type: 3}
+      propertyPath: desitionSE
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d9ff4d8d809b7449a596c5f84076f39, type: 3}
     - target: {fileID: 2831394700477223836, guid: 1c9d4af2212124845832af2d2ac166a1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1592,14 +1600,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 634040216092167777, guid: 1c9d4af2212124845832af2d2ac166a1, type: 3}
   m_PrefabInstance: {fileID: 531894403604243713}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1347643495765441742 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1572426674890316239, guid: 1c9d4af2212124845832af2d2ac166a1, type: 3}
-  m_PrefabInstance: {fileID: 531894403604243713}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5873b7031c610b0499222750ea4d26bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

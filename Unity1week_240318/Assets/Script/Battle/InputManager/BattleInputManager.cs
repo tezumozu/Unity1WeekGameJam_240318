@@ -5,17 +5,13 @@ using UnityEngine;
 
 using UniRx;
 
-public class BattleInputManager : MonoBehaviour{
+public class BattleInputManager : InGameInputManager{
 
     [SerializeField]
     SoundPlayer soundPlayer;
 
     [SerializeField]
     AudioClip desitionSE;
-
-    private Subject<Unit> escSubject = new Subject<Unit>();
-
-    public IObservable<Unit> escAsync => escSubject;
 
     private bool isActiveForCurrentState = false;
     private bool isChangeMode = false;

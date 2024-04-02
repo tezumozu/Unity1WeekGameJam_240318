@@ -11,7 +11,7 @@ public class SleepEffect : BeforeStatusEffect{
 
     public override BattleActorAction AppliyEffect(BattleActorAction action){
 
-        return actionFactory.CreateAction(E_ActionType.Sleep);
+        return actionFactory.CreateAction(E_ActionType.SleepEffect);
     }
 
     public override bool CheckContinueEffect(){

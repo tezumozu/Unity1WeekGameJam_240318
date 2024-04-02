@@ -8,5 +8,5 @@ public class EnemyData : ScriptableObject{
     public S_BattleActorStatus EnemyStatus;
 
     [SerializeField]
-    public List<E_ActionType> SkillList = new List<E_ActionType>();
+    public List<S_EnemySkillData> SkillList = new List<S_EnemySkillData>();
 }

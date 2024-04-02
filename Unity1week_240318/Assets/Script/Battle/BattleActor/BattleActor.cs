@@ -11,7 +11,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
     protected S_BattleActorStatus currentStatus;
     protected BeforeStatusEffect currentBeforeStatusEffect;
     protected AfterStatusEffect currentAfterStatusEffect;
-    protected List<E_ActionType> skillList;
     protected Dictionary<E_Buff,BattleBuff> buffDic;
     protected BattleActorAction currentAction;
 
@@ -54,18 +53,12 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         get{ return currentAfterStatusEffect.EffectData.EffectType; }
     }
 
-    public List<E_ActionType> GetSkillList{
-        get{ return new List<E_ActionType>(skillList); }
-    }
-
     public Dictionary<E_Buff,BattleBuff> GetBuffDic{
         get{ return new Dictionary<E_Buff,BattleBuff>(buffDic); }
     }
 
-
     public BattleActor(I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory){
         isDeadSubject = new Subject<Unit>();
-        skillList = new List<E_ActionType>();
         buffDic = new Dictionary<E_Buff,BattleBuff>();
 
         this.actionFactory = actionFactory;
@@ -87,6 +80,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
 
     public abstract IEnumerator SetNextAction();
+
 
 
     public virtual IEnumerator ActionBattleActor(BattleActor defender){
@@ -176,6 +170,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         
         yield return null;
     }
+
 
 
     //状態異常Bの処理
@@ -475,6 +470,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
         
     }
+
 
 
     protected float getDamageRamd (){

@@ -8,7 +8,7 @@ public class FlameResistanceUPBuff : BattleBuff{
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status){
 
-        status.ElementResistanceRateDic[E_Element.Flame] = status.ElementResistanceRateDic[E_Element.Flame] / 1.5f;
+        status.ElementResistanceRateDic[E_Element.Flame] = status.ElementResistanceRateDic[E_Element.Flame] * 1.5f;
         return status;
     }
 }

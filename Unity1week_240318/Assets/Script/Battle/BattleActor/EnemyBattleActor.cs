@@ -7,7 +7,8 @@ using UniRx;
 
 public class EnemyBattleActor : BattleActor{
 
-    protected static Dictionary<E_EnemyType,string> enemyNameDic;
+    private List<S_EnemySkillData> enemySkillList;
+
 
     public EnemyBattleActor(E_EnemyType type,I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
         
@@ -30,7 +31,7 @@ public class EnemyBattleActor : BattleActor{
         currentStatus = enemyData.EnemyStatus;
 
         //スキルリストを取得
-        skillList = enemyData.SkillList;
+        enemySkillList = enemyData.SkillList;
 
         //UI初期化
         //ステータスをセット
@@ -52,9 +53,26 @@ public class EnemyBattleActor : BattleActor{
 
         //次の行動が決まっているか確認
         if(currentAction.IsNextAction){
+
             currentAction = actionFactory.CreateAction(currentAction.NextAction);
+
         }else{
+
             //使用率に合わせてランダムに取得する
+            float rand = UnityEngine.Random.Range( 0.0f , 1.0f );
+            float rate = 0.0f;
+
+            foreach(var skill in enemySkillList){
+
+                rate += skill.UseRate;
+
+                if(rate < rand){
+                    currentAction = actionFactory.CreateAction(skill.Skill);
+                    break;
+                }
+
+            }
+
         }
 
 

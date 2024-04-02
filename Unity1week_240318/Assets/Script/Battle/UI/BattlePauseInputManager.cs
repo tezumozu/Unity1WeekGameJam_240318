@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class PauseInputManager : MonoBehaviour{
+public class BattlePauseInputManager : PauseInputManager{
 
     private Subject<Unit> clickSubject = new Subject<Unit>();
-    private Subject<Unit> escSubject = new Subject<Unit>();
     private Subject<E_OptionType> OptionUISubject = new Subject<E_OptionType>();
 
     public IObservable<Unit> clickAsync => clickSubject;
-    public IObservable<Unit> escAsync => escSubject;
     public IObservable<E_OptionType> OptionUIAsync => OptionUISubject;
 
     private bool isActiveForCurrentState = false;

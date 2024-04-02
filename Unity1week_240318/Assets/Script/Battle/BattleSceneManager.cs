@@ -20,17 +20,6 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
 
     public BattleSceneManager(){
 
-        //テスト用
-        //テスト用のスキルリスト
-        var skillList = new List<E_ActionType>();
-        skillList.Add(E_ActionType.Flame_1);
-        skillList.Add(E_ActionType.Flame_2);
-        skillList.Add(E_ActionType.Flame_3);
-        skillList.Add(E_ActionType.Cure_1);
-        skillList.Add(E_ActionType.Cure_2);
-        skillList.Add(E_ActionType.Cure_3);
-        skillList.Add(E_ActionType.HiAttack_1);
-
         //初期値を代入
         currentState.Value = E_BattleSceneState.Init;
 

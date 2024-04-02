@@ -18,11 +18,10 @@ public class PlayerBattleActor : BattleActor{
         //スキルリストを取得
         maxStatus = PlayerData.GetPlayerStatus;
         currentStatus = PlayerData.GetPlayerStatus;
-        skillList = PlayerData.GetPlayerSkillList;
 
         //UI初期化
         //スキルリストをセット
-        skillListMenu.setSkillList(skillList);
+        skillListMenu.setSkillList(PlayerData.GetPlayerSkillList);
         //プレイヤーのステータスをセット
         statusUIManager.SetStatus(currentStatus,currentStatus);
         statusUIManager.SetSprite(currentStatus.Image);

@@ -12,7 +12,7 @@ public class SilenceEffect : BeforeStatusEffect{
     public override BattleActorAction AppliyEffect(BattleActorAction action){
 
         if(action.ActionData.AttackType == E_AttackType.Magic){
-            return actionFactory.CreateAction(E_ActionType.Silence);
+            return actionFactory.CreateAction(E_ActionType.SilenceEffect);
         }
         return action;
     }

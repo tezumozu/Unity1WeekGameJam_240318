@@ -6,21 +6,15 @@ using UnityEngine.UI;
 
 using UniRx;
 
-public class PauseUIManager : MonoBehaviour{
+public class TitleOptionManager : MonoBehaviour{
     private Subject<Unit> BackToTitleSubject = new Subject<Unit>();
     public IObservable<Unit> BackToTitleAsync => BackToTitleSubject;
 
     [SerializeField]
-    GameObject PauseUI;
+    SoundManager SoundManager;
 
     [SerializeField]
-    GameObject CheckDisitionUI;
-
-    [SerializeField]
-    InGameInputManager InGameInputManager;
-
-    [SerializeField]
-    PauseInputManager pauseInputManager;
+    TitleInputManager TitleInputManager;
 
     [SerializeField]
     SoundPlayer soundPlayer;
@@ -32,40 +26,23 @@ public class PauseUIManager : MonoBehaviour{
     AudioClip cancellSE;
 
     private void Start() {
-        InGameInputManager.escAsync
+        TitleInputManager.OptionButtonAsync
         .Subscribe((_)=>{
-            soundPlayer.PlaySE(desitionSE);
             SetActive(true);
+            soundPlayer.PlaySE(desitionSE);
         })
         .AddTo(this);
-
-        pauseInputManager.escAsync
-        .Subscribe((_)=>{
-            soundPlayer.PlaySE(cancellSE);
-            SetActive(false);
-        })
-        .AddTo(this);
-
         SetActive(false);
     }
 
     public void OnPushBackToTitleButton(){
-        soundPlayer.PlaySE(desitionSE);
-        CheckDisitionUI.SetActive(true);
-    }
-
-    public void CanselBackToTitle(){
         soundPlayer.PlaySE(cancellSE);
-        CheckDisitionUI.SetActive(false);
-    }
-
-    public void DisitionBackToTitle(){
-        soundPlayer.PlaySE(desitionSE);
         BackToTitleSubject.OnNext(Unit.Default);
+        SetActive(false);
     }
 
     private void SetActive(bool flag){
-        if(!flag) CheckDisitionUI.SetActive(false);
+        SoundManager.SetActive(flag);
         gameObject.SetActive(flag);
     }
 }
