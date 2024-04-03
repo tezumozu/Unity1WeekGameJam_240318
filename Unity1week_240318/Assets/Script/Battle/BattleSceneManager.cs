@@ -61,7 +61,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         disopsable = pauseUIManager.BackToTitleAsync.Subscribe((x)=>{
             //リソースを開放
             Resources.UnloadUnusedAssets();
-            CoroutineHander.StopAllCoroutine();
+            CoroutineHander.StopAllActiveCoroutine();
             sceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 
@@ -72,7 +72,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
         disopsable = resultUIManager.BackToTitleAsync.Subscribe((x)=>{
             //リソースを開放
             Resources.UnloadUnusedAssets();
-            CoroutineHander.StopAllCoroutine();
+            CoroutineHander.StopAllActiveCoroutine();
             sceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 

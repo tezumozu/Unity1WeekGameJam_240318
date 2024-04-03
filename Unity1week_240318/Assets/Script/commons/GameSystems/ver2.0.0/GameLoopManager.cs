@@ -10,6 +10,8 @@ using Zenject;
 
 namespace My1WeekGameSystems_ver2{
     public class GameLoopManager : MonoBehaviour{
+        [SerializeField]
+        int FlameRate;
         
         bool isHaveToLoading;
 
@@ -29,6 +31,16 @@ namespace My1WeekGameSystems_ver2{
 
         //初期化処理
         void Start(){
+            if(FlameRate == 0){
+                FlameRate = 30;
+            }
+            Application.targetFrameRate = FlameRate;
+
+            //入力を使うのでキャプチャを切る
+            #if !UNITY_EDITOR && UNITY_WEBGL
+            WebGLInput.captureAllKeyboardInput = false;
+            #endif
+
             //パラメータ初期化
             isHaveToLoading = false;
             currentState = E_LoopState.Init;

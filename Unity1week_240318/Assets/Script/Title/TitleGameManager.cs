@@ -55,7 +55,7 @@ public class TitleGameManager : I_SceneLoadAlertable,IDisposable{
             Debug.Log("test");
             //リソースを開放
             Resources.UnloadUnusedAssets();
-            CoroutineHander.StopAllCoroutine();
+            CoroutineHander.StopAllActiveCoroutine();
             sceneLoadSubject.OnNext(E_SceneName.TrainingScene);
         });
 

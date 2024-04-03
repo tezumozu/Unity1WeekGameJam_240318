@@ -2,15 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData:MonoBehaviour{
+public class PlayerData : MonoBehaviour{
+    //データ共有用
+    private static List<E_ActionType> skillList;
+    private static S_BattleActorStatus BattleStatus;
 
     void Start(){
         //初期ステータスをロードする
-    }
 
-    //共有用
-    private static List<E_ActionType> skillList;
-    private static S_BattleActorStatus BattleStatus;
+        //初期データを読み込む
+        //パスを生成
+        var fileName = "BattleScene/PlayerInitData";
+        //読み込む
+        var InitData = Resources.Load<EnemyData>(fileName);
+
+        if(InitData is null){
+            Debug.Log("Load error! : PlayerData.GetPlayerSkill");
+        }
+
+        //初期ステータスを取得 
+        BattleStatus = InitData.EnemyStatus;
+
+        skillList = new List<E_ActionType>();
+
+
+        //データの更新を監視
+
+
+    }
 
     public static List<E_ActionType> GetPlayerSkillList{
         //もしデータが入っていなかったら（テスト用）

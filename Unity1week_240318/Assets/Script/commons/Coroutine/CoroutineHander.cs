@@ -8,17 +8,17 @@ using UniRx;
 
 public class CoroutineHander : MonoSingleton<CoroutineHander>{
 
-    static List<Coroutine> ActiveCoroutinList = new List<Coroutine>();
-    static Subject<Coroutine> FinishCoroutinSubject;
+    static Dictionary<IEnumerator,Coroutine> ActiveCoroutinDic = new Dictionary<IEnumerator,Coroutine>();
+    static Subject<IEnumerator> FinishCoroutinSubject;
 
 
     void Start(){
         if(FinishCoroutinSubject is null){
-            FinishCoroutinSubject = new Subject<Coroutine>();
+            FinishCoroutinSubject = new Subject<IEnumerator>();
 
             FinishCoroutinSubject.Subscribe((coroutine)=>{
                 //終了したコルーチンをリストから削除する
-                ActiveCoroutinList.Remove(coroutine);
+                ActiveCoroutinDic.Remove(coroutine);
             })
             .AddTo(this);
         }
@@ -31,22 +31,30 @@ public class CoroutineHander : MonoSingleton<CoroutineHander>{
     }
 
 
-    public static void StopAllCoroutine(){
-        foreach(var coroutine in ActiveCoroutinList){
+    public static void StopAllActiveCoroutine(){
+        foreach(var coroutine in ActiveCoroutinDic.Values){
             instance.StopCoroutine(coroutine);
         }
+
+        //メモリがたまらないか不安
+        ActiveCoroutinDic.Clear();
+    }
+
+
+    public static void OrderStopCoroutine(IEnumerator target){
+        instance.StopCoroutine(ActiveCoroutinDic[target]);
     }
 
 
     private static IEnumerator CheckFinishCoroutine(IEnumerator coroutine){
         var activeCoroutine = instance.StartCoroutine(coroutine);
 
-        ActiveCoroutinList.Add(activeCoroutine);
+        ActiveCoroutinDic[coroutine] = activeCoroutine;
 
         //コルーチンの終了を待つ
         yield return activeCoroutine;
 
         //終了したコルーチンを通知する
-        FinishCoroutinSubject.OnNext(activeCoroutine);
+        FinishCoroutinSubject.OnNext(coroutine);
     }
 }
