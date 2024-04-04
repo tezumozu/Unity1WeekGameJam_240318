@@ -10,21 +10,8 @@ public class PlayerData : MonoBehaviour{
     void Start(){
         //初期ステータスをロードする
 
-        //初期データを読み込む
-        //パスを生成
-        var fileName = "BattleScene/PlayerInitData";
-        //読み込む
-        var InitData = Resources.Load<EnemyData>(fileName);
-
-        if(InitData is null){
-            Debug.Log("Load error! : PlayerData.GetPlayerSkill");
-        }
-
-        //初期ステータスを取得 
-        BattleStatus = InitData.EnemyStatus;
-
-        skillList = new List<E_ActionType>();
-
+        
+        //名前の決定を監視
 
         //データの更新を監視
 

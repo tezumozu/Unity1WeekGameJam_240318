@@ -15,6 +15,15 @@ public class EnterPhaseInput : MonoBehaviour{
     [SerializeField]
     InputNameManager inputNameManager;
 
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip desitionSE;
+
+    [SerializeField]
+    AudioClip clickSE;
+
     private string inputedName;
 
     private bool isActiveForCurrentState = false;
@@ -29,6 +38,7 @@ public class EnterPhaseInput : MonoBehaviour{
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
 
+
     private void Start() {
         gameManager.GameStateAsync
         .Subscribe((x)=>{
@@ -37,6 +47,18 @@ public class EnterPhaseInput : MonoBehaviour{
                 isChangeMode = true;
             }else{
                 isActiveForCurrentState = false;
+            }
+        })
+        .AddTo(this);
+
+        //ポーズを監視
+        gameManager.PauseAsync
+        .Subscribe((flag)=>{
+            if(flag){
+                isActiveForCurrentState = false;
+            }else{
+                isActiveForCurrentState = true;
+                isChangeMode = true;
             }
         })
         .AddTo(this);
@@ -72,20 +94,26 @@ public class EnterPhaseInput : MonoBehaviour{
         isWaitClick = false;
 
         while(!isWaitClick){
-            yield return null;
+            yield return isWaitClick;
         }
 
         //効果音を鳴らす;
+        soundPlayer.PlaySE(clickSE);
+
+        yield return isWaitClick;
     }
+
 
     public IEnumerator WaitInputName(){
         isInputName = false;
+        inputedName = "";
 
         while(!isInputName){
-            yield return null;
+            yield return inputedName;
         }
 
         //効果音を鳴らす;
+        soundPlayer.PlaySE(desitionSE);
 
         yield return inputedName;
     }

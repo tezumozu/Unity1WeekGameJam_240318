@@ -39,7 +39,7 @@ public class TrainingGameManager : I_SceneLoadAlertable{
         var EnterInput = GameObject.Find("Inputs/EnterPhaseInput").GetComponent<EnterPhaseInput>();
         var TrainingInput = GameObject.Find("Inputs/TrainingPhaseInput").GetComponent<TrainingPhaseInput>();
         var ExitInput = GameObject.Find("Inputs/ExitPhaseInput").GetComponent<ExitPhaseInput>();
-        var PauseInput = GameObject.Find("Inputs/PauseInput").GetComponent<PauseInput>();
+        var PauseInput = GameObject.Find("Inputs/PauseInput").GetComponent<TrainingPauseInput>();
 
         //escを監視
         //Enter
@@ -80,14 +80,14 @@ public class TrainingGameManager : I_SceneLoadAlertable{
             //ポーズ状態が解除されたことを通知
             PauseSubject.OnNext(false);
             //コルーチンを再開する
-            CoroutineHander.OrderStartCoroutine(currentStateCoroutine);
+            CoroutineHander.ReStartCoroutine(currentStateCoroutine);
         });
 
         DisposeList.Add(disposable);
 
 
         //タイトルへ戻るか監視
-        disposable = PauseInput.escAsync.Subscribe((_)=>{
+        disposable = PauseInput.BackToTitleAsync.Subscribe((_)=>{
             //コルーチンを止める
             CoroutineHander.StopAllActiveCoroutine();
             //タイトルへ戻る
@@ -146,6 +146,7 @@ public class TrainingGameManager : I_SceneLoadAlertable{
 
 
     public void StartGame(){
+        GameStateSubject.OnNext(currentState);
         CoroutineHander.OrderStartCoroutine(currentStateCoroutine);
     }
 

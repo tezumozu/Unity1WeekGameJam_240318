@@ -29,7 +29,7 @@ public class ExitPhaseInput : MonoBehaviour{
     private void Start() {
         gameManager.GameStateAsync
         .Subscribe((x)=>{
-            if(x == E_TrainingState.Enter){
+            if(x == E_TrainingState.Exit){
                 isActiveForCurrentState = true;
                 isChangeMode = true;
             }else{

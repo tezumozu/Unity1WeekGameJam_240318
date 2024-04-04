@@ -42,14 +42,18 @@ public class CoroutineHander : MonoSingleton<CoroutineHander>{
 
 
     public static void OrderStopCoroutine(IEnumerator target){
-        instance.StopCoroutine(ActiveCoroutinDic[target]);
+        instance.StopCoroutine(target);
+    }
+
+    public static void ReStartCoroutine(IEnumerator target){
+        instance.StartCoroutine(target);
     }
 
 
     private static IEnumerator CheckFinishCoroutine(IEnumerator coroutine){
         var activeCoroutine = instance.StartCoroutine(coroutine);
 
-        ActiveCoroutinDic[coroutine] = activeCoroutine;
+        ActiveCoroutinDic.Add(coroutine,activeCoroutine);
 
         //コルーチンの終了を待つ
         yield return activeCoroutine;

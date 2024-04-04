@@ -7,10 +7,13 @@ using UnityEngine;
 using UniRx;
 using Zenject;
 
-public class PauseInput : MonoBehaviour{
+public class TrainingPauseInput : MonoBehaviour{
 
     [Inject]
     TrainingGameManager gameManager;
+
+    [SerializeField]
+    TrainingPauseUIManager UIManager;
     
     private string inputedName;
 
@@ -18,10 +21,6 @@ public class PauseInput : MonoBehaviour{
     private bool isChangeMode = false;
 
     private bool isInputName;
-    private bool isWaitClick;
-
-    private Subject<Unit> clickSubject = new Subject<Unit>();
-    public IObservable<Unit> ClickAsync => clickSubject;
 
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
@@ -30,14 +29,21 @@ public class PauseInput : MonoBehaviour{
     public IObservable<Unit> BackToTitleAsync => BackToTitleSubject;
 
     private void Start() {
-        gameManager.GameStateAsync
-        .Subscribe((x)=>{
-            if(x == E_TrainingState.Enter){
+        gameManager.PauseAsync
+        .Subscribe((flag)=>{
+            if(flag){
                 isActiveForCurrentState = true;
                 isChangeMode = true;
             }else{
                 isActiveForCurrentState = false;
             }
+        })
+        .AddTo(this);
+
+        //UIの入力を監視
+        UIManager.BackToTitleAsync
+        .Subscribe((_) =>{
+            BackToTitleSubject.OnNext(Unit.Default);
         })
         .AddTo(this);
     }
@@ -53,33 +59,6 @@ public class PauseInput : MonoBehaviour{
 
         if(Input.GetKeyDown(KeyCode.Escape)){
             escSubject.OnNext(Unit.Default);
-
-        }else if(Input.GetMouseButtonDown(0)){
-            isWaitClick = true;
         }
     }
-
-
-    public IEnumerator WaitClickInput(){
-        isWaitClick = false;
-
-        while(!isWaitClick){
-            yield return null;
-        }
-
-        //効果音を鳴らす;
-    }
-
-    public IEnumerator WaitInputName(){
-        isInputName = false;
-
-        while(!isInputName){
-            yield return null;
-        }
-
-        //効果音を鳴らす;
-
-        yield return inputedName;
-    }
-
 }

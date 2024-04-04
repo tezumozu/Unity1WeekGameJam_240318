@@ -26,10 +26,13 @@ public class TrainingPhaseInput : MonoBehaviour{
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
 
+    private Subject<E_TrainingType> PushButtonSubject = new Subject<E_TrainingType>();
+    public IObservable<E_TrainingType> PushButtonAsync => PushButtonSubject;
+
     private void Start() {
         gameManager.GameStateAsync
         .Subscribe((x)=>{
-            if(x == E_TrainingState.Enter){
+            if(x == E_TrainingState.Training){
                 isActiveForCurrentState = true;
                 isChangeMode = true;
             }else{
