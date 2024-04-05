@@ -22,6 +22,8 @@ public class EnterPhaseManager : TrainingPhase{
     }
 
     public override IEnumerator StartPhase(){
+
+        textBox.SetActive(true);
         textBox.SetText("ようこそ！スライム育成所へ！");
 
         var isInput = inputManager.WaitClickInput();
@@ -73,9 +75,8 @@ public class EnterPhaseManager : TrainingPhase{
 
 
 
-        //yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
-        textBox.SetText("まず は 名前 を 決めましょう！");
+        textBox.SetText("まずは 名前 を 決めましょう！");
 
         isInput = inputManager.WaitClickInput();
         //クリック待ち
@@ -144,6 +145,8 @@ public class EnterPhaseManager : TrainingPhase{
         while(!(bool)isInput.Current){
             yield return null;
         }
+
+        textBox.SetActive(false);
 
         StateFinishSubject.OnNext(Unit.Default);
     }

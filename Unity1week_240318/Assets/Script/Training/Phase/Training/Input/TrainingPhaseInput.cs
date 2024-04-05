@@ -12,24 +12,32 @@ public class TrainingPhaseInput : MonoBehaviour{
     [Inject]
     TrainingGameManager gameManager;
 
-    private string inputedName;
+    [SerializeField]
+    TrainingUIManager UIManager;
+
 
     private bool isActiveForCurrentState = false;
     private bool isChangeMode = false;
 
-    private bool isInputName;
+
+    private Subject<Unit> escSubject = new Subject<Unit>();
+    public IObservable<Unit> escAsync => escSubject;
+
+
+    private Subject<E_TrainingType> PushButtonSubject = new Subject<E_TrainingType>();
+    public IObservable<E_TrainingType> PushButtonAsync => PushButtonSubject;
+
+
+
     private bool isWaitClick;
 
     private Subject<Unit> clickSubject = new Subject<Unit>();
     public IObservable<Unit> ClickAsync => clickSubject;
 
-    private Subject<Unit> escSubject = new Subject<Unit>();
-    public IObservable<Unit> escAsync => escSubject;
 
-    private Subject<E_TrainingType> PushButtonSubject = new Subject<E_TrainingType>();
-    public IObservable<E_TrainingType> PushButtonAsync => PushButtonSubject;
 
     private void Start() {
+
         gameManager.GameStateAsync
         .Subscribe((x)=>{
             if(x == E_TrainingState.Training){
@@ -38,6 +46,12 @@ public class TrainingPhaseInput : MonoBehaviour{
             }else{
                 isActiveForCurrentState = false;
             }
+        })
+        .AddTo(this);
+
+        UIManager.PushButtonAsync
+        .Subscribe((type) => {
+            PushButtonSubject.OnNext(type);
         })
         .AddTo(this);
 
@@ -69,18 +83,6 @@ public class TrainingPhaseInput : MonoBehaviour{
         }
 
         //効果音を鳴らす;
-    }
-
-    public IEnumerator WaitInputName(){
-        isInputName = false;
-
-        while(!isInputName){
-            yield return null;
-        }
-
-        //効果音を鳴らす;
-
-        yield return inputedName;
     }
 
 }

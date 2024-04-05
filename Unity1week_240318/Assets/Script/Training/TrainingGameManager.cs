@@ -8,7 +8,7 @@ using UniRx;
 
 using My1WeekGameSystems_ver2;
 
-public class TrainingGameManager : I_SceneLoadAlertable{
+public class TrainingGameManager : I_SceneLoadAlertable , IDisposable{
 
     private Subject<E_TrainingState> GameStateSubject;
     public IObservable<E_TrainingState> GameStateAsync => GameStateSubject;
@@ -156,5 +156,11 @@ public class TrainingGameManager : I_SceneLoadAlertable{
         return sceneLoadSubject.Subscribe((type) => {
             action(type);
         });
+    }
+
+    public void Dispose(){
+        foreach (var item in DisposeList){
+            item.Dispose();
+        } 
     }
 }

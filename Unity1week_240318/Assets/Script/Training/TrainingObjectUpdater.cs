@@ -11,22 +11,27 @@ public class TrainingObjectUpdater : I_SceneObjectUpdatable{
     [Inject]
     private TrainingGameManager gameManager;
 
+    [Inject]
+    private SlimeTrainingManager SlimeTrainingManager;
+
     public I_SceneLoadAlertable InitObject(){
         return gameManager;
     }
 
 
     public void UpdateObject(){
-
-    }
+        SlimeTrainingManager.UpdateStatus();
+    }  
 
 
     public void ReleaseObject(){
-
+        gameManager.Dispose();
+        SlimeTrainingManager.Dispose();
     }
 
 
     public void StartGame(){
         gameManager.StartGame();
+        
     }
 }

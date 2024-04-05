@@ -15,5 +15,10 @@ public class TrainingManagerInstaller : MonoInstaller
             .Bind<TrainingGameManager>()
             .To<TrainingGameManager>()
             .AsSingle();
+
+        Container
+            .Bind<SlimeTrainingManager>()
+            .To<SlimeTrainingManager>()
+            .AsSingle();
     }
 }
