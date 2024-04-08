@@ -1,21 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Zenject;
+using UniRx;
 
 public class PlayerData : MonoBehaviour{
     //データ共有用
     private static List<E_ActionType> skillList;
     private static S_BattleActorStatus BattleStatus;
 
+    [Inject]
+    SlimeTrainingManager trainingManager;
+
     void Start(){
-        //初期ステータスをロードする
-
-        
-        //名前の決定を監視
-
         //データの更新を監視
+        trainingManager.DefinitionStatusAsync
+        .Subscribe((status) => {
+            BattleStatus = status;
+        })
+        .AddTo(this);
 
 
+        trainingManager.DefinitioSkillAsync
+        .Subscribe((list) => {
+            skillList = list;
+        })
+        .AddTo(this);
     }
 
     public static List<E_ActionType> GetPlayerSkillList{

@@ -14,15 +14,21 @@ public class SlimeTrainingManager : IDisposable {
     private Subject<S_BattleActorStatus> definitionStatusSubject = new Subject<S_BattleActorStatus>();
     public IObservable<S_BattleActorStatus> DefinitionStatusAsync => definitionStatusSubject;
 
+    private Subject<List<E_ActionType>> definitionSkillSubject = new Subject<List<E_ActionType>>();
+    public IObservable<List<E_ActionType>> DefinitioSkillAsync => definitionSkillSubject;
+
     private Subject<S_SlimeTrainingData> UpdateTrainingStatusSubject = new Subject<S_SlimeTrainingData>();
     public IObservable<S_SlimeTrainingData> UpdateTrainingStatusAsync => UpdateTrainingStatusSubject;
 
     private S_SlimeTrainingData trainingData;
     private List<E_ActionType> skillList;
+    private S_BattleActorStatus resultStatus;
+    private string name;
 
     //Disposable
     private IDisposable gameManagerDisposable;
     private IDisposable inputDisposable;
+    private IDisposable nameInputDisposable;
 
     private StatusTable statusTable;
 
@@ -47,19 +53,22 @@ public class SlimeTrainingManager : IDisposable {
         //パスを生成
         fileName = "BattleScene/PlayerInitData";
         //読み込む
-        var InitData = Resources.Load<EnemyData>(fileName);
+        resultStatus = Resources.Load<EnemyData>(fileName).EnemyStatus;
 
-        if(InitData is null){
+        if(resultStatus.Level == 0){
             Debug.Log("Load error! : PlayerData.GetPlayerSkill");
         }
 
         //初期化
-        trainingData = new S_SlimeTrainingData(InitData.EnemyStatus,statusTable);
+        trainingData = new S_SlimeTrainingData(resultStatus,statusTable);
         skillList = new List<E_ActionType>();
 
-        foreach(var item in InitData.SkillList){
-            skillList.Add(item.Skill);
-        }
+        var Canvas = GameObject.Find("Canvas");
+        var inputNameManager = Canvas.transform.Find("NameInputUI").gameObject.GetComponent<InputNameManager>(); 
+        nameInputDisposable = inputNameManager.InputNameAsync
+        .Subscribe((input) => {
+            name = input;
+        });
 
         //UIマネージャの取得
         inputDisposable = trainingInput.PushButtonAsync
@@ -81,6 +90,7 @@ public class SlimeTrainingManager : IDisposable {
             UpdateTrainingStatusSubject.OnNext(trainingData);
         });
 
+        //名前の入力を監視
     }
 
 
@@ -213,15 +223,22 @@ public class SlimeTrainingManager : IDisposable {
 
 
     private void definitionStatus(){
-        
-        var Status = new S_BattleActorStatus();
 
         //ステータス変化によるスキルリストの作成
         //どのスライムになるか確定
 
+        resultStatus.Name = name;
+        resultStatus.Image = E_MonsterImage.H_Slime;
+        resultStatus.Level = trainingData.Level;
+        resultStatus.HP = trainingData.HP;
+        resultStatus.MP = trainingData.MP;
+        resultStatus.Attack = trainingData.Attack;
+        resultStatus.Defense = trainingData.Defense;
+        resultStatus.Speed = trainingData.Speed;
+
 
         //確定したステータスを通知
-        definitionStatusSubject.OnNext(Status);
+        definitionStatusSubject.OnNext(resultStatus);
 
         //確定したスキルリストを通知
 
@@ -245,5 +262,6 @@ public class SlimeTrainingManager : IDisposable {
     public void Dispose(){
         gameManagerDisposable.Dispose();
         inputDisposable.Dispose();
+        nameInputDisposable.Dispose();
     }
 }

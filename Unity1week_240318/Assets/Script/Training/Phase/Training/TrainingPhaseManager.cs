@@ -10,13 +10,13 @@ public class TrainingPhaseManager : TrainingPhase{
 
     private TrainingTimer timer;
     private CountDownUIManager CountDownAnim;
-    private FinishAnimUIManager FinishAnimUIManager;
+    private FinishAnimUIManager FinishAnim;
 
     public TrainingPhaseManager(){
         var Canvas = GameObject.Find("Canvas");
         timer = GameObject.Find("TrainingUI").GetComponent<TrainingTimer>();
         CountDownAnim = Canvas.transform.Find("CountDownUI").gameObject.GetComponent<CountDownUIManager>();
-        //FinishAnimUIManager = Canvas.transform.Find("FinishAnimUIManager").gameObject.GetComponent<FinishAnimUIManager>();
+        FinishAnim = Canvas.transform.Find("FinishEffectUI").gameObject.GetComponent<FinishAnimUIManager>();
     }
 
     public override IEnumerator StartPhase(){
@@ -43,6 +43,14 @@ public class TrainingPhaseManager : TrainingPhase{
 
 
         //60秒経過したので終了の演出
+         //カウントダウンをする
+        isFinishCoroutine = FinishAnim.StartFinishAnim();
+
+        //アニメーション終了待ち
+        CoroutineHander.OrderStartCoroutine(isFinishCoroutine);
+        while(!(bool)isFinishCoroutine.Current){
+            yield return null;
+        }
 
         yield return null;
         StateFinishSubject.OnNext(Unit.Default);

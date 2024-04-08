@@ -37,9 +37,6 @@ public class TrainingUIManager : MonoBehaviour{
             
         })
         .AddTo(this);
-
-        gameObject.SetActive(false);
-
     }
 
     public void PushTrainingButton(int type){

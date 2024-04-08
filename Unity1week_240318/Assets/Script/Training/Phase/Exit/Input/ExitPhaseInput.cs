@@ -12,12 +12,17 @@ public class ExitPhaseInput : MonoBehaviour{
     [Inject]
     TrainingGameManager gameManager;
 
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip clickSE;
+
     private string inputedName;
 
     private bool isActiveForCurrentState = false;
     private bool isChangeMode = false;
 
-    private bool isInputName;
     private bool isWaitClick;
 
     private Subject<Unit> clickSubject = new Subject<Unit>();
@@ -25,6 +30,7 @@ public class ExitPhaseInput : MonoBehaviour{
 
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
+
 
     private void Start() {
         gameManager.GameStateAsync
@@ -38,6 +44,17 @@ public class ExitPhaseInput : MonoBehaviour{
         })
         .AddTo(this);
 
+        //ポーズを監視
+        gameManager.PauseAsync
+        .Subscribe((flag)=>{
+            if(flag){
+                isActiveForCurrentState = false;
+            }else{
+                isActiveForCurrentState = true;
+                isChangeMode = true;
+            }
+        })
+        .AddTo(this);
     }
 
 
@@ -62,22 +79,12 @@ public class ExitPhaseInput : MonoBehaviour{
         isWaitClick = false;
 
         while(!isWaitClick){
-            yield return null;
+            yield return isWaitClick;
         }
 
         //効果音を鳴らす;
+        soundPlayer.PlaySE(clickSE);
+
+        yield return isWaitClick;
     }
-
-    public IEnumerator WaitInputName(){
-        isInputName = false;
-
-        while(!isInputName){
-            yield return null;
-        }
-
-        //効果音を鳴らす;
-
-        yield return inputedName;
-    }
-
 }

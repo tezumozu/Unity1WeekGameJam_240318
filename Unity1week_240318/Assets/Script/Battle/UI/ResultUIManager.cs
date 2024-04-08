@@ -28,8 +28,6 @@ public class ResultUIManager : MonoBehaviour{
     TextMeshProUGUI Defense;
     [SerializeField]
     TextMeshProUGUI Speed;
-    [SerializeField]
-    TextMeshProUGUI Stamina;
 
     [SerializeField]
     Image PlayerImage;
@@ -83,7 +81,6 @@ public class ResultUIManager : MonoBehaviour{
             Attack.text = data.Attack.ToString();
             Defense.text = data.Defense.ToString();
             Speed.text = data.Speed.ToString();
-            Stamina.text = data.Stamina.ToString();
 
             skillList.SetSkillList(list);
 

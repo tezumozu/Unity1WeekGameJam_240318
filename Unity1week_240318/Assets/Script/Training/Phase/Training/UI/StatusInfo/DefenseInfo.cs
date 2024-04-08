@@ -57,5 +57,6 @@ public class DefenseInfo : MonoBehaviour{
             }
         })
         .AddTo(this);
+        Debug.Log("Defense");
     }
 }

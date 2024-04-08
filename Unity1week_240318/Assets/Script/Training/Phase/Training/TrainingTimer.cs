@@ -15,7 +15,8 @@ public class TrainingTimer : MonoBehaviour{
     [Inject]
     TrainingGameManager gameManager;
 
-    float LimitTime = 30;
+    [SerializeField]
+    float LimitTime;
 
     private float currentTime;
     private bool isActive;
@@ -25,6 +26,7 @@ public class TrainingTimer : MonoBehaviour{
 
     void Start(){
         isActive = true;
+        TimerNum.text = LimitTime.ToString();
 
         //ポーズを監視
         gameManager.PauseAsync
