@@ -19,6 +19,9 @@ public class ResultSkillListManager : MonoBehaviour{
 
     public void SetSkillList(List<E_ActionType> skillList){
 
+        float y = 0.0f;
+        float x = 8.5f;
+
         float ButtonHight = 30.0f;
         //float ButtonWidth = 160.0f;
 
@@ -27,6 +30,7 @@ public class ResultSkillListManager : MonoBehaviour{
 
         if(ContentHight < 280.0f){
             ContentHight = 280.0f;
+            x = 0.0f;
         }
 
         content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,ContentHight);
@@ -41,8 +45,8 @@ public class ResultSkillListManager : MonoBehaviour{
 
         foreach (var skill in skillList){
             //座標計算
-            float y = ContentHight/2 - (float)count * (ButtonHight + 12.5f) - ButtonHight / 2 - 12.5f;
-            var pos = new Vector2( 8.5f , y );
+            y = ContentHight/2 - (float)count * (ButtonHight + 12.5f) - ButtonHight / 2 - 12.5f;
+            var pos = new Vector2( x , y );
 
             //インスタンス化
             var buttonObject = Instantiate(ButtonPrefb);

@@ -40,7 +40,6 @@ public class SoundPlayer : MonoBehaviour{
     }
 
     public void PlayBGM(AudioClip bgm){
-        Debug.Log("test");
         StopSound();
         //音量を
         audioSource.volume = option.Sound * option.BGM;
@@ -50,7 +49,6 @@ public class SoundPlayer : MonoBehaviour{
     }
 
     public void PlayBGM(AudioClip bgm , bool isLoop){
-        Debug.Log("test");
         StopSound();
         //音量を
         audioSource.volume = option.Sound * option.BGM;

@@ -7,31 +7,34 @@ using UnityEngine;
 using UniRx;
 using Zenject;
 
-public class TrainingPauseInput : MonoBehaviour{
-
+public class EvoInputManager : MonoBehaviour{
     [Inject]
-    TrainingGameManager gameManager;
+    EvoGameManager gameManager;
 
-    [SerializeField]
-    TrainingPauseUIManager UIManager;
-    
-    private string inputedName;
-
-    private bool isActiveForCurrentState = false;
+    private bool isActiveForCurrentState = true;
     private bool isChangeMode = false;
 
-    private bool isInputName;
 
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
 
-    private Subject<Unit> BackToTitleSubject = new Subject<Unit>();
-    public IObservable<Unit> BackToTitleAsync => BackToTitleSubject;
+
+    private bool isWaitClick;
+
+    private Subject<Unit> clickSubject = new Subject<Unit>();
+    public IObservable<Unit> ClickAsync => clickSubject;
+
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip clickSE;
 
     private void Start() {
-        gameManager.PauseAsync
-        .Subscribe((flag)=>{
-            if(flag){
+
+        gameManager.GameStateAsync
+        .Subscribe((state)=>{
+            if(state == E_EvoState.Evo){
                 isActiveForCurrentState = true;
                 isChangeMode = true;
             }else{
@@ -39,6 +42,7 @@ public class TrainingPauseInput : MonoBehaviour{
             }
         })
         .AddTo(this);
+
 
         gameManager.PauseAsync
         .Subscribe((x)=>{
@@ -51,12 +55,6 @@ public class TrainingPauseInput : MonoBehaviour{
         })
         .AddTo(this);
 
-        //UIの入力を監視
-        UIManager.BackToTitleAsync
-        .Subscribe((_) =>{
-            BackToTitleSubject.OnNext(Unit.Default);
-        })
-        .AddTo(this);
     }
 
 
@@ -70,6 +68,22 @@ public class TrainingPauseInput : MonoBehaviour{
 
         if(Input.GetKeyDown(KeyCode.Escape)){
             escSubject.OnNext(Unit.Default);
+
+        }else if(Input.GetMouseButtonDown(0)){
+            isWaitClick = true;
         }
+    }
+
+
+    public IEnumerator WaitClickInput(){
+        isWaitClick = false;
+
+        while(!isWaitClick){
+            yield return isWaitClick;
+        }
+
+        //効果音を鳴らす;
+        soundPlayer.PlaySE(clickSE);
+        yield return isWaitClick;
     }
 }

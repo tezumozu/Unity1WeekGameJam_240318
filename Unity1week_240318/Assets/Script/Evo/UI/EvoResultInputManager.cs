@@ -7,28 +7,37 @@ using UnityEngine;
 using UniRx;
 using Zenject;
 
-public class TrainingPauseInput : MonoBehaviour{
-
-    [Inject]
-    TrainingGameManager gameManager;
+public class EvoResultInputManager : MonoBehaviour{
+   [Inject]
+    EvoGameManager gameManager;
 
     [SerializeField]
-    TrainingPauseUIManager UIManager;
+    EvoResultUIManager UIManager;
     
     private string inputedName;
 
     private bool isActiveForCurrentState = false;
     private bool isChangeMode = false;
 
-    private bool isInputName;
-
     private Subject<Unit> escSubject = new Subject<Unit>();
     public IObservable<Unit> escAsync => escSubject;
 
-    private Subject<Unit> BackToTitleSubject = new Subject<Unit>();
-    public IObservable<Unit> BackToTitleAsync => BackToTitleSubject;
+    private Subject<Unit> ToNextSceneSubject = new Subject<Unit>();
+    public IObservable<Unit> ToNextSceneAsync => ToNextSceneSubject;
 
     private void Start() {
+
+        gameManager.GameStateAsync
+        .Subscribe((state)=>{
+            if(state == E_EvoState.Result){
+                isActiveForCurrentState = true;
+                isChangeMode = true;
+            }else{
+                isActiveForCurrentState = false;
+            }
+        })
+        .AddTo(this);
+
         gameManager.PauseAsync
         .Subscribe((flag)=>{
             if(flag){
@@ -40,21 +49,10 @@ public class TrainingPauseInput : MonoBehaviour{
         })
         .AddTo(this);
 
-        gameManager.PauseAsync
-        .Subscribe((x)=>{
-            if(!x){
-                isActiveForCurrentState = true;
-                isChangeMode = true;
-            }else{
-                isActiveForCurrentState = false;
-            }
-        })
-        .AddTo(this);
-
         //UIの入力を監視
-        UIManager.BackToTitleAsync
+        UIManager.ToNextSceneAsync
         .Subscribe((_) =>{
-            BackToTitleSubject.OnNext(Unit.Default);
+            ToNextSceneSubject.OnNext(Unit.Default);
         })
         .AddTo(this);
     }

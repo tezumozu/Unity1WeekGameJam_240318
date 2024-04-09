@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using UniRx;
 
@@ -15,6 +16,7 @@ public class BattleManager : IDisposable{
     private DungeonData currentDungeonData;
     private bool isPlayerLose;
     private SoundPlayer BGMManager;
+    private Image BG;
 
     //Subjects
     private ReactiveProperty<E_BattlePhase> currentPhase;
@@ -38,6 +40,7 @@ public class BattleManager : IDisposable{
         pahseDic[E_BattlePhase.FinishPhase] = new FinishPhaseUpdater();
 
         BGMManager = GameObject.Find("BGMSoundPlayer").GetComponent<SoundPlayer>();
+        BG = GameObject.Find("Canvas/BackGround").GetComponent<Image>();
 
         playerActor = new PlayerBattleActor(new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
 
@@ -122,6 +125,9 @@ public class BattleManager : IDisposable{
                 //BGM再生
                 BGMManager.PlayBGM(currentDungeonData.BGM);
 
+                //背景を変更
+                BG.sprite = currentDungeonData.BG;
+
                 //必要ないものをアンロード
                 Resources.UnloadUnusedAssets();
 
@@ -150,7 +156,10 @@ public class BattleManager : IDisposable{
         disposableList.Add(disopsable);
 
         //BGM再生
-        BGMManager.PlayBGM(currentDungeonData.BGM);;
+        BGMManager.PlayBGM(currentDungeonData.BGM);
+
+        //背景を変更
+        BG.sprite = currentDungeonData.BG;
 
         //コルーチンを起動
         //currentPhase.Value = E_BattlePhase.StartPhase;

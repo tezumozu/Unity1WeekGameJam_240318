@@ -36,7 +36,7 @@ public class PlayerData : MonoBehaviour{
         get{
             if(skillList is null){
                 //初期データを読み込む
-                    //パスを生成
+                //パスを生成
                 //var fileName = "BattleScene/PlayerInitData";
                 var fileName = "BattleScene/PlayerTestData";
                 //読み込む
@@ -46,12 +46,8 @@ public class PlayerData : MonoBehaviour{
                     Debug.Log("Load error! : PlayerData.GetPlayerSkill");
                 }
 
-                //ステータスを取得 
-                BattleStatus = InitData.EnemyStatus;
-
-                skillList = new List<E_ActionType>();
-
                 //スキルリストを取得
+                skillList = new List<E_ActionType>();
                 foreach(var item in InitData.SkillList){
                     skillList.Add(item.Skill);
                 }
@@ -78,14 +74,6 @@ public class PlayerData : MonoBehaviour{
 
                 //ステータスを取得 
                 BattleStatus = InitData.EnemyStatus;
-
-                //スキルリストを取得
-                skillList = new List<E_ActionType>();
-
-                //スキルリストを取得
-                foreach(var item in InitData.SkillList){
-                    skillList.Add(item.Skill);
-                }
             }
 
 

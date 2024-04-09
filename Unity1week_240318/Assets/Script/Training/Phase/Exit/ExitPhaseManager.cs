@@ -63,6 +63,5 @@ public class ExitPhaseManager : TrainingPhase{
         
 
         StateFinishSubject.OnNext(Unit.Default);
-
     }
 }

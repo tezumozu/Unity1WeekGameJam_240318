@@ -7,13 +7,12 @@ using UnityEngine;
 using UniRx;
 using Zenject;
 
-public class TrainingPauseInput : MonoBehaviour{
-
+public class EvoPauseInputManager : MonoBehaviour{
     [Inject]
-    TrainingGameManager gameManager;
+    EvoGameManager gameManager;
 
     [SerializeField]
-    TrainingPauseUIManager UIManager;
+    EvoPauseUIManager UIManager;
     
     private string inputedName;
 
@@ -29,20 +28,10 @@ public class TrainingPauseInput : MonoBehaviour{
     public IObservable<Unit> BackToTitleAsync => BackToTitleSubject;
 
     private void Start() {
+
         gameManager.PauseAsync
         .Subscribe((flag)=>{
             if(flag){
-                isActiveForCurrentState = true;
-                isChangeMode = true;
-            }else{
-                isActiveForCurrentState = false;
-            }
-        })
-        .AddTo(this);
-
-        gameManager.PauseAsync
-        .Subscribe((x)=>{
-            if(!x){
                 isActiveForCurrentState = true;
                 isChangeMode = true;
             }else{

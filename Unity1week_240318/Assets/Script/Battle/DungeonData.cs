@@ -8,5 +8,8 @@ public class DungeonData : ScriptableObject {
     public AudioClip BGM;
 
     [SerializeField]
+    public Sprite BG;
+
+    [SerializeField]
     public E_EnemyType Enemy;
 }
