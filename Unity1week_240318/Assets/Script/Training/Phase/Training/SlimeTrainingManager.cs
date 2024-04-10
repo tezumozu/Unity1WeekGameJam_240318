@@ -110,13 +110,13 @@ public class SlimeTrainingManager : IDisposable {
                 //レベルアップを確認
                 if(statusTable.NeedExp[trainingData.Level-1] == trainingData.CurrentExp){
                     trainingData.CurrentExp = 0;
-                    trainingData.Level += 1;
                     trainingData.SkillPoint += statusTable.SkillPointTable[trainingData.Level-1];
                     trainingData.HP += statusTable.LevelUpHPGrow;
                     trainingData.MP += statusTable.LevelUpMPGrow;
                     trainingData.Attack += statusTable.LevelUpAttackGrow;
                     trainingData.Defense += statusTable.LevelUpDefenseGrow;
                     trainingData.Speed += statusTable.LevelUpSpeedGrow;
+                    trainingData.Level += 1;
 
                     if(trainingData.Level != 100){
                         trainingData.MaxExp = statusTable.NeedExp[trainingData.Level-1];

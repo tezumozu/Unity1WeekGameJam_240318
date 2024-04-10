@@ -25,6 +25,7 @@ public class EvoPhaseManager : TrainingPhase{
 
     public override IEnumerator StartPhase(){
         var playerData = PlayerData.GetPlayerStatus;
+        animManager.SetEvoImage(playerData.Image);
 
         textBox.SetActive(true);
         textBox.SetText( "おや " + playerData.Name + " の様子が！" );

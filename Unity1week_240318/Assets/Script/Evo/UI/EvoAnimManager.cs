@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EvoAnimManager : MonoBehaviour{
 
@@ -9,6 +10,9 @@ public class EvoAnimManager : MonoBehaviour{
 
     [SerializeField]
     SoundPlayer soundPlayer;
+
+    [SerializeField]
+    Image EvoImage;
 
     private bool isFinishAnim = false;
 
@@ -30,6 +34,20 @@ public class EvoAnimManager : MonoBehaviour{
 
     public void PlaySE(AudioClip se){
         soundPlayer.PlaySE(se);
+    }
+
+    public void SetEvoImage(E_MonsterImage imageType){
+
+         //スプライト読み込み
+        var newSprite = Resources.Load<Sprite>( "BattleScene/ActorImage/" + ((int)imageType).ToString() );
+        if(newSprite is null) Debug.Log("No Image!");
+
+        Debug.Log(newSprite is null);
+        
+        EvoImage.sprite = newSprite;
+
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
     }
 
 
