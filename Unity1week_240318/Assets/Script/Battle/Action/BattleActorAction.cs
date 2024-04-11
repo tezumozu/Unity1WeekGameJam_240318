@@ -52,4 +52,12 @@ public abstract class BattleActorAction {
     public virtual S_BattleActorStatus CheckBonus(S_BattleActorStatus status , BattleActor Player,BattleActor Enemy){
         return status;
     }
+
+    protected int CalculateAttackPoint(S_BattleActorStatus effectedStatus){
+        return (int)((float)effectedStatus.Attack * (float)ActionData.Power * (float)effectedStatus.Level) ;
+    }
+
+    protected float getDamageRamd (){
+        return UnityEngine.Random.Range( 0.9f , 1.1f );
+    }
 }

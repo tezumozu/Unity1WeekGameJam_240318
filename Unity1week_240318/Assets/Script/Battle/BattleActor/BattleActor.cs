@@ -259,10 +259,10 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
            effectedStatus = item.Value.EffectedBuff(effectedStatus);
         }
 
-        int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType] * 0.5);
+        int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType]);
 
         //ダメージ計算
-        int damage = (int)((float)attackPoint / (float)defensePoint * getDamageRamd()) + 1;
+        int damage = (int)((float)attackPoint / (float)defensePoint / 30.0f) + 1;
 
         //HP減少
         currentStatus.HP = currentStatus.HP - damage;
@@ -470,13 +470,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
         
     }
-
-
-
-    protected float getDamageRamd (){
-        return UnityEngine.Random.Range( 0.8f , 1.2f );
-    }
-
 
 
     public virtual void Dispose(){

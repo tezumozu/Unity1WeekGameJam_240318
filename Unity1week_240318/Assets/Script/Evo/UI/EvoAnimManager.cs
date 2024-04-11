@@ -41,8 +41,6 @@ public class EvoAnimManager : MonoBehaviour{
          //スプライト読み込み
         var newSprite = Resources.Load<Sprite>( "BattleScene/ActorImage/" + ((int)imageType).ToString() );
         if(newSprite is null) Debug.Log("No Image!");
-
-        Debug.Log(newSprite is null);
         
         EvoImage.sprite = newSprite;
 

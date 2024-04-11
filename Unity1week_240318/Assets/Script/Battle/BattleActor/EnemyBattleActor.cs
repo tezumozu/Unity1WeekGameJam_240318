@@ -44,6 +44,9 @@ public class EnemyBattleActor : BattleActor{
         finishAnimDispose = actorAnimManager.FinishAnimAsync.Subscribe((type)=>{
             isFinishAnim = true;
         });
+
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
     }
 
 
