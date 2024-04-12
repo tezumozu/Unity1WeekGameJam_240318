@@ -57,6 +57,5 @@ public class AttackInfo : MonoBehaviour{
             }
         })
         .AddTo(this);
-        Debug.Log("Attack");
     }
 }

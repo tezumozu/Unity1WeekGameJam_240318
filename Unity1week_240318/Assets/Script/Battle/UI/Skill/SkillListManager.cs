@@ -35,6 +35,8 @@ public class SkillListManager : MonoBehaviour{
     public void setSkillList(List<E_ActionType> skillList){
         var buttonList = new List<BattleActionButton>();
 
+        float isSclorl = 0.0f;
+
         float ButtonHight = 50;
         float ButtonWidth = 200;
 
@@ -43,6 +45,7 @@ public class SkillListManager : MonoBehaviour{
 
         if(ContentHight < 175.0f){
             ContentHight = 175.0f;
+            isSclorl = -1.0f;
         }
 
         content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,ContentHight);
@@ -57,9 +60,11 @@ public class SkillListManager : MonoBehaviour{
         int columnCount = 0;
 
         foreach (var skill in skillList){
+
             //座標計算
-            float x = (count - 1) * ButtonWidth + (count - 1) * 25;
+            float x = (count - 1) * ButtonWidth + (count - 1) * 25 - 10 * isSclorl;
             float y = ContentHight/2 - columnCount * (ButtonHight + 25) - ButtonHight / 2 - 25;
+
             var pos = new Vector2(x,y);
 
             //インスタンス化

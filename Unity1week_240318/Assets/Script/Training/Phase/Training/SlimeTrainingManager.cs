@@ -21,7 +21,6 @@ public class SlimeTrainingManager : IDisposable {
     public IObservable<S_SlimeTrainingData> UpdateTrainingStatusAsync => UpdateTrainingStatusSubject;
 
     private S_SlimeTrainingData trainingData;
-    private List<E_ActionType> skillList;
     private S_BattleActorStatus resultStatus;
     private string name;
 
@@ -61,7 +60,6 @@ public class SlimeTrainingManager : IDisposable {
 
         //初期化
         trainingData = new S_SlimeTrainingData(resultStatus,statusTable);
-        skillList = new List<E_ActionType>();
 
         var Canvas = GameObject.Find("Canvas");
         var inputNameManager = Canvas.transform.Find("NameInputUI").gameObject.GetComponent<InputNameManager>(); 
@@ -225,23 +223,25 @@ public class SlimeTrainingManager : IDisposable {
     private void definitionStatus(){
 
         //ステータス変化によるスキルリストの作成
-        //どのスライムになるか確定
 
+        var styleChecker = new EvoStyleChecker();
+        EvoStyle style = styleChecker.CheckEvolve(trainingData);
+        resultStatus = style.GetStatus(trainingData);
+        List<E_ActionType> skillList = style.GetLearningSkill(trainingData);
+
+        foreach (var item in skillList){
+            Debug.Log(item);
+        }
+
+        //どのスライムになるか確定
         resultStatus.Name = name;
-        resultStatus.Image = E_MonsterImage.H_Slime;
-        resultStatus.Level = trainingData.Level;
-        resultStatus.HP = trainingData.HP;
-        resultStatus.MP = trainingData.MP;
-        resultStatus.Attack = trainingData.Attack;
-        resultStatus.Defense = trainingData.Defense;
-        resultStatus.Speed = trainingData.Speed;
 
 
         //確定したステータスを通知
         definitionStatusSubject.OnNext(resultStatus);
 
         //確定したスキルリストを通知
-
+        definitionSkillSubject.OnNext(skillList);
     }
 
 
@@ -249,14 +249,6 @@ public class SlimeTrainingManager : IDisposable {
     public void UpdateStatus(){
         
     }
-
-
-
-    private S_BattleActorStatus CheckEvolve(){
-        var result = new S_BattleActorStatus();
-        return result;
-    }
-
 
 
     public void Dispose(){

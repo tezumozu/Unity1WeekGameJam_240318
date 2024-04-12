@@ -27,7 +27,7 @@ public struct S_SlimeTrainingData{
         AttackLevel = 1;
         DefenseLevel = 1;
         SpeedLevel = 1;
-        SkillPoint = (Level-1) * 2;
+        SkillPoint = (Level-1) * 3 + 3;
 
         HP = status.HP;
         MP = status.MP;

@@ -52,7 +52,6 @@ public class TitleGameManager : I_SceneLoadAlertable,IDisposable{
 
         //ゲーム開始を監視
         disopsable = TitleInputManager.StartGameAsync.Subscribe((x)=>{
-            Debug.Log("test");
             //リソースを開放
             Resources.UnloadUnusedAssets();
             CoroutineHander.StopAllActiveCoroutine();

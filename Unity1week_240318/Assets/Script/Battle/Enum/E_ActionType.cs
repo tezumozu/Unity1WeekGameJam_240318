@@ -96,8 +96,7 @@ public enum E_ActionType {
     StatusEffectHIAttack,
 
     //Rare
-    Rejene,
-    CriticalAttack,
+    Regene,
 
     Cometto,
 
@@ -105,10 +104,8 @@ public enum E_ActionType {
     CriticalTrueAttack,
     StatusGuard,
 
-    Muscle,
-    Lariat,
-
     SelfDestruction,
+    RecoilBuff,
 
     //Enemy
     PoisonSlimy,

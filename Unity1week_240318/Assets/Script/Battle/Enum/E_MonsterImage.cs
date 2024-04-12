@@ -9,8 +9,8 @@ public enum E_MonsterImage {
    B_Slime = 3,
    S_Slime = 4,
    M_Slime = 5,
-   SR_Slime = 7,
-   Anger_Slime = 8,
+   Rare_Slime = 7,
+   Bad_Slime = 8,
 
    //Enemy
    EnemySlime = 9,

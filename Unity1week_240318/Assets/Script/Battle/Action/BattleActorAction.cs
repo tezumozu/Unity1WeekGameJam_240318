@@ -17,7 +17,7 @@ public abstract class BattleActorAction {
         //読み込む
         var dataList = Resources.Load<ActionDataList>(fileName);
         foreach(var data in dataList.DataList){
-            if (data.type == type){
+            if (data.Type == type){
                 ActionData = data;
             }
         }

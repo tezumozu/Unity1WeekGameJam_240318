@@ -10,10 +10,13 @@ public class ActionDataList : ScriptableObject{
 [System.Serializable]
 public class ActionData {
     [SerializeField]
-    public E_ActionType type;
+    public E_ActionType Type;
 
     [SerializeField]
     public int Cost;
+
+    [SerializeField]
+    public E_ActionStyle Style;
 
     [SerializeField]
     public E_Element Element = E_Element.Non;
