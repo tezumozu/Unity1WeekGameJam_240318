@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BadStyle : EvoStyle{
-
-    private S_BattleActorStatus result;
     private StatusTable statusTable;
 
     public BadStyle(){
@@ -20,21 +18,12 @@ public class BadStyle : EvoStyle{
         if(statusTable is null){
             Debug.Log("Load error! : PlayerData.GetPlayerSkill");
         }
-
-        //初期データを読み込む
-        //パスを生成
-        fileName = "BattleScene/PlayerInitData";
-        //読み込む
-        result = Resources.Load<EnemyData>(fileName).EnemyStatus;
-
-        if(result.Level == 0){
-            Debug.Log("Load error! : PlayerData.GetPlayerSkill");
-        }
     }
 
 
     public override S_BattleActorStatus GetStatus(S_SlimeTrainingData data){
         
+        var result = base.GetStatus(data);
 
         result.Image = E_MonsterImage.Bad_Slime;
         result.Level = 60;

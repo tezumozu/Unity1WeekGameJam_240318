@@ -40,16 +40,6 @@ public class TrainingPauseInput : MonoBehaviour{
         })
         .AddTo(this);
 
-        gameManager.PauseAsync
-        .Subscribe((x)=>{
-            if(!x){
-                isActiveForCurrentState = true;
-                isChangeMode = true;
-            }else{
-                isActiveForCurrentState = false;
-            }
-        })
-        .AddTo(this);
 
         //UIの入力を監視
         UIManager.BackToTitleAsync

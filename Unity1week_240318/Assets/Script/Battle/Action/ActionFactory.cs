@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionFactory : I_ActionCreatable{
+
     public BattleActorAction CreateAction(E_ActionType type){
         BattleActorAction action = null;
 

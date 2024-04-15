@@ -14,6 +14,12 @@ public class FinishAnimUIManager : MonoBehaviour{
     [Inject]
     TrainingGameManager gameManager;
 
+     [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField] 
+    AudioClip FinishSE;
+
     bool isAnimFin;
 
     void Start(){
@@ -51,5 +57,10 @@ public class FinishAnimUIManager : MonoBehaviour{
 
     public void FinishAnim(){
         isAnimFin = true;
+    }
+
+    public void PlaySE(){
+        soundPlayer.PlaySE(FinishSE);
+        
     }
 }

@@ -49,6 +49,18 @@ public class TrainingPhaseInput : MonoBehaviour{
         })
         .AddTo(this);
 
+        //ポーズを監視
+        gameManager.PauseAsync
+        .Subscribe((flag)=>{
+            if(flag){
+                isActiveForCurrentState = false;
+            }else{
+                isActiveForCurrentState = true;
+                isChangeMode = true;
+            }
+        })
+        .AddTo(this);
+
         UIManager.PushButtonAsync
         .Subscribe((type) => {
             PushButtonSubject.OnNext(type);

@@ -20,8 +20,10 @@ public class SlimeTrainingManager : IDisposable {
     private Subject<S_SlimeTrainingData> UpdateTrainingStatusSubject = new Subject<S_SlimeTrainingData>();
     public IObservable<S_SlimeTrainingData> UpdateTrainingStatusAsync => UpdateTrainingStatusSubject;
 
+    private Subject<Unit> LevelUpSubject = new Subject<Unit>();
+    public IObservable<Unit> LevelUpAsync => LevelUpSubject;
+
     private S_SlimeTrainingData trainingData;
-    private S_BattleActorStatus resultStatus;
     private string name;
 
     //Disposable
@@ -52,7 +54,7 @@ public class SlimeTrainingManager : IDisposable {
         //パスを生成
         fileName = "BattleScene/PlayerInitData";
         //読み込む
-        resultStatus = Resources.Load<EnemyData>(fileName).EnemyStatus;
+        var resultStatus = Resources.Load<EnemyData>(fileName).EnemyStatus;
 
         if(resultStatus.Level == 0){
             Debug.Log("Load error! : PlayerData.GetPlayerSkill");
@@ -87,8 +89,6 @@ public class SlimeTrainingManager : IDisposable {
         .Subscribe((state)=>{
             UpdateTrainingStatusSubject.OnNext(trainingData);
         });
-
-        //名前の入力を監視
     }
 
 
@@ -100,7 +100,7 @@ public class SlimeTrainingManager : IDisposable {
 
             case E_TrainingType.Exp:
                 //レベルが最大なら
-                if(trainingData.Level >= 100) break;
+                if(trainingData.Level >= 100) return;
 
                 //経験値を獲得する
                 trainingData.CurrentExp += 1;
@@ -118,6 +118,7 @@ public class SlimeTrainingManager : IDisposable {
 
                     if(trainingData.Level != 100){
                         trainingData.MaxExp = statusTable.NeedExp[trainingData.Level-1];
+                        LevelUpSubject.OnNext(Unit.Default);
                     }
                 }
 
@@ -128,9 +129,9 @@ public class SlimeTrainingManager : IDisposable {
             case E_TrainingType.HP:
 
                 //ポイントが足りなければ
-                if(trainingData.SkillPoint < 1.0f) break;
+                if(trainingData.SkillPoint < 1.0f) return;
                 //レベルが最大なら
-                if(trainingData.HPLevel >= 100) break;
+                if(trainingData.HPLevel >= 100) return;
                 
                 //ポイントを減少させる
                 trainingData.SkillPoint -= 1;
@@ -146,9 +147,9 @@ public class SlimeTrainingManager : IDisposable {
             case E_TrainingType.MP:
 
                 //ポイントが足りなければ
-                if(trainingData.SkillPoint < 1.0f) break;
+                if(trainingData.SkillPoint < 1.0f) return;
                 //レベルが最大なら
-                if(trainingData.MPLevel >= 100) break;
+                if(trainingData.MPLevel >= 100) return;
                 
                 //ポイントを減少させる
                 trainingData.SkillPoint -= 1;
@@ -164,9 +165,9 @@ public class SlimeTrainingManager : IDisposable {
             case E_TrainingType.Attack:
 
                 //ポイントが足りなければ
-                if(trainingData.SkillPoint < 1.0f) break;
+                if(trainingData.SkillPoint < 1.0f) return;
                 //レベルが最大なら
-                if(trainingData.AttackLevel >= 100) break;
+                if(trainingData.AttackLevel >= 100) return;
                 
                 //ポイントを減少させる
                 trainingData.SkillPoint -= 1;
@@ -182,9 +183,9 @@ public class SlimeTrainingManager : IDisposable {
             case E_TrainingType.Defense:
 
                 //ポイントが足りなければ
-                if(trainingData.SkillPoint < 1.0f) break;
+                if(trainingData.SkillPoint < 1.0f) return;
                 //レベルが最大なら
-                if(trainingData.DefenseLevel >= 100) break;
+                if(trainingData.DefenseLevel >= 100) return;
                 
                 //ポイントを減少させる
                 trainingData.SkillPoint -= 1;
@@ -200,9 +201,9 @@ public class SlimeTrainingManager : IDisposable {
             case E_TrainingType.Speed:
 
                 //ポイントが足りなければ
-                if(trainingData.SkillPoint < 1.0f) break;
+                if(trainingData.SkillPoint < 1.0f) return;
                 //レベルが最大なら
-                if(trainingData.SpeedLevel >= 100) break;
+                if(trainingData.SpeedLevel >= 100) return;
                 
                 //ポイントを減少させる
                 trainingData.SkillPoint -= 1;
@@ -226,7 +227,7 @@ public class SlimeTrainingManager : IDisposable {
 
         var styleChecker = new EvoStyleChecker();
         EvoStyle style = styleChecker.CheckEvolve(trainingData);
-        resultStatus = style.GetStatus(trainingData);
+        var resultStatus = style.GetStatus(trainingData);
         List<E_ActionType> skillList = style.GetLearningSkill(trainingData);
 
         foreach (var item in skillList){

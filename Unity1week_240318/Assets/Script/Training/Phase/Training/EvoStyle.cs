@@ -6,7 +6,17 @@ public abstract class EvoStyle : I_LearningSkillCheckable{
 
 
     public virtual S_BattleActorStatus GetStatus(S_SlimeTrainingData data){
-        var result = new S_BattleActorStatus();
+
+        //初期データを読み込む
+        //パスを生成
+        var fileName = "BattleScene/PlayerInitData";
+        //読み込む
+        var result = Resources.Load<EnemyData>(fileName).EnemyStatus;
+
+        if(result.Level == 0){
+            Debug.Log("Load error! : PlayerData.GetPlayerSkill");
+        }
+
         result.Level = data.Level;
         result.HP = data.HP;
         result.MP = data.MP;

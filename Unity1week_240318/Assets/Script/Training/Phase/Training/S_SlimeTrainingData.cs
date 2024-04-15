@@ -22,11 +22,11 @@ public struct S_SlimeTrainingData{
         Level = status.Level;
         CurrentExp = 0;
         MaxExp = table.NeedExp[0];
-        HPLevel = 1;
-        MPLevel = 1;
-        AttackLevel = 1;
-        DefenseLevel = 1;
-        SpeedLevel = 1;
+        HPLevel = 0;
+        MPLevel = 0;
+        AttackLevel = 0;
+        DefenseLevel = 0;
+        SpeedLevel = 0;
         SkillPoint = (Level-1) * 3 + 3;
 
         HP = status.HP;

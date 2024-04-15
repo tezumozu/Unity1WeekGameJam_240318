@@ -31,7 +31,7 @@ public class TrainingTimer : MonoBehaviour{
         //ポーズを監視
         gameManager.PauseAsync
         .Subscribe((flag)=>{
-            isActive = flag;
+            isActive = !flag;
         })
         .AddTo(this);
     }

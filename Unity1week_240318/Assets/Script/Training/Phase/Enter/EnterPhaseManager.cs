@@ -13,15 +13,24 @@ public class EnterPhaseManager : TrainingPhase{
 
     GameObject SlimeImage;
 
+    AudioClip bgm;
+
     public EnterPhaseManager(){
         var Canvas = GameObject.Find("Canvas");
         textBox = Canvas.transform.Find("TextBox").gameObject.GetComponent<TextBoxManager>();
         inputManager = GameObject.Find("Inputs/EnterPhaseInput").GetComponent<EnterPhaseInput>();
         inputNameManager = Canvas.transform.Find("NameInputUI").gameObject.GetComponent<InputNameManager>();
         SlimeImage = Canvas.transform.Find("Slime").gameObject;
+
+        //BGM 読み込み
+        bgm = Resources.Load<AudioClip>("Sound/Training/BGM/Enter");
+
+        Resources.UnloadUnusedAssets();
     }
 
     public override IEnumerator StartPhase(){
+
+        soundPlayer.PlayBGM(bgm);
 
         textBox.SetActive(true);
         textBox.SetText("ようこそ！スライム育成所へ！");

@@ -83,7 +83,7 @@ public class EvoGameManager : I_SceneLoadAlertable,IDisposable{
 
         disposable = pause.BackToTitleAsync.Subscribe((_)=>{
             CoroutineHander.StopAllActiveCoroutine();
-            SceneLoadSubject.OnNext(E_SceneName.BattleScene);
+            SceneLoadSubject.OnNext(E_SceneName.TitleScene);
         });
 
         DisposeList.Add(disposable);

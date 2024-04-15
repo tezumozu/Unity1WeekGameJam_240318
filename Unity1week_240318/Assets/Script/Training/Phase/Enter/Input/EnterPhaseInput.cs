@@ -19,9 +19,6 @@ public class EnterPhaseInput : MonoBehaviour{
     SoundPlayer soundPlayer;
 
     [SerializeField]
-    AudioClip desitionSE;
-
-    [SerializeField]
     AudioClip clickSE;
 
     private string inputedName;
@@ -111,9 +108,6 @@ public class EnterPhaseInput : MonoBehaviour{
         while(!isInputName){
             yield return inputedName;
         }
-
-        //効果音を鳴らす;
-        soundPlayer.PlaySE(desitionSE);
 
         yield return inputedName;
     }

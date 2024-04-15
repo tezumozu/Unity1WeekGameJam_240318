@@ -9,4 +9,8 @@ public class CountDounAnimImage : MonoBehaviour{
     public void FinishAnim(){
         manager.FinishAnim();
     }
+
+    public void PlaySE(){
+        manager.PlaySE();
+    }
 }

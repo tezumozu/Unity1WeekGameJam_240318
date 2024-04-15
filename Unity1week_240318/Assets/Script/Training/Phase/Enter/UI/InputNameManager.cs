@@ -18,6 +18,15 @@ public class InputNameManager : MonoBehaviour{
     [SerializeField]
     CheckDesitionNameUI CheckDesitionNameUI;
 
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField]
+    AudioClip desitionSE;
+
+    [SerializeField]
+    AudioClip cancelSE;
+
     private Subject<string> inputNameSubject = new Subject<string>();
     public IObservable<string> InputNameAsync => inputNameSubject;
 
@@ -32,16 +41,20 @@ public class InputNameManager : MonoBehaviour{
         CheckDesitionNameUI.SetName(inputField.text);
         DesitionUI.SetActive(true);
         gameObject.SetActive(false);
+        soundPlayer.PlaySE(desitionSE);
     }
 
 
     public void DesitionName(){
         inputNameSubject.OnNext(inputField.text);
         SetActive(false);
+        soundPlayer.PlaySE(desitionSE);
     }
+
 
     public void CancelDesitionName(){
         gameObject.SetActive(true);
         DesitionUI.SetActive(false);
+        soundPlayer.PlaySE(cancelSE);
     }
 }

@@ -21,17 +21,32 @@ public class CountDownUIManager : MonoBehaviour{
     [Inject]
     TrainingGameManager gameManager;
 
+    [SerializeField]
+    SoundPlayer soundPlayer;
+
+    [SerializeField] 
+    AudioClip CountDownSE;
+
+    [SerializeField] 
+    AudioClip StartSE;
+
+    int count;
+
+
+
     bool isAnimFin;
 
     void Start(){
+        count = 0;
 
         //ポーズを監視
         gameManager.PauseAsync
         .Subscribe((flag)=>{
             if(flag){
-                CountDownAnim.SetFloat("MovingSpeed", 0.0f);
+                CountDownAnim.SetFloat("MoveSpeed", 0.0f);
             }else{
-                CountDownAnim.SetFloat("MovingSpeed", 1.0f);
+                Debug.Log("test");
+                CountDownAnim.SetFloat("MoveSpeed", 1.0f);
             }
         })
         .AddTo(this);
@@ -45,6 +60,9 @@ public class CountDownUIManager : MonoBehaviour{
         gameObject.SetActive(true);
 
         for (int i = 0; i < CountDownSprite.Count; i++){
+            count = i;
+            //SEを鳴らす
+
             isAnimFin = false;
             CountDownImage.sprite = CountDownSprite[i];
 
@@ -62,6 +80,15 @@ public class CountDownUIManager : MonoBehaviour{
 
     public void FinishAnim(){
         isAnimFin = true;
+    }
+
+    public void PlaySE(){
+        //スタートなら
+        if(count == CountDownSprite.Count-1){
+            soundPlayer.PlaySE(StartSE);
+        }else{
+            soundPlayer.PlaySE(CountDownSE);
+        }
     }
 
 }

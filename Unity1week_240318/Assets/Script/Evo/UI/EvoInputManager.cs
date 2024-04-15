@@ -32,6 +32,7 @@ public class EvoInputManager : MonoBehaviour{
 
     private void Start() {
 
+        /*
         gameManager.GameStateAsync
         .Subscribe((state)=>{
             if(state == E_EvoState.Evo){
@@ -41,7 +42,7 @@ public class EvoInputManager : MonoBehaviour{
                 isActiveForCurrentState = false;
             }
         })
-        .AddTo(this);
+        .AddTo(this);*/
 
 
         gameManager.PauseAsync

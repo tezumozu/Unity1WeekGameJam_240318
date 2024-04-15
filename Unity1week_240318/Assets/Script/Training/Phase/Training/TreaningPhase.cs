@@ -13,9 +13,13 @@ public abstract class TrainingPhase : IDisposable{
 
     protected List<IDisposable> DisposeList;
 
+    protected SoundPlayer soundPlayer;
+
     public TrainingPhase(){
         StateFinishSubject = new Subject<Unit>();
         DisposeList = new List<IDisposable>();
+
+        soundPlayer = GameObject.Find("BGMSoundPlayer").GetComponent<SoundPlayer>();
     }
 
     public abstract IEnumerator StartPhase();
