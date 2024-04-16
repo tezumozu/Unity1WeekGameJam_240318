@@ -13,6 +13,9 @@ public class BuffData {
     public E_Buff BuffType;
 
     [SerializeField]
+    public E_BuffType Type;
+
+    [SerializeField]
     public string BuffName;
 
     [SerializeField]

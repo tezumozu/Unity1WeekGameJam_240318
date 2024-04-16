@@ -10,5 +10,6 @@ public enum E_ActionStyle{
     MA = 4,
     MB = 5,
     MS = 6,
-    SP = 7
+    SP = 7,
+    Non = 8
 }

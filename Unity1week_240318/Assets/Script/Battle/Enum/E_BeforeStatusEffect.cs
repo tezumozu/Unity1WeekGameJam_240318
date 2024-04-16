@@ -7,5 +7,6 @@ public enum E_BeforeStatusEffect {
     Silence = 1,
     Sleep = 2,
     EffectProtect = 3,
+    MPAccel = 4,
     Non = 99
 }

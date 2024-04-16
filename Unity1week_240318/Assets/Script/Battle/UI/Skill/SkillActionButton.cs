@@ -20,9 +20,6 @@ public class SkillActionButton : BattleActionButton{
     [SerializeField]
     Image buttonImage;
 
-    [SerializeField]
-    Sprite NotActiveButtonImage;
-
 
     SkillInfoUIManager skillInfoUIManager;
     E_ActionType skillType;
@@ -84,7 +81,6 @@ public class SkillActionButton : BattleActionButton{
     private void UpDateStatus(int MP){
         if(actionData.Cost > MP){
             button.interactable = false;
-            buttonImage.sprite = NotActiveButtonImage;
         }
     }
 }

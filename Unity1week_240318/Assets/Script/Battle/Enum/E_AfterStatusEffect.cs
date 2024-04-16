@@ -7,5 +7,6 @@ public enum E_AfterStatusEffect {
     Venom = 1,
     TimeBomb = 2,
     EffectProtect = 3,
+    Regene = 4,
     Non = 99
 }
