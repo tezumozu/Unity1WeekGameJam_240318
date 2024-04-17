@@ -21,6 +21,10 @@ public class StatusEffectFactory : I_StatusEffectCreatable{
                 effect = new SilenceEffect(actionFactory);
             break;
 
+            case E_BeforeStatusEffect.MPAccel:
+                effect = new MPAccelEffect(actionFactory);
+            break;
+
             case E_BeforeStatusEffect.Non:
                 effect = new NonBeforeEffect(actionFactory);
             break;
@@ -49,6 +53,10 @@ public class StatusEffectFactory : I_StatusEffectCreatable{
 
             case E_AfterStatusEffect.TimeBomb:
                 effect = new TimeBombEffect();
+            break;
+
+            case E_AfterStatusEffect.Regene:
+                effect = new AutoCureEffect();
             break;
 
             case E_AfterStatusEffect.Non:

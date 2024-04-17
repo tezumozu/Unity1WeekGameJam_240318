@@ -24,6 +24,7 @@ public class SkillActionButton : BattleActionButton{
     SkillInfoUIManager skillInfoUIManager;
     E_ActionType skillType;
     ActionData actionData;
+    ActionData currentActionData;
 
     public override void OnClickButton(){
         PushButtonSubject.OnNext(MyType);
@@ -32,15 +33,15 @@ public class SkillActionButton : BattleActionButton{
     }
 
 
-    public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory , PlayerUIManager statusManager){
+    public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory , PlayerUIManager statusManager , StatusEffectIconUI effectManager){
         skillInfoUIManager = infoUI;
         skillType = type;
        
         actionData = actionFactory.CreateAction(type).ActionData;
+        currentActionData = actionData;
 
         skillName.text = actionData.SkillName;
         skillCost.text = actionData.Cost.ToString();
-
 
         //ステータステーブルを取得
         //パスを生成
@@ -62,12 +63,18 @@ public class SkillActionButton : BattleActionButton{
 
         //不要なアセットをアンロード
         Resources.UnloadUnusedAssets();
+
+        //状態異常の更新を監視
+        effectManager.BeforeEffectUpdateAsync
+        .Subscribe((type)=>{
+            UpDateCost(type);
+        }).AddTo(this);
     }
 
     // オブジェクトの範囲内にマウスポインタが入った際に呼び出されます。
     // this method called by mouse-pointer enter the object.
     public void OnPointerEnter( ){
-        skillInfoUIManager.SetInfo(actionData);
+        skillInfoUIManager.SetInfo(currentActionData);
         skillInfoUIManager.SetActive(true);
     }
 
@@ -81,6 +88,15 @@ public class SkillActionButton : BattleActionButton{
     private void UpDateStatus(int MP){
         if(actionData.Cost > MP){
             button.interactable = false;
+        }
+    }
+
+    //状態異常の更新時
+    private void UpDateCost(E_BeforeStatusEffect effect){
+        if(effect == E_BeforeStatusEffect.MPAccel){
+            currentActionData.Cost = (int)( (float)currentActionData.Cost / 2 );
+        }else{
+            currentActionData.Cost = actionData.Cost;
         }
     }
 }

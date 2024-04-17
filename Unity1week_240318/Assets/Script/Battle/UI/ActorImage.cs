@@ -22,15 +22,7 @@ public class ActorImage : MonoBehaviour{
         manager.FinishAnim();
     }
 
-    public void PlayDamagedSE(){
-        player.PlaySE(DamagedSE);
-    }
-
-    public void PlayAttackedSE(){
-        player.PlaySE(AttackSE);
-    }
-
-    public void PlayDeadSE(){
-        player.PlaySE(DeadSE);
+    public void PlayAnimSE(AudioClip se){
+        player.PlaySE(se);
     }
 }

@@ -88,11 +88,13 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         uiManager.ChangeUI(E_BattleUIType.Text);
 
         if(currentAction.ActionData.IsStatusEffectApplicable){
-            //状態異常を回復する
-            ClearEffect();
-        }else{
             //状態異常の影響をチェック;
             currentAction = currentBeforeStatusEffect.AppliyEffect(currentAction);
+        }
+
+        //Weaknessの時、属性変化
+        if(currentAction.ActionData.Element == E_Element.Weakness){
+            currentAction.ActionData.Element = defender.currentStatus.Weakness;
         }
 
         //アクションのコスト分、ＭＰを消費する
@@ -139,9 +141,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
                 yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
             }
-
-            //ボーナスチェック
-            effectedStatus = currentAction.CheckBonus(effectedStatus,this,defender);
 
             //アクションの実行 アクションの終了待ちをする
             yield return currentAction.UseAction(effectedStatus,this,defender);
@@ -201,14 +200,24 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         uiManager.ChangeUI(E_BattleUIType.Text);
 
         //バフの更新
-        var keys = buffDic.Keys;
+        var keys = new List<E_Buff>(buffDic.Keys);
         foreach (var key in keys){
             if(!buffDic[key].CheckContinueBuff()){
+
+                var buff = buffDic[key];
+
                 buffDic.Remove(key);
+
+                statusUIManager.SetBuffList(buffDic.Values);
+                
+                //テキスト変更
+                textUIManager.SetText(currentStatus.Name + " の " + buff.BuffData.BuffName + " は消えてしまった！");
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
             }
         }
 
-        statusUIManager.SetBuffList(buffDic.Values);
 
 
         //状態異常の更新
@@ -255,14 +264,28 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         //ステータスをバフごとに補正
         S_BattleActorStatus effectedStatus = currentStatus;
 
-        foreach (var item in buffDic){
-           effectedStatus = item.Value.EffectedBuff(effectedStatus);
+        if(elementType == E_Element.TrueDamage){
+            foreach (var item in buffDic){
+                if(item.Value.BuffData.Type == E_BuffType.Buff) continue;
+                effectedStatus = item.Value.EffectedBuff(effectedStatus);
+            }
+        }else{
+            foreach (var item in buffDic){
+                effectedStatus = item.Value.EffectedBuff(effectedStatus);
+            }
         }
 
         int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType]);
 
+
+        int damage;
+
         //ダメージ計算
-        int damage = (int)((float)attackPoint / (float)defensePoint / 30.0f) + 1;
+        if(elementType == E_Element.Constant){
+            damage = attackPoint;
+        }else{
+           damage = (int)((float)attackPoint / (float)defensePoint / 30.0f) + 1;
+        }
 
         //HP減少
         currentStatus.HP = currentStatus.HP - damage;
@@ -282,14 +305,26 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return null;
         }
 
+
         //UIの更新
         statusUIManager.SetStatus(currentStatus,maxStatus);
+
+
+        if(elementType == currentStatus.Weakness){
+            //Text変更
+            textUIManager.SetText(currentStatus.Name + " は 弱点をつかれた！");
+
+            //クリック待ち
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+        }
+
         
         //Text変更
         textUIManager.SetText(currentStatus.Name + " は " + damage + " ポイントのダメージを受けた！");
 
        //クリック待ち
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
 
         //もし倒されたら
         if(currentStatus.HP <= 0){
@@ -319,10 +354,21 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
 
 
-//ダメージを回復
+    //回復
     public IEnumerator AppliyHeel(int HeelPoint){
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        
+        actorAnimManager.StartCureAnim();
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
 
         //HP回復
         currentStatus.HP = currentStatus.HP + HeelPoint;
@@ -337,27 +383,161 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
     }
 
+    //MP
+    public IEnumerator AppliyMPHeel(int HeelPoint){
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        
+        actorAnimManager.StartCureAnim();
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        //MP回復
+        currentStatus.MP = currentStatus.MP + HeelPoint;
+
+        //UIの更新
+        statusUIManager.SetStatus(currentStatus,maxStatus);
+        
+        //Text変更
+        textUIManager.SetText(currentStatus.Name + " はMPが " + HeelPoint + " ポイント回復した！");
+
+        //クリック待ちをする
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+    }
 
 
-    //バフ・デバフを受ける
+
+    //バフを受ける
     public IEnumerator AppliyBuff(E_Buff buffType,int turn){
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        actorAnimManager.StartGetGoodStatusAnim();
+        
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
         //Buffを取得
         var buff = buffFactory.CreateBuff(buffType,turn);
+
+        //リストに追加・UI更新
         buffDic.Add(buffType,buff);
+        statusUIManager.SetBuffList(buffDic.Values);
 
         //Text変更
-        textUIManager.SetText(currentStatus.Name + " " + buff.BuffData.BuffText);
+        textUIManager.SetText(currentStatus.Name + " " + buff.BuffData.BuffAplliyText);
 
         //クリック待ちをする
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+    }
 
+
+    //複数のバフ
+    public IEnumerator AppliyBuff(Dictionary<E_Buff,int> buffList){
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        actorAnimManager.StartGetGoodStatusAnim();
+        
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        foreach (var item in buffList){
+            //Buffを取得
+            var buff = buffFactory.CreateBuff(item.Key,item.Value);
+
+            //リストに追加・UI更新
+            buffDic.Add(item.Key,buff);
+            statusUIManager.SetBuffList(buffDic.Values);
+
+            //Text変更
+            textUIManager.SetText(currentStatus.Name + " " + buff.BuffData.BuffAplliyText);
+
+            //クリック待ちをする
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+        }
+    }
+
+
+    //デバフを受ける
+    public IEnumerator AppliyDeBuff(E_Buff buffType,int turn){
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        actorAnimManager.StartGetBadStatusAnim();
+        
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        //Buffを取得
+        var buff = buffFactory.CreateBuff(buffType,turn);
+
+        //リストに追加・UI更新
+        buffDic.Add(buffType,buff);
         statusUIManager.SetBuffList(buffDic.Values);
 
-        yield return null;
+        //Text変更
+        textUIManager.SetText(currentStatus.Name + " " + buff.BuffData.BuffAplliyText);
+
+        //クリック待ちをする
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
     }
+
+
+    //複数のデバフ
+    public IEnumerator AppliyDeBuff(Dictionary<E_Buff,int> buffList){
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        actorAnimManager.StartGetBadStatusAnim();
+        
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        foreach (var item in buffList){
+            //Buffを取得
+            var buff = buffFactory.CreateBuff(item.Key,item.Value);
+
+            //リストに追加・UI更新
+            buffDic.Add(item.Key,buff);
+            statusUIManager.SetBuffList(buffDic.Values);
+
+            //Text変更
+            textUIManager.SetText(currentStatus.Name + " " + buff.BuffData.BuffAplliyText);
+
+            //クリック待ちをする
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+        }
+    }
+
+
 
 
 
@@ -367,16 +547,68 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         uiManager.ChangeUI(E_BattleUIType.Text);
         var effect = statusEffectFactory.CreateEffect(effectType);
 
-        //状態異常を防ぐか確認
-        if(currentBeforeStatusEffect.EffectData.EffectType == E_BeforeStatusEffect.EffectProtect){
-            //Text変更
-            textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を防いだ");
+        //悪い状態異常か
+        if(effect.EffectData.Type == E_BuffType.Debuff){
+            //状態異常を防ぐか確認
+            if(currentBeforeStatusEffect.EffectData.EffectType == E_BeforeStatusEffect.EffectProtect){
 
-            //クリック待ちをする
-            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+                //クリック待ちとアニメーション終了待ちをする
+                isFinishAnim = false;
+                
+                actorAnimManager.StartGetGoodStatusAnim();
+                
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                while(!isFinishAnim){
+                    yield return null;
+                }
+
+                //Text変更
+                textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を防いだ！");
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+
+            }else{
+
+                currentBeforeStatusEffect = effect;
+
+                //クリック待ちとアニメーション終了待ちをする
+                isFinishAnim = false;
+
+                actorAnimManager.StartGetBadStatusAnim();
+
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                while(!isFinishAnim){
+                    yield return null;
+                }
+
+                //Text変更
+                textUIManager.SetText(currentStatus.Name + " は " + currentBeforeStatusEffect.EffectData.EffectName + " を受けた！");
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+
+            }
 
         }else{
+
             currentBeforeStatusEffect = effect;
+
+            //クリック待ちとアニメーション終了待ちをする
+            isFinishAnim = false;
+
+            actorAnimManager.StartGetGoodStatusAnim();
+
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            while(!isFinishAnim){
+                yield return null;
+            }
 
             //Text変更
             textUIManager.SetText(currentStatus.Name + " は " + currentBeforeStatusEffect.EffectData.EffectName + " を受けた！");
@@ -385,7 +617,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
             statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+
         }
+
     }
 
 
@@ -397,16 +631,65 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
         var effect = statusEffectFactory.CreateEffect(effectType);
 
-        //状態異常を防ぐか確認
-        if(currentAfterStatusEffect.EffectData.EffectType == E_AfterStatusEffect.EffectProtect){
-            //Text変更
-            textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を防いだ");
+        if(effect.EffectData.Type == E_BuffType.Debuff){
+            //状態異常を防ぐか確認
+            if(currentAfterStatusEffect.EffectData.EffectType == E_AfterStatusEffect.EffectProtect){
 
-            //クリック待ちをする
+                //クリック待ちとアニメーション終了待ちをする
+                isFinishAnim = false;
+
+                actorAnimManager.StartGetGoodStatusAnim();
+
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                while(!isFinishAnim){
+                    yield return null;
+                }
+
+                //Text変更
+                textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を防いだ");
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            }else{
+
+                currentAfterStatusEffect = effect;
+
+                //クリック待ちとアニメーション終了待ちをする
+                isFinishAnim = false;
+
+                actorAnimManager.StartGetBadStatusAnim();
+
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                while(!isFinishAnim){
+                    yield return null;
+                }
+
+                //Text変更
+                textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を受けた！");
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+                statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+            }
+            
+        }else{
+
+            currentAfterStatusEffect = effect;
+
+            //クリック待ちとアニメーション終了待ちをする
+            isFinishAnim = false;
+
+            actorAnimManager.StartGetGoodStatusAnim();
+
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
-        }else{
-            currentAfterStatusEffect = effect;
+            while(!isFinishAnim){
+                yield return null;
+            }
 
             //Text変更
             textUIManager.SetText(currentStatus.Name + " は " + effect.EffectData.EffectName + " を受けた！");
@@ -415,21 +698,36 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
             statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+
         }
     }
 
 
+
+
     //バフを消す
     public IEnumerator ClearBuff(){
+
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
+
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        
+        actorAnimManager.StartGetBadStatusAnim();
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
 
         buffDic.Clear();
         
         //UI変更
         statusUIManager.SetBuffList(buffDic.Values);
         //Text変更
-        textUIManager.SetText(currentStatus.Name + " の能力値変化がもとに戻った！");
+        textUIManager.SetText(currentStatus.Name + " の能力値変化が全てもとに戻った！");
 
         //クリック待ちをする
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
@@ -437,14 +735,76 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
     }
 
 
+    //特定のタイプのバフを消す
+    public IEnumerator ClearBuff(E_BuffType type){
 
-    //状態異常を消す
-    public IEnumerator ClearEffect(){
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        if(type == E_BuffType.Debuff){
+            actorAnimManager.StartGetGoodStatusAnim();
+        }else{
+            actorAnimManager.StartGetBadStatusAnim();
+        }
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        //バフを消す
+        var keys = new List<E_Buff>(buffDic.Keys);
+        foreach (var key in keys){
+            if(buffDic[key].BuffData.Type == type){
+                buffDic.Remove(key);
+            }
+        }
+        
+        //UI変更
+        statusUIManager.SetBuffList(buffDic.Values);
+
+        //Text変更
+        if(type == E_BuffType.Debuff){
+            textUIManager.SetText(currentStatus.Name + " の減少効果は消えた！");
+        }else if(type == E_BuffType.Buff){
+            textUIManager.SetText(currentStatus.Name + " の上昇効果は消えた！");
+        }else{
+            textUIManager.SetText(currentStatus.Name + " は体制を崩した！");
+        }
+        
+        //クリック待ちをする
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+        
+    }
+
+
+    //特定のタイプの状態異常を消す
+    public IEnumerator ClearEffect(E_BuffType type){
+
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
 
-        if(!(currentBeforeStatusEffect.EffectData.EffectType == E_BeforeStatusEffect.Non) && !(currentBeforeStatusEffect.EffectData.EffectType == E_BeforeStatusEffect.EffectProtect)){
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        if(type == E_BuffType.Debuff){
+            actorAnimManager.StartGetBadStatusAnim();
+        }else{
+            actorAnimManager.StartGetGoodStatusAnim();
+        }
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+
+        if(currentBeforeStatusEffect.EffectData.Type == type){
             //Text変更
             textUIManager.SetText(currentStatus.Name + " " + currentBeforeStatusEffect.EffectData.EffectRecoveryText);
             currentBeforeStatusEffect = statusEffectFactory.CreateEffect(E_BeforeStatusEffect.Non);
@@ -457,7 +817,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
 
 
-        if(!(currentAfterStatusEffect.EffectData.EffectType == E_AfterStatusEffect.Non) && !(currentAfterStatusEffect.EffectData.EffectType == E_AfterStatusEffect.EffectProtect)){
+        if(currentAfterStatusEffect.EffectData.Type == type){
             //Text変更
             textUIManager.SetText(currentStatus.Name + " " + currentAfterStatusEffect.EffectData.EffectRecoveryText);
             currentAfterStatusEffect = statusEffectFactory.CreateEffect(E_AfterStatusEffect.Non);

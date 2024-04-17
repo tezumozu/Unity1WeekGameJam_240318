@@ -18,6 +18,9 @@ public class SkillListManager : MonoBehaviour{
     private PlayerUIManager statusManager;
 
     [SerializeField]
+    private StatusEffectIconUI effectManager;
+
+    [SerializeField]
     private GameObject infoUI;
     private SkillInfoUIManager infoUIManager;
 
@@ -76,7 +79,7 @@ public class SkillListManager : MonoBehaviour{
 
             //buttonを初期化
             var button = buttonObject.GetComponent<SkillActionButton>();
-            button.InitSkillButton(skill,infoUIManager,new ActionFactory(),statusManager);
+            button.InitSkillButton(skill,infoUIManager,new ActionFactory(),statusManager,effectManager);
 
             //Contensへ格納
             buttonObject.transform.SetParent(content,false);

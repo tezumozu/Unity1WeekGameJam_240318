@@ -1,6 +1,10 @@
+using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using UniRx;
 
 using UnityEngine.UI;
 
@@ -11,10 +15,15 @@ public class StatusEffectIconUI : MonoBehaviour{
     [SerializeField]
     StatusEffectInfoUI statusEffectInfoUI;
 
+    private Subject<E_BeforeStatusEffect> BeforeEffectUpdateSubject = new Subject<E_BeforeStatusEffect>();
+    public IObservable<E_BeforeStatusEffect> BeforeEffectUpdateAsync => BeforeEffectUpdateSubject; 
+
     string EffectName = "テスト";
     string EffectText = "テスト";
 
     public void SetData(E_BeforeStatusEffect effectType, string EffectName, string EffectText){
+        BeforeEffectUpdateSubject.OnNext(effectType);
+
         if(effectType == E_BeforeStatusEffect.Non){
             gameObject.SetActive(false);
             return;
@@ -29,10 +38,9 @@ public class StatusEffectIconUI : MonoBehaviour{
             Debug.Log("noImage");
         }
 
-        var oldSprite = Icon.sprite;
         Icon.sprite = newSprite;
-
-        Destroy(oldSprite);
+        //不要なアセットをアンロード
+        Resources.UnloadUnusedAssets();
 
         this.EffectName = EffectName;
         this.EffectText = EffectText;
@@ -56,7 +64,6 @@ public class StatusEffectIconUI : MonoBehaviour{
         }
 
         Icon.sprite = newSprite;
-
         //不要なアセットをアンロード
         Resources.UnloadUnusedAssets();
 

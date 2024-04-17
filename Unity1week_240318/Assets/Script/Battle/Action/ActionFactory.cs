@@ -12,7 +12,7 @@ public class ActionFactory : I_ActionCreatable{
         ActionDic = new Dictionary<E_ActionType,CreateActionClass>();
 
         ActionDic[E_ActionType.Attack] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Defense] = () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Defense] = () => {return new Defense_Action();};
 
 
         //HM

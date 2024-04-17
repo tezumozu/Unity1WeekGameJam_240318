@@ -25,6 +25,22 @@ public class ActorAnimManager : MonoBehaviour{
         actorAnimator.SetTrigger("AttackAnimTrigger");
     }
 
+
+    public void StartGetGoodStatusAnim(){
+        actorAnimator.SetTrigger("GoodEffectTrigger");
+    }
+
+
+    public void StartGetBadStatusAnim(){
+        actorAnimator.SetTrigger("BadEffectTrigger");
+    }
+
+
+    public void StartCureAnim(){
+        actorAnimator.SetTrigger("CureAnimTrigger");
+    }
+
+
     public void StartDeadAnim(){
         actorAnimator.SetTrigger("DeadAnimTrigger");
     }

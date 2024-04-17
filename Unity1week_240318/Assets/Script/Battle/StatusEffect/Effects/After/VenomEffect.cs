@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class VenomEffect : AfterStatusEffect{
 
+    int currentTrue;
+
     public VenomEffect() :base(E_AfterStatusEffect.Venom){
     }
 
@@ -13,6 +15,10 @@ public class VenomEffect : AfterStatusEffect{
     }
 
     public override bool CheckContinueEffect(){
+        currentTrue--;
+        if(currentTrue <= 0){
+            return false;
+        }
         return true;
     }
 }

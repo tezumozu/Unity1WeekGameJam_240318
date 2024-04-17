@@ -24,6 +24,8 @@ public struct S_BattleActorStatus{
     public int Speed;
     [SerializeField]
     public float CriticalCorrection;
+    [SerializeField]
+    public E_Element Weakness;
 
     //属性耐性
     [SerializeField]

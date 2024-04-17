@@ -23,4 +23,7 @@ public class AfterStatusEffectData {
 
     [SerializeField]
     public string EffectRecoveryText;
+
+    [SerializeField]
+    public E_BuffType Type;
 }

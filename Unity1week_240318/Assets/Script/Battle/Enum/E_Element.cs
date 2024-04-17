@@ -8,5 +8,6 @@ public enum E_Element{
     Ice,
     Thunder,
     TrueDamage,
-    Weakness
+    Weakness,
+    Constant
 } 

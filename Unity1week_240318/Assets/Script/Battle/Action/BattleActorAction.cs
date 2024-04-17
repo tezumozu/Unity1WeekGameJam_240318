@@ -28,7 +28,20 @@ public abstract class BattleActorAction {
         Resources.UnloadUnusedAssets();
     }
 
-    public abstract IEnumerator UseAction(S_BattleActorStatus effectedStatus,I_DamageApplicable attacker,I_DamageApplicable diffender);
+
+    //パラメータのみ違う技用
+    public virtual IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
+        //攻撃側の攻撃力を計算
+        int attackPoint = (int)((float)CalculateAttackPoint(effectedStatus) * getDamageRamd());
+
+        //クリティカル判定
+        if(isCritical){
+            attackPoint = (int)((float)attackPoint * 1.5f);
+        }
+
+        //ダメージ計算の終了待ちをする
+        yield return diffender.AppliyDamage(attackPoint,ActionData.Element);
+    }
 
 
     public virtual bool CheckCritical(S_BattleActorStatus effectedStatus){
@@ -47,10 +60,6 @@ public abstract class BattleActorAction {
         }
         
         return true;
-    }
-
-    public virtual S_BattleActorStatus CheckBonus(S_BattleActorStatus status , BattleActor Player,BattleActor Enemy){
-        return status;
     }
 
     protected int CalculateAttackPoint(S_BattleActorStatus effectedStatus){

@@ -8,6 +8,9 @@ public interface I_DamageApplicable{
 
     //バフ・デバフを受ける
     public abstract IEnumerator AppliyBuff(E_Buff buffType,int turn);
+    public abstract IEnumerator AppliyBuff(Dictionary<E_Buff,int> buffList);
+    public abstract IEnumerator AppliyDeBuff(E_Buff buffType,int turn);
+    public abstract IEnumerator AppliyDeBuff(Dictionary<E_Buff,int> buffList);
 
     //状態異常Aを受ける
     public abstract IEnumerator AppliyEffect(E_BeforeStatusEffect effectType);
@@ -17,10 +20,12 @@ public interface I_DamageApplicable{
 
     //回復を受ける
     public abstract IEnumerator AppliyHeel(int heelPoint);
+    public abstract IEnumerator AppliyMPHeel(int heelPoint);
 
     //バフを消す
     public abstract IEnumerator ClearBuff();
+    public abstract IEnumerator ClearBuff(E_BuffType type);
 
     //状態異常を消す
-    public abstract IEnumerator ClearEffect();
+    public abstract IEnumerator ClearEffect(E_BuffType type);
 }
