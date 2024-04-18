@@ -16,70 +16,70 @@ public class ActionFactory : I_ActionCreatable{
 
 
         //HM
-        ActionDic[E_ActionType.Cure_I] =        () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CureStatus] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ClearBuff] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ResetBuff] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CriticalBuff] =  () => {return new Attack_Action();};
-        ActionDic[E_ActionType.MPAccel] =       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Cure_II] =       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CureAll] =       () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Cure_I] =        () => {return new Cure_I_Action();};
+        ActionDic[E_ActionType.CureStatus] =    () => {return new CureStatus_Action();};
+        ActionDic[E_ActionType.ClearBuff] =     () => {return new ClearBuff_Action();};
+        ActionDic[E_ActionType.ResetBuff] =     () => {return new ResetBuff_Action();};
+        ActionDic[E_ActionType.CriticalBuff] =  () => {return new CriticalBuff_Action();};
+        ActionDic[E_ActionType.MPAccel] =       () => {return new MPAccel_Action();};
+        ActionDic[E_ActionType.Cure_II] =       () => {return new Cure_II_Action();};
+        ActionDic[E_ActionType.CureAll] =       () => {return new CureAll_Action();};
 
 
         //HA
-        ActionDic[E_ActionType.AttackBuff] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.HiAttack_I] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseDebuff] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.TrueAttack] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FullSwing_I] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.HiAttack_II] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.GrowUP] =        () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CrushAttack] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FullSwing_II] =  () => {return new Attack_Action();};
+        ActionDic[E_ActionType.AttackBuff] =    () => {return new AttackBuff_Action();};
+        ActionDic[E_ActionType.HiAttack_I] =    () => {return new HiAttack_Action();};
+        ActionDic[E_ActionType.DefenseDebuff] = () => {return new DefenseDebuff_Action();};
+        ActionDic[E_ActionType.TrueAttack] =    () => {return new TrueAttack_Action();};
+        ActionDic[E_ActionType.FullSwing_I] =   () => {return new FullAttack_Action();};
+        ActionDic[E_ActionType.HiAttack_II] =   () => {return new HiAttack_II_Action();};
+        ActionDic[E_ActionType.GrowUP] =        () => {return new GrowUP_Action();};
+        ActionDic[E_ActionType.CrushAttack] =   () => {return new CrushAttack_Action();};
+        ActionDic[E_ActionType.FullSwing_II] =  () => {return new FullAttack_II_Action();};
 
 
         //HB
-        ActionDic[E_ActionType.PowerDefense] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseBuff] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AttackDeBuff] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CureAttack_I] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndDefenseBuff] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AttackDefense] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CureAttack_II] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SwordCrush] =            () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AllGuard] =              () => {return new Attack_Action();};
+        ActionDic[E_ActionType.PowerDefense] =          () => {return new PowerDefense_Action();};
+        ActionDic[E_ActionType.DefenseBuff] =           () => {return new DefenseBuff_Action();};
+        ActionDic[E_ActionType.AttackDeBuff] =          () => {return new AttackDeBuff_Action();};
+        ActionDic[E_ActionType.CureAttack_I] =          () => {return new CureAttack_I_Action();};
+        ActionDic[E_ActionType.DefenseAndDefenseBuff] = () => {return new DefenseAndDefenseBuff_Action();};
+        ActionDic[E_ActionType.AttackDefense] =         () => {return new AttackDefense_Action();};
+        ActionDic[E_ActionType.CureAttack_II] =         () => {return new CureAttack_II_Action();};
+        ActionDic[E_ActionType.SwordCrush] =            () => {return new SwordCrush_Action();};
+        ActionDic[E_ActionType.AllGuard] =              () => {return new AllGuard_Action();};
 
 
         //HS
-        ActionDic[E_ActionType.Poison] =        () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Venom] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.PoisonSoak] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.PoisonHi_I] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.VenomHI_I] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.VenomHI_II] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.PoisonHi_II] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.VenomHI_III] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Revenge] =       () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Poison] =        () => {return new Poison_Action();};
+        ActionDic[E_ActionType.Venom] =         () => {return new Venom_Action();};
+        ActionDic[E_ActionType.PoisonSoak] =    () => {return new PoisonSoak_Action();};
+        ActionDic[E_ActionType.PoisonHi_I] =    () => {return new PoisonHi_I_Action();};
+        ActionDic[E_ActionType.VenomHI_I] =     () => {return new VenomHI_I_Action();};
+        ActionDic[E_ActionType.VenomHI_II] =    () => {return new VenomHI_II_Action();};
+        ActionDic[E_ActionType.PoisonHi_II] =   () => {return new PoisonHi_II_Action();};
+        ActionDic[E_ActionType.VenomHI_III] =   () => {return new VenomHI_III_Action();};
+        ActionDic[E_ActionType.Revenge] =       () => {return new Revenge_Action();};
 
 
         //MA
-        ActionDic[E_ActionType.Flame_I] =               () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Ice_I] =                 () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Thunder_I] =             () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FlameBuff] =             () => {return new Attack_Action();};
-        ActionDic[E_ActionType.IceBuff] =               () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ThunderBuff] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FlameDefenseDebuff] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.IceDefenseDebuff] =      () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ThunderDefenseDebuff] =  () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Flame_II] =              () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Ice_II] =                () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Thunder_II] =            () => {return new Attack_Action();};
-        ActionDic[E_ActionType.MagicBuff_II] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Cometto] =               () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Chaos] =                 () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AllMagicBuff] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Meteo] =                 () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Flame_I] =               () => {return new Flame_I_Action();};
+        ActionDic[E_ActionType.Ice_I] =                 () => {return new Ice_I_Action();};
+        ActionDic[E_ActionType.Thunder_I] =             () => {return new Thunder_I_Action();};
+        ActionDic[E_ActionType.FlameBuff] =             () => {return new FlameBuff_Action();};
+        ActionDic[E_ActionType.IceBuff] =               () => {return new IceBuff_Action();};
+        ActionDic[E_ActionType.ThunderBuff] =           () => {return new ThunderBuff_Action();};
+        ActionDic[E_ActionType.FlameDefenseDebuff] =    () => {return new FlameDefenseDebuff_Action();};
+        ActionDic[E_ActionType.IceDefenseDebuff] =      () => {return new IceDefenseDebuff_Action();};
+        ActionDic[E_ActionType.ThunderDefenseDebuff] =  () => {return new ThunderDefenseDebuff_Action();};
+        ActionDic[E_ActionType.Flame_II] =              () => {return new Flame_II_Action();};
+        ActionDic[E_ActionType.Ice_II] =                () => {return new Ice_II_Action();};
+        ActionDic[E_ActionType.Thunder_II] =            () => {return new Thunder_II_Action();};
+        ActionDic[E_ActionType.MagicBuff_II] =          () => {return new MagicBuff_II_Action();};
+        ActionDic[E_ActionType.Cometto] =               () => {return new Cometto_Action();};
+        ActionDic[E_ActionType.Chaos] =                 () => {return new Chaos_Action();};
+        ActionDic[E_ActionType.AllMagicBuff] =          () => {return new AllMagicBuff_Action();};
+        ActionDic[E_ActionType.Meteo] =                 () => {return new Meteo_Action();};
 
 
         //MB
@@ -164,7 +164,7 @@ public class ActionFactory : I_ActionCreatable{
 
 
         //そのた
-        ActionDic[E_ActionType.Wait] =    () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Wait] =    () => {return new Wait_Action();};
         ActionDic[E_ActionType.ParalysisEffect] =    () => {return new Attack_Action();};
         ActionDic[E_ActionType.SleepEffect] =     () => {return new Attack_Action();};
         ActionDic[E_ActionType.SilenceEffect] =    () => {return new Attack_Action();};

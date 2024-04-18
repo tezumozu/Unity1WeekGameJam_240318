@@ -7,11 +7,12 @@ public class VenomEffect : AfterStatusEffect{
     int currentTrue;
 
     public VenomEffect() :base(E_AfterStatusEffect.Venom){
+        currentTrue = 5;
     }
 
     public override IEnumerator AppliyEffect(BattleActor actor){
-        int damage = actor.GetMaxStatus.HP / 8;
-        return actor.AppliyDamage(damage,E_Element.TrueDamage);
+        int damage = (int)((float)actor.GetMaxStatus.HP / 16);
+        return actor.AppliyDamage(damage,E_Element.Constant);
     }
 
     public override bool CheckContinueEffect(){

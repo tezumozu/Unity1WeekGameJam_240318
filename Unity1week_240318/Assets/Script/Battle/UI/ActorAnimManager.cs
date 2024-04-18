@@ -21,8 +21,8 @@ public class ActorAnimManager : MonoBehaviour{
     }
 
 
-    public void StartAttackAnim(){
-        actorAnimator.SetTrigger("AttackAnimTrigger");
+    public void StartAttackAnim(E_ActionAnimTrigger triger){
+        actorAnimator.SetTrigger(triger.ToString());
     }
 
 

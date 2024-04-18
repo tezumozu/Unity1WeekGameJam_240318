@@ -6,7 +6,8 @@ public class AutoCureEffect : AfterStatusEffect{
 
     int currentTrue;
 
-    public AutoCureEffect() :base(E_AfterStatusEffect.Venom){
+    public AutoCureEffect() :base(E_AfterStatusEffect.Regene){
+        currentTrue = 5;
     }
 
     public override IEnumerator AppliyEffect(BattleActor actor){

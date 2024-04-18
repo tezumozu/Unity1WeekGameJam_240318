@@ -22,7 +22,6 @@ public class SkillActionButton : BattleActionButton{
 
 
     SkillInfoUIManager skillInfoUIManager;
-    E_ActionType skillType;
     ActionData actionData;
     ActionData currentActionData;
 
@@ -35,10 +34,10 @@ public class SkillActionButton : BattleActionButton{
 
     public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory , PlayerUIManager statusManager , StatusEffectIconUI effectManager){
         skillInfoUIManager = infoUI;
-        skillType = type;
+        MyType = type;
        
         actionData = actionFactory.CreateAction(type).ActionData;
-        currentActionData = actionData;
+        currentActionData = actionFactory.CreateAction(type).ActionData;
 
         skillName.text = actionData.SkillName;
         skillCost.text = actionData.Cost.ToString();
@@ -94,9 +93,12 @@ public class SkillActionButton : BattleActionButton{
     //状態異常の更新時
     private void UpDateCost(E_BeforeStatusEffect effect){
         if(effect == E_BeforeStatusEffect.MPAccel){
-            currentActionData.Cost = (int)( (float)currentActionData.Cost / 2 );
+            Debug.Log(actionData.Cost);
+            currentActionData.Cost = (int)( (float)actionData.Cost / 2 );
+            skillCost.text = currentActionData.Cost.ToString();
         }else{
             currentActionData.Cost = actionData.Cost;
+            skillCost.text = currentActionData.Cost.ToString();
         }
     }
 }

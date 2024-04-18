@@ -6,7 +6,7 @@ public class TimeBombEffect : AfterStatusEffect{
     private int turnCount;
 
     public TimeBombEffect():base(E_AfterStatusEffect.TimeBomb){
-        turnCount = 4;
+        turnCount = 3;
     }
 
     public override IEnumerator AppliyEffect(BattleActor actor){

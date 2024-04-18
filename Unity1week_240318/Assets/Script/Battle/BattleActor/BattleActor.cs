@@ -115,7 +115,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         //クリック待ちとアニメーション終了待ちをする
         isFinishAnim = false;
 
-        actorAnimManager.StartAttackAnim();
+        actorAnimManager.StartAttackAnim(currentAction.ActionData.AnimType);
 
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
         
@@ -182,7 +182,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
 
         //テキスト変更
-        textUIManager.SetText(currentStatus.Name + " " + currentAfterStatusEffect.EffectData.EffectText);
+        textUIManager.SetText(currentStatus.Name + " " + currentAfterStatusEffect.EffectData.EffectAplliyText);
 
         //クリック待ちをする
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
@@ -202,13 +202,12 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         //バフの更新
         var keys = new List<E_Buff>(buffDic.Keys);
         foreach (var key in keys){
+            var buff = buffDic[key];
+
+
             if(!buffDic[key].CheckContinueBuff()){
 
-                var buff = buffDic[key];
-
                 buffDic.Remove(key);
-
-                statusUIManager.SetBuffList(buffDic.Values);
                 
                 //テキスト変更
                 textUIManager.SetText(currentStatus.Name + " の " + buff.BuffData.BuffName + " は消えてしまった！");
@@ -216,6 +215,8 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
                 //クリック待ちをする
                 yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
             }
+
+            statusUIManager.SetBuffList(buffDic.Values);
         }
 
 
@@ -275,8 +276,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             }
         }
 
-        int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType]);
-
 
         int damage;
 
@@ -284,6 +283,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         if(elementType == E_Element.Constant){
             damage = attackPoint;
         }else{
+           int defensePoint = (int)((float)effectedStatus.Defense * (float)effectedStatus.ElementResistanceRateDic[elementType]);
            damage = (int)((float)attackPoint / (float)defensePoint / 30.0f) + 1;
         }
 
@@ -348,11 +348,8 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
             isDeadSubject.OnNext(Unit.Default);
         }
-
         yield return damage;
     }
-
-
 
     //回復
     public IEnumerator AppliyHeel(int HeelPoint){
@@ -365,13 +362,17 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         actorAnimManager.StartCureAnim();
 
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
-
         while(!isFinishAnim){
             yield return null;
         }
 
         //HP回復
         currentStatus.HP = currentStatus.HP + HeelPoint;
+
+        //超過したら
+        if(currentStatus.HP > maxStatus.HP){
+            currentStatus.HP = maxStatus.HP;
+        }
 
         //UIの更新
         statusUIManager.SetStatus(currentStatus,maxStatus);
@@ -401,6 +402,11 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
         //MP回復
         currentStatus.MP = currentStatus.MP + HeelPoint;
+
+        //超過したら
+        if(currentStatus.MP > maxStatus.MP){
+            currentStatus.MP = maxStatus.MP;
+        }
 
         //UIの更新
         statusUIManager.SetStatus(currentStatus,maxStatus);
@@ -495,7 +501,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         var buff = buffFactory.CreateBuff(buffType,turn);
 
         //リストに追加・UI更新
-        buffDic.Add(buffType,buff);
+        buffDic[buffType] = buff;
         statusUIManager.SetBuffList(buffDic.Values);
 
         //Text変更
@@ -673,7 +679,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
                 //クリック待ちをする
                 yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
-                statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+                statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
             }
             
         }else{
@@ -697,7 +703,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             //クリック待ちをする
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
 
-            statusUIManager.SetBeforeStatusEffect(currentBeforeStatusEffect.EffectData);
+            statusUIManager.SetAfterStatusEffect(currentAfterStatusEffect.EffectData);
 
         }
     }

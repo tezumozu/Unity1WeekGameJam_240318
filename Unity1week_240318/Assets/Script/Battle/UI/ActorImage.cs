@@ -7,15 +7,6 @@ public class ActorImage : MonoBehaviour{
     ActorAnimManager manager;
 
     [SerializeField]
-    AudioClip AttackSE;
-
-    [SerializeField]
-    AudioClip DamagedSE;
-
-    [SerializeField]
-    AudioClip DeadSE;
-
-    [SerializeField]
     SoundPlayer player;
 
     public void FinishAnim(){

@@ -6,7 +6,7 @@ public class MPAccelEffect : BeforeStatusEffect{
 
     int currentTrue;
 
-    public MPAccelEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Non,actionFactory){
+    public MPAccelEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.MPAccel,actionFactory){
         currentTrue = 4;
     }
 

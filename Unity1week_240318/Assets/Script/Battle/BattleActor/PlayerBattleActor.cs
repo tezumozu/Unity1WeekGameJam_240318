@@ -37,17 +37,24 @@ public class PlayerBattleActor : BattleActor{
 
 
     public override IEnumerator SetNextAction(){
-        //UIを切り替える
-        uiManager.ChangeUI(E_BattleUIType.MeinMenu);
 
-        var coroutine = inputManager.WaitPushButton();
-        CoroutineHander.OrderStartCoroutine(coroutine);
+        //次の行動が決まっている
+        if(currentAction.IsNextAction){
+            currentAction = actionFactory.CreateAction(currentAction.NextAction);
+        }else{
+            //UIを切り替える
+            uiManager.ChangeUI(E_BattleUIType.MeinMenu);
 
-        //入力待ちをする
-        yield return coroutine;
+            var coroutine = inputManager.WaitPushButton();
+            CoroutineHander.OrderStartCoroutine(coroutine);
 
-        currentAction = actionFactory.CreateAction((E_ActionType)coroutine.Current);
+            //入力待ちをする
+            yield return coroutine;
 
+            currentAction = actionFactory.CreateAction((E_ActionType)coroutine.Current);
+        }
+
+        yield return null;
     }
 
 

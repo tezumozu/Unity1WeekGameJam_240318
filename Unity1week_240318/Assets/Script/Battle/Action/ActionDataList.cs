@@ -44,4 +44,11 @@ public class ActionData {
 
     [SerializeField]
     public string ActionSkillText;
+
+    [SerializeField]
+    public E_ActionAnimTrigger AnimType;
+
+    public ActionData Clone(){
+        return (ActionData)this.MemberwiseClone();
+    }
 }

@@ -18,7 +18,7 @@ public abstract class BattleActorAction {
         var dataList = Resources.Load<ActionDataList>(fileName);
         foreach(var data in dataList.DataList){
             if (data.Type == type){
-                ActionData = data;
+                ActionData = data.Clone();
             }
         }
 
@@ -40,7 +40,12 @@ public abstract class BattleActorAction {
         }
 
         //ダメージ計算の終了待ちをする
-        yield return diffender.AppliyDamage(attackPoint,ActionData.Element);
+        var damageCalculate = diffender.AppliyDamage(attackPoint,ActionData.Element);
+        yield return damageCalculate;
+        
+        int result = (int)damageCalculate.Current;
+
+        yield return result;
     }
 
 

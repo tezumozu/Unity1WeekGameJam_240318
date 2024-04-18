@@ -76,6 +76,31 @@ public class BuffFactory : I_BuffCreatable{
             default :
                 buff = new DefenseBuff(turn);
                 break;
+            
+
+            case E_Buff.FlameUP:
+                buff = new FlameUP(turn);
+                break;
+
+            case E_Buff.FlameDown:
+                buff = new FlameDown(turn);
+                break;
+
+            case E_Buff.IceUP:
+                buff = new IceUP(turn);
+                break;
+
+            case E_Buff.IceDown:
+                buff = new IceDown(turn);
+                break;
+
+            case E_Buff.ThunderUP:
+                buff = new ThunderUP(turn);
+                break;
+
+            case E_Buff.ThunderDown:
+                buff = new ThunderDown(turn);
+                break;
         }
 
         return buff;
