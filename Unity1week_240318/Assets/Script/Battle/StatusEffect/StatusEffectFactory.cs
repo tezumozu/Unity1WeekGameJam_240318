@@ -29,6 +29,10 @@ public class StatusEffectFactory : I_StatusEffectCreatable{
                 effect = new NonBeforeEffect(actionFactory);
             break;
 
+            case E_BeforeStatusEffect.EffectProtect:
+                effect = new BeforeEffectProtect(actionFactory);
+            break;
+
             default:
                 effect = new NonBeforeEffect(actionFactory);
             break;
@@ -61,6 +65,10 @@ public class StatusEffectFactory : I_StatusEffectCreatable{
 
             case E_AfterStatusEffect.Non:
                 effect = new NonAfterEffect();
+            break;
+
+            case E_AfterStatusEffect.EffectProtect:
+                effect = new AfterEffectProtect();
             break;
 
             default:

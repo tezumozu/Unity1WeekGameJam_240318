@@ -83,92 +83,92 @@ public class ActionFactory : I_ActionCreatable{
 
 
         //MB
-        ActionDic[E_ActionType.FlameDefenseBuff] =              () => {return new Attack_Action();};
-        ActionDic[E_ActionType.IceDefenseBuff] =                () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ThunderDefenseBuff] =            () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FlameDebuff] =                   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.IceDebuff] =                     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ThunderDebuff] =                 () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndFlameBuff] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndIceBuff] =             () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndThunderBuff] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.MPDrain_I] =                     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AntiFlame] =                     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AntiIce] =                       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AntiThunder] =                   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndAllElementDefenseUP] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.MPDrain_II] =                    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.MagicDefense] =                  () => {return new Attack_Action();};
-        ActionDic[E_ActionType.HPAndMPDrain] =                  () => {return new Attack_Action();};
+        ActionDic[E_ActionType.FlameDefenseBuff] =              () => {return new FlameDefenseBuff_Action();};
+        ActionDic[E_ActionType.IceDefenseBuff] =                () => {return new IceDefenseBuff_Action();};
+        ActionDic[E_ActionType.ThunderDefenseBuff] =            () => {return new ThunderDefenseBuff_Action();};
+        ActionDic[E_ActionType.FlameDebuff] =                   () => {return new FlameDebuff_Action();};
+        ActionDic[E_ActionType.IceDebuff] =                     () => {return new IceDebuff_Action();};
+        ActionDic[E_ActionType.ThunderDebuff] =                 () => {return new ThunderDebuff_Action();};
+        ActionDic[E_ActionType.DefenseAndFlameBuff] =           () => {return new DefenseAndFlameBuff_Action();};
+        ActionDic[E_ActionType.DefenseAndIceBuff] =             () => {return new DefenseAndIceBuff_Action();};
+        ActionDic[E_ActionType.DefenseAndThunderBuff] =         () => {return new DefenseAndThunderBuff_Action();};
+        ActionDic[E_ActionType.MPDrain_I] =                     () => {return new MPDrain_I_Action();};
+        ActionDic[E_ActionType.AntiFlame] =                     () => {return new AntiFlame_Action();};
+        ActionDic[E_ActionType.AntiIce] =                       () => {return new AntiIce_Action();};
+        ActionDic[E_ActionType.AntiThunder] =                   () => {return new AntiThunder_Action();};
+        ActionDic[E_ActionType.DefenseAndAllElementDefenseUP] = () => {return new DefenseAndAllElementDefenseUP_Action();};
+        ActionDic[E_ActionType.MPDrain_II] =                    () => {return new MPDrain_II_Action();};
+        ActionDic[E_ActionType.MagicDefense] =                  () => {return new MagicDefense_Action();};
+        ActionDic[E_ActionType.HPAndMPDrain] =                  () => {return new HPAndMPDrain_Action();};
 
 
         //MS
-        ActionDic[E_ActionType.Paralysis_I] =                       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SleepAttack_I] =                     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Paralysis_II] =                      () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SleepAttack_II] =                    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ParalysisAttack] =                   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Sleep] =                             () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndParalysisAttackDebuff] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AtackAndSleepAttackBuff] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndParalysisCure] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AtackAndSleepTrueAttack] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndParalysisResetStaus] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AtackAndSleepResetStaus] =           () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DefenseAndParalysisDefenseBuff] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.AtackAndSleepMagicBuff] =            () => {return new Attack_Action();};
-        ActionDic[E_ActionType.StatusEffectHIAttack] =              () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Paralysis_I] =                       () => {return new Paralysis_I_Action();};
+        ActionDic[E_ActionType.SleepAttack_I] =                     () => {return new SleepAttack_I_Action();};
+        ActionDic[E_ActionType.Paralysis_II] =                      () => {return new Paralysis_II_Action();};
+        ActionDic[E_ActionType.SleepAttack_II] =                    () => {return new SleepAttack_II_Action();};
+        ActionDic[E_ActionType.ParalysisAttack] =                   () => {return new ParalysisAttack_Action();};
+        ActionDic[E_ActionType.Sleep] =                             () => {return new Sleep_Action();};
+        ActionDic[E_ActionType.DefenseAndParalysisAttackDebuff] =   () => {return new DefenseAndParalysisAttackDebuff_Action();};
+        ActionDic[E_ActionType.AtackAndSleepAttackBuff] =           () => {return new AtackAndSleepAttackBuff_Action();};
+        ActionDic[E_ActionType.DefenseAndParalysisCure] =           () => {return new DefenseAndParalysisCure_Action();};
+        ActionDic[E_ActionType.AtackAndSleepTrueAttack] =           () => {return new AtackAndSleepTrueAttack_Action();};
+        ActionDic[E_ActionType.DefenseAndParalysisResetStaus] =     () => {return new DefenseAndParalysisResetStaus_Action();};
+        ActionDic[E_ActionType.AtackAndSleepResetStaus] =           () => {return new AtackAndSleepResetStaus_Action();};
+        ActionDic[E_ActionType.DefenseAndParalysisDefenseBuff] =    () => {return new DefenseAndParalysisDefenseBuff_Action();};
+        ActionDic[E_ActionType.AtackAndSleepMagicBuff] =            () => {return new AtackAndSleepMagicBuff_Action();};
+        ActionDic[E_ActionType.StatusEffectHIAttack] =              () => {return new StatusEffectHIAttack_Action();};
         
 
 
         //SP
-        ActionDic[E_ActionType.Regene] =                () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Regene] =                () => {return new Regene_Action();};
 
-        ActionDic[E_ActionType.MagicBuff_I] =           () => {return new Attack_Action();};
+        ActionDic[E_ActionType.MagicBuff_I] =           () => {return new MagicBuff_I_Action();};
 
-        ActionDic[E_ActionType.AllBuff] =               () => {return new Attack_Action();};
-        ActionDic[E_ActionType.CriticalTrueAttack] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.StatusGuard] =           () => {return new Attack_Action();};
+        ActionDic[E_ActionType.AllBuff] =               () => {return new AllBuff_Action();};
+        ActionDic[E_ActionType.CriticalTrueAttack] =    () => {return new CriticalTrueAttack_Action();};
+        ActionDic[E_ActionType.StatusGuard] =           () => {return new StatusGuard_Action();};
 
-        ActionDic[E_ActionType.SelfDestruction] =       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.RecoilBuff] =            () => {return new Attack_Action();};
+        ActionDic[E_ActionType.SelfDestruction] =       () => {return new SelfDestruction_Action();};
+        ActionDic[E_ActionType.RecoilBuff] =            () => {return new RecoilBuff_Action();};
 
 
         //Enemy
-        ActionDic[E_ActionType.PoisonSlimy] =   () => {return new Attack_Action();};
-        ActionDic[E_ActionType.BecomeHard] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Forward] =       () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Anger] =         () => {return new Attack_Action();};
+        ActionDic[E_ActionType.PoisonSlimy] =   () => {return new PoisonSlimy_Action();};
+        ActionDic[E_ActionType.BecomeHard] =    () => {return new BecomeHard_Action();};
+        ActionDic[E_ActionType.Forward] =       () => {return new Forward_Action();};
+        ActionDic[E_ActionType.Anger] =         () => {return new Anger_Action();};
 
-        ActionDic[E_ActionType.FlameWear] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.FlameSlash] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.BoneCurse] =     () => {return new Attack_Action();};
+        ActionDic[E_ActionType.FlameWear] =     () => {return new FlameWear_Action();};
+        ActionDic[E_ActionType.FlameSlash] =    () => {return new FlameSlash_Action();};
+        ActionDic[E_ActionType.BoneCurse] =     () => {return new BoneCurse_Action();};
 
-        ActionDic[E_ActionType.VenomBite] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SleepBite] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ShutUp] =        () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SilenceCurse] =  () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SilenceBite] =   () => {return new Attack_Action();};
+        ActionDic[E_ActionType.VenomBite] =     () => {return new VenomBite_Action();};
+        ActionDic[E_ActionType.SleepBite] =     () => {return new SleepBite_Action();};
+        ActionDic[E_ActionType.ShutUp] =        () => {return new ShutUp_Action();};
+        ActionDic[E_ActionType.SilenceCurse] =  () => {return new SilenceCurse_Action();};
+        ActionDic[E_ActionType.SilenceBite] =   () => {return new SilenceBite_Action();};
 
-        ActionDic[E_ActionType.Ironclad] =      () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ArmCrush] =      () => {return new Attack_Action();};
-        ActionDic[E_ActionType.GuardStyle] =    () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Ironclad] =      () => {return new Ironclad_Action();};
+        ActionDic[E_ActionType.ArmCrush] =      () => {return new ArmCrush_Action();};
+        ActionDic[E_ActionType.GuardStyle] =    () => {return new GuardStyle_Action();};
 
-        ActionDic[E_ActionType.Slash] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Bomb] =          () => {return new Attack_Action();};
-        ActionDic[E_ActionType.Bless] =         () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DragonsWakeUp] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.DragonsAnger] =  () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ImperialWrath] = () => {return new Attack_Action();};
-        ActionDic[E_ActionType.BlackMeteo] =    () => {return new Attack_Action();};
+        ActionDic[E_ActionType.Slash] =         () => {return new Slash_Action();};
+        ActionDic[E_ActionType.Bomb] =          () => {return new Bomb_Action();};
+        ActionDic[E_ActionType.Bless] =         () => {return new Bless_Action();};
+        ActionDic[E_ActionType.DragonsWakeUp] = () => {return new DragonsWakeUp_Action();};
+        ActionDic[E_ActionType.DragonsAnger] =  () => {return new DragonsAnger_Action();};
+        ActionDic[E_ActionType.ImperialWrath] = () => {return new ImperialWrath_Action();};
+        ActionDic[E_ActionType.BlackMeteo] =    () => {return new BlackMeteo_Action();};
 
 
         //そのた
         ActionDic[E_ActionType.Wait] =    () => {return new Wait_Action();};
-        ActionDic[E_ActionType.ParalysisEffect] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SleepEffect] =     () => {return new Attack_Action();};
-        ActionDic[E_ActionType.SilenceEffect] =    () => {return new Attack_Action();};
-        ActionDic[E_ActionType.ArmCrush_NEXT] =    () => {return new Attack_Action();};
+        ActionDic[E_ActionType.ParalysisEffect] =    () => {return new ParalysisEffect_Action();};
+        ActionDic[E_ActionType.SleepEffect] =     () => {return new SleepEffect_Action();};
+        ActionDic[E_ActionType.SilenceEffect] =    () => {return new SilenceEffect_Action();};
+        ActionDic[E_ActionType.ArmCrush_NEXT] =    () => {return new ArmCrush_NEXT_Action();};
 
 
 

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ParalysisEffect : BeforeStatusEffect{
 
+    int currentTrun;
+
     public ParalysisEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Paralysis,actionFactory){
-        
+        currentTrun = 5;
     }
 
     public override BattleActorAction AppliyEffect(BattleActorAction action){
@@ -17,6 +19,11 @@ public class ParalysisEffect : BeforeStatusEffect{
     }
 
     public override bool CheckContinueEffect(){
-        return true;
+        currentTrun--;
+        if(currentTrun > 0){
+            return true;
+        }
+
+        return false;
     }
 }

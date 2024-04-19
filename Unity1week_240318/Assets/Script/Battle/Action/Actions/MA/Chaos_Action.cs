@@ -33,32 +33,28 @@ public class Chaos_Action : BattleActorAction{
 
 
         //ランダムに状態異常
-        array = Enum.GetValues(typeof(E_BeforeStatusEffect));
-        var statusEffectFactory = new StatusEffectFactory();
+        var beforeEffectList = new List<E_BeforeStatusEffect>();
+        beforeEffectList.Add(E_BeforeStatusEffect.Paralysis);
+        beforeEffectList.Add(E_BeforeStatusEffect.Sleep);
+        beforeEffectList.Add(E_BeforeStatusEffect.Silence);
 
-        //無駄多い
-        foreach (var type in array){
-            var statusEffect = statusEffectFactory.CreateEffect((E_BeforeStatusEffect)type);
-            if(statusEffect.EffectData.Type == E_BuffType.Debuff){
-                if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5){
-                    yield return diffender.AppliyEffect( (E_BeforeStatusEffect)type );
-                    break;
-                }
-            }
+        int rand = UnityEngine.Random.Range(0,beforeEffectList.Count);
+
+        if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5){
+            yield return diffender.AppliyEffect( beforeEffectList[rand] );
         }
 
 
-        array = Enum.GetValues(typeof(E_AfterStatusEffect));
+        //ハードすぎる
+        var AfterEffectList = new List<E_AfterStatusEffect>();
+        AfterEffectList.Add(E_AfterStatusEffect.Poison);
+        AfterEffectList.Add(E_AfterStatusEffect.Venom);
+        AfterEffectList.Add(E_AfterStatusEffect.TimeBomb);
 
-        //無駄多い
-        foreach (var type in array){
-            var statusEffect = statusEffectFactory.CreateEffect((E_BeforeStatusEffect)type);
-            if(statusEffect.EffectData.Type == E_BuffType.Debuff){
-                if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5){
-                    yield return diffender.AppliyEffect( (E_BeforeStatusEffect)type );
-                    break;
-                }
-            }
+        rand = UnityEngine.Random.Range(0,AfterEffectList.Count);
+
+        if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5){
+            yield return diffender.AppliyEffect( AfterEffectList[rand] );
         }
 
     }
