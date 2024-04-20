@@ -5,12 +5,13 @@ using UnityEngine;
 
 using UniRx;
 
-public class EnemyBattleActor : BattleActor{
+public class GolemActor : BattleActor{
 
     private List<S_EnemySkillData> enemySkillList;
+    private Dictionary<E_ActionType,bool> SPActionDic;
 
 
-    public EnemyBattleActor(I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
+    public GolemActor(I_ActionCreatable actionFactory,I_BuffCreatable buffFactory,I_StatusEffectCreatable statusEffectFactory):base(actionFactory,buffFactory,statusEffectFactory){
         
         //マネージャの取得
         statusUIManager = GameObject.Find("Canvas/EnemyUI").GetComponent<ActorUIManager>();
@@ -18,7 +19,7 @@ public class EnemyBattleActor : BattleActor{
         
         //ステータス読み込み
         //パスを生成
-        var fileName = "BattleScene/Enemy/TestEnemy";
+        var fileName = "BattleScene/Enemy/Golem";
         //読み込む
         var enemyData = Resources.Load<EnemyData>(fileName);
 
@@ -47,20 +48,23 @@ public class EnemyBattleActor : BattleActor{
 
         //不要なアセットをアンロード
         Resources.UnloadUnusedAssets();
+
+        SPActionDic = new Dictionary<E_ActionType,bool>();
+        SPActionDic[E_ActionType.GuardStyle] = true;
+        SPActionDic[E_ActionType.Ironclad] = true;
     }
 
 
 
     public override IEnumerator SetNextAction(){
-        currentAction = actionFactory.CreateAction(E_ActionType.Attack);
+        E_ActionType skillType = E_ActionType.Attack;
 
         //次の行動が決まっているか確認
         if(currentAction.IsNextAction){
 
-            currentAction = actionFactory.CreateAction(currentAction.NextAction);
+            skillType = currentAction.NextAction;
 
         }else{
-
             //使用率に合わせてランダムに取得する
             float rand = UnityEngine.Random.Range( 0.0f , 1.0f );
             float rate = 0.0f;
@@ -69,16 +73,33 @@ public class EnemyBattleActor : BattleActor{
 
                 rate += skill.UseRate;
 
-                if(rate < rand){
-                    currentAction = actionFactory.CreateAction(skill.Skill);
+                if(rate > rand){
+                    skillType = skill.Skill;
                     break;
                 }
 
             }
 
+            //特別な行動をする場合
+            switch ((float)currentStatus.HP / (float)maxStatus.HP){
+                case float x when x < 0.5f :
+                    if(SPActionDic[E_ActionType.Ironclad]){
+                        skillType = E_ActionType.Ironclad;
+                        SPActionDic[E_ActionType.Ironclad] = false;
+                    }
+                    break;
+
+                case float x when x <= 1.0f :
+                    if(SPActionDic[E_ActionType.GuardStyle]){
+                        skillType = E_ActionType.GuardStyle;
+                        SPActionDic[E_ActionType.GuardStyle] = false;
+                    }
+                    break;
+            }
+
         }
 
-
+        currentAction = actionFactory.CreateAction(skillType);
 
         yield return null;
     }

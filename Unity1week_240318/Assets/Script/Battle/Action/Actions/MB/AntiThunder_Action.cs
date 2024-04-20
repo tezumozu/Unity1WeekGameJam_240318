@@ -13,6 +13,6 @@ public class AntiThunder_Action : BattleActorAction{
         yield return attacker.AppliyBuff( E_Buff.ThunderResistanceUP , 3 );
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.ThunderDown , 3 );
+        yield return diffender.AppliyDeBuff( E_Buff.ThunderDown , 2 );
     }
 }

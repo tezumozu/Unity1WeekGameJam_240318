@@ -11,12 +11,13 @@ public class BattleManager : IDisposable{
     private Dictionary<E_BattlePhase,PhaseUpdater> pahseDic;
     private readonly int maxWinCount;
     private PlayerBattleActor playerActor;
-    private EnemyBattleActor enemyActor;
+    private BattleActor enemyActor;
     private S_BattleDate currentBattleData;
     private DungeonData currentDungeonData;
     private bool isPlayerLose;
     private SoundPlayer BGMManager;
     private Image BG;
+    private I_EnemyCreatable enemyFactory;
 
     //Subjects
     private ReactiveProperty<E_BattlePhase> currentPhase;
@@ -28,11 +29,13 @@ public class BattleManager : IDisposable{
     private readonly List<IDisposable> disposableList;
 
 
-    public BattleManager (){
+    public BattleManager (I_EnemyCreatable enemyFactory){
         currentPhase = new ReactiveProperty<E_BattlePhase>();
         pahseDic = new Dictionary<E_BattlePhase,PhaseUpdater>();
         maxWinCount = 5;
         disposableList = new List<IDisposable>();
+
+        this.enemyFactory = enemyFactory;
 
         //Dic初期化
         pahseDic[E_BattlePhase.StartPhase] = new StartPhaseUpdater();
@@ -49,7 +52,7 @@ public class BattleManager : IDisposable{
         currentDungeonData = Resources.Load<DungeonData>(path);
 
         //最初ののエネミーを生成
-        enemyActor = new EnemyBattleActor(currentDungeonData.Enemy,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+        enemyActor = enemyFactory.CreateEnemy(currentDungeonData.Enemy);
 
         currentBattleData = new S_BattleDate(0,0,playerActor,enemyActor);
     }
@@ -117,7 +120,7 @@ public class BattleManager : IDisposable{
                 currentDungeonData = Resources.Load<DungeonData>(path);
 
                 //次のエネミーを生成
-                enemyActor = new EnemyBattleActor(currentDungeonData.Enemy,new ActionFactory(),new BuffFactory(),new StatusEffectFactory());
+                enemyActor = enemyFactory.CreateEnemy(currentDungeonData.Enemy);
 
                 //プレイヤーの状態を回復
                 playerActor.ResetState();

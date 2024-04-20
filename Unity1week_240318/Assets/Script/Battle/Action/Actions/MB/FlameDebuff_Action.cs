@@ -10,6 +10,6 @@ public class FlameDebuff_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.FlameDown , 5);
+        yield return diffender.AppliyDeBuff( E_Buff.FlameDown , 4);
     }
 }

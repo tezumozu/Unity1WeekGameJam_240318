@@ -11,7 +11,7 @@ public class SleepAttack_II_Action : BattleActorAction{
 
         yield return base.UseAction(effectedStatus,attacker,diffender);
 
-        if(UnityEngine.Random.Range(0.0f,1.0f) < 0.3f){
+        if(UnityEngine.Random.Range(0.0f,1.0f) < 0.6f){
             //バフを付与
             yield return diffender.AppliyEffect( E_BeforeStatusEffect.Sleep );
         }

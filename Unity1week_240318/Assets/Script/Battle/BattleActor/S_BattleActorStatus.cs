@@ -29,13 +29,13 @@ public struct S_BattleActorStatus{
 
     //属性耐性
     [SerializeField]
-    private float NomalDamageResistanceRate;
+    public float NomalDamageResistanceRate;
     [SerializeField]
-    private float FlameResistanceRate;
+    public float FlameResistanceRate;
     [SerializeField]
-    private float IceResistanceRate;
+    public float IceResistanceRate;
     [SerializeField]
-    private float ThunderResistanceRate;
+    public float ThunderResistanceRate;
 
 
     //状態異常A耐性
@@ -64,13 +64,14 @@ public struct S_BattleActorStatus{
         get{
             if(elementResistanceRateDic is null){
                 elementResistanceRateDic = new Dictionary<E_Element,float>();
-                elementResistanceRateDic[E_Element.Non] = NomalDamageResistanceRate;
-                elementResistanceRateDic[E_Element.Flame] = FlameResistanceRate;
-                elementResistanceRateDic[E_Element.Ice] = IceResistanceRate;
-                elementResistanceRateDic[E_Element.Thunder] = ThunderResistanceRate;
-                elementResistanceRateDic[E_Element.TrueDamage] = 0.0f;
-                elementResistanceRateDic[E_Element.Weakness] = 0.5f;
             }
+        
+            elementResistanceRateDic[E_Element.Non] = NomalDamageResistanceRate;
+            elementResistanceRateDic[E_Element.Flame] = FlameResistanceRate;
+            elementResistanceRateDic[E_Element.Ice] = IceResistanceRate;
+            elementResistanceRateDic[E_Element.Thunder] = ThunderResistanceRate;
+            elementResistanceRateDic[E_Element.TrueDamage] = 1.0f;
+            elementResistanceRateDic[E_Element.Weakness] = 0.5f;
 
             return new Dictionary<E_Element,float>(elementResistanceRateDic);
         }

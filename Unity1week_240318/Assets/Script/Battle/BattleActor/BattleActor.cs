@@ -158,10 +158,10 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         //UI切り替え
         uiManager.ChangeUI(E_BattleUIType.Text);
 
-        if(currentBeforeStatusEffect.EffectData.EffectType != E_BeforeStatusEffect.Non){
+        if(currentBeforeStatusEffect.EffectData.Type == E_BuffType.Debuff){
 
             //テキスト変更
-            textUIManager.SetText(currentStatus.Name + " " + currentBeforeStatusEffect.EffectData.EffectAplliyText);
+            textUIManager.SetText(currentStatus.Name + " は " + currentBeforeStatusEffect.EffectData.EffectName + " 状態だ！");
 
             //クリック待ちをする
             yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
@@ -439,7 +439,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         var buff = buffFactory.CreateBuff(buffType,turn);
 
         //リストに追加・UI更新
-        buffDic.Add(buffType,buff);
+        buffDic[buffType] = buff;
         statusUIManager.SetBuffList(buffDic.Values);
 
         //Text変更
@@ -470,7 +470,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             var buff = buffFactory.CreateBuff(item.Key,item.Value);
 
             //リストに追加・UI更新
-            buffDic.Add(item.Key,buff);
+            buffDic[item.Key] = buff;
             statusUIManager.SetBuffList(buffDic.Values);
 
             //Text変更
@@ -532,7 +532,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             var buff = buffFactory.CreateBuff(item.Key,item.Value);
 
             //リストに追加・UI更新
-            buffDic.Add(item.Key,buff);
+            buffDic[item.Key] = buff;
             statusUIManager.SetBuffList(buffDic.Values);
 
             //Text変更
@@ -798,9 +798,9 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         //クリック待ちとアニメーション終了待ちをする
         isFinishAnim = false;
         if(type == E_BuffType.Debuff){
-            actorAnimManager.StartGetBadStatusAnim();
-        }else{
             actorAnimManager.StartGetGoodStatusAnim();
+        }else{
+            actorAnimManager.StartGetBadStatusAnim();
         }
 
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
@@ -808,7 +808,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         while(!isFinishAnim){
             yield return null;
         }
-
 
         if(currentBeforeStatusEffect.EffectData.Type == type){
             //Text変更

@@ -25,7 +25,7 @@ public class BattleSceneManager : I_SceneLoadAlertable,IDisposable{
 
         //必要なクラスの取得、初期化
         disposableList = new List<IDisposable>();
-        battleManager = new BattleManager();
+        battleManager = new BattleManager(new EnemyFactory());
 
         var canvas = GameObject.Find("Canvas");
 

@@ -10,6 +10,6 @@ public class Paralysis_I_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         //バフを付与
-        yield return diffender.AppliyEffect( E_BeforeStatusEffect.Sleep );
+        yield return diffender.AppliyEffect( E_BeforeStatusEffect.Paralysis );
     }
 }

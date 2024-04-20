@@ -11,6 +11,6 @@ public class BoneCurse_Action : BattleActorAction{
 
         //バフを付与
         yield return attacker.AppliyBuff( E_Buff.FlameUP , 5 );
-        yield return diffender.AppliyDeBuff( E_Buff.FlameResistanceUP , 5 );
+        yield return diffender.AppliyDeBuff( E_Buff.FlameResistanceDown , 4 );
     }
 }

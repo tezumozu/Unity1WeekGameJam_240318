@@ -13,6 +13,6 @@ public class AntiIce_Action : BattleActorAction{
         yield return attacker.AppliyBuff( E_Buff.IceResistanceUP , 3 );
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.IceDown , 3 );
+        yield return diffender.AppliyDeBuff( E_Buff.IceDown , 2 );
     }
 }

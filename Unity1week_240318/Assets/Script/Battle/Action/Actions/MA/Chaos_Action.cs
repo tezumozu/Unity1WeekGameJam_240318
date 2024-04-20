@@ -22,7 +22,7 @@ public class Chaos_Action : BattleActorAction{
             var buff = buffFactory.CreateBuff((E_Buff)type,3);
             if(buff.BuffData.Type == E_BuffType.Debuff){
                 if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5){
-                    buffList[(E_Buff)type] = 3;
+                    buffList[(E_Buff)type] = 2;
                 }
             }
         }

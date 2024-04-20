@@ -70,7 +70,7 @@ public class BuffFactory : I_BuffCreatable{
                 break;
 
             case E_Buff.NormalAttackDown:
-                buff = new NormalAttackUPBuff(turn);
+                buff = new NormalAttackDownBuff(turn);
                 break;
 
             default :

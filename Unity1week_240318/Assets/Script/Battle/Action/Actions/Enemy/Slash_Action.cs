@@ -12,6 +12,6 @@ public class Slash_Action : BattleActorAction{
         yield return base.UseAction(effectedStatus,attacker,diffender);
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.DefenseDown , 5 );
+        yield return diffender.AppliyDeBuff( E_Buff.DefenseDown , 4 );
     }
 }

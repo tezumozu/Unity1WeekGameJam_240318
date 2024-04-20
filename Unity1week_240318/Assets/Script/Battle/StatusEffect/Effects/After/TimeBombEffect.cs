@@ -6,19 +6,19 @@ public class TimeBombEffect : AfterStatusEffect{
     private int turnCount;
 
     public TimeBombEffect():base(E_AfterStatusEffect.TimeBomb){
-        turnCount = 3;
+        turnCount = 4;
     }
 
     public override IEnumerator AppliyEffect(BattleActor actor){
         turnCount--;
         if(turnCount == 0){
             int damagePoint = actor.GetMaxStatus.HP/3;
-            yield return actor.AppliyDamage(damagePoint,E_Element.TrueDamage);
+            yield return actor.AppliyDamage(damagePoint,E_Element.Constant);
         }else{
-            if(turnCount-1 == 0){
-                EffectData.EffectText = ("のボムが爆発した！");
+            if(turnCount == 0){
+                EffectData.EffectAplliyText = ("のボムが爆発した！");
             }else{
-                EffectData.EffectText = ("爆発まで残り " + (turnCount - 1) + " ！");
+                EffectData.EffectAplliyText = ("爆発まで残り " + (turnCount-1) + " ！");
             }
             yield return null;
         }

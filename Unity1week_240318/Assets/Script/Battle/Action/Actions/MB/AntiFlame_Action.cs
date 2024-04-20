@@ -13,6 +13,6 @@ public class AntiFlame_Action : BattleActorAction{
         yield return attacker.AppliyBuff( E_Buff.FlameResistanceUP , 3 );
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.FlameDown , 3 );
+        yield return diffender.AppliyDeBuff( E_Buff.FlameDown , 2 );
     }
 }

@@ -7,6 +7,7 @@ public class SilenceEffect : BeforeStatusEffect{
 
 
     public SilenceEffect(I_ActionCreatable actionFactory):base(E_BeforeStatusEffect.Silence,actionFactory){
+        turnCount = 3;
     }
 
     public override BattleActorAction AppliyEffect(BattleActorAction action){

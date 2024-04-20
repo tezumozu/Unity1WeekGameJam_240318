@@ -14,7 +14,7 @@ public class DefenseAndParalysisAttackDebuff_Action : BattleActorAction{
         if(diffender.GetCurrentBeforeStatusEffect == E_BeforeStatusEffect.Paralysis){
 
             //バフを付与
-            yield return diffender.AppliyDeBuff( E_Buff.AttackDown , 5 );
+            yield return diffender.AppliyDeBuff( E_Buff.AttackDown , 4 );
         }
     }
 }

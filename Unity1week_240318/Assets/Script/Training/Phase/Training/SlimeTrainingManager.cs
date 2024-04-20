@@ -230,10 +230,6 @@ public class SlimeTrainingManager : IDisposable {
         var resultStatus = style.GetStatus(trainingData);
         List<E_ActionType> skillList = style.GetLearningSkill(trainingData);
 
-        foreach (var item in skillList){
-            Debug.Log(item);
-        }
-
         //どのスライムになるか確定
         resultStatus.Name = name;
 

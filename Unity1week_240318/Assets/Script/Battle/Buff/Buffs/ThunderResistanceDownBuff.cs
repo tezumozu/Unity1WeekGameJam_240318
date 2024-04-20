@@ -8,7 +8,7 @@ public class ThunderResistanceDownBuff : BattleBuff{
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status){
 
-        status.ElementResistanceRateDic[E_Element.Thunder] = status.ElementResistanceRateDic[E_Element.Thunder] / 1.5f;
+        status.ThunderResistanceRate = status.ThunderResistanceRate / 1.5f;
         return status;
     }
 }

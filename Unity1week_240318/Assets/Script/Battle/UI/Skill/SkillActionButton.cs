@@ -93,7 +93,6 @@ public class SkillActionButton : BattleActionButton{
     //状態異常の更新時
     private void UpDateCost(E_BeforeStatusEffect effect){
         if(effect == E_BeforeStatusEffect.MPAccel){
-            Debug.Log(actionData.Cost);
             currentActionData.Cost = (int)( (float)actionData.Cost / 2 );
             skillCost.text = currentActionData.Cost.ToString();
         }else{

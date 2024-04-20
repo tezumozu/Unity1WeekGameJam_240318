@@ -11,8 +11,8 @@ public class SwordCrush_Action : BattleActorAction{
         yield return base.UseAction(effectedStatus,attacker,diffender);
 
         var buffList = new Dictionary<E_Buff,int>(){
-            {E_Buff.AttackDown , 3},
-            {E_Buff.NormalAttackDown , 3}
+            {E_Buff.AttackDown , 2},
+            {E_Buff.NormalAttackDown , 2}
         };
 
         //バフを付与

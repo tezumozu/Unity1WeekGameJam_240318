@@ -7,8 +7,7 @@ public class IceResistanceDownBuff : BattleBuff{
     }
 
     public override S_BattleActorStatus EffectedBuff (S_BattleActorStatus status){
-
-        status.ElementResistanceRateDic[E_Element.Ice] = status.ElementResistanceRateDic[E_Element.Ice] / 1.5f;
+        status.IceResistanceRate = status.IceResistanceRate / 1.5f;
         return status;
     }
 }
