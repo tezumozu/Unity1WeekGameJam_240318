@@ -29,6 +29,7 @@ public class TitleGameManager : I_SceneLoadAlertable,IDisposable{
 
         var TitleInputManager = canvas.transform.Find("TitleUI").gameObject.GetComponent<TitleInputManager>();
         var optionManager = canvas.transform.Find("OptionUI").gameObject.GetComponent<TitleOptionManager>();
+        var howToPlayManager = canvas.transform.Find("HowToPlayUI").gameObject.GetComponent<HowToPlayManager>();
 
         SceneLoadSubject = new Subject<E_SceneName>();
         disposableList = new List<IDisposable>();
@@ -42,8 +43,27 @@ public class TitleGameManager : I_SceneLoadAlertable,IDisposable{
 
         disposableList.Add(disopsable);
 
-        //Titleオプションでのタイトルへ戻るのを監視
+
+        //Titleで遊び方ボタンを監視
+        disopsable = TitleInputManager.HowToPlayAsync
+        .Subscribe((x)=>{
+            currentState = E_TitleSceneState.HowToPlay;
+        });
+
+        disposableList.Add(disopsable);
+
+
+        //オプションでのタイトルへ戻るのを監視
         disopsable = optionManager.BackToTitleAsync
+        .Subscribe((x)=>{
+            currentState = E_TitleSceneState.Title;
+        });
+
+        disposableList.Add(disopsable);
+
+
+        //遊び方でのタイトルへ戻るのを監視
+        disopsable = howToPlayManager.BackToTitleAsync
         .Subscribe((x)=>{
             currentState = E_TitleSceneState.Title;
         });

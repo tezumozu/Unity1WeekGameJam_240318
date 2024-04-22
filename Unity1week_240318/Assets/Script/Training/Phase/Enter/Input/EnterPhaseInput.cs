@@ -78,7 +78,7 @@ public class EnterPhaseInput : MonoBehaviour{
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if(Input.GetMouseButtonDown(1)){
             escSubject.OnNext(Unit.Default);
 
         }else if(Input.GetMouseButtonDown(0)){

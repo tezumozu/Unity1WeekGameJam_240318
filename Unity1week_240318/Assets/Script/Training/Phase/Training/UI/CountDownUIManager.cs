@@ -45,7 +45,6 @@ public class CountDownUIManager : MonoBehaviour{
             if(flag){
                 CountDownAnim.SetFloat("MoveSpeed", 0.0f);
             }else{
-                Debug.Log("test");
                 CountDownAnim.SetFloat("MoveSpeed", 1.0f);
             }
         })
@@ -67,11 +66,9 @@ public class CountDownUIManager : MonoBehaviour{
             CountDownImage.sprite = CountDownSprite[i];
 
             CountDownAnim.SetTrigger("CountDownAnim");
-
             while(!isAnimFin){
                 yield return false;
             }
-
         }
 
         gameObject.SetActive(false);

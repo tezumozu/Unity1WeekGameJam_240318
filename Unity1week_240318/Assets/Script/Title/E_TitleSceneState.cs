@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum E_TitleSceneState{
     Title,
-    Option
+    Option,
+    HowToPlay
 } 

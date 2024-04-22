@@ -37,7 +37,7 @@ public class BattlePauseInputManager : PauseInputManager{
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if(Input.GetMouseButtonDown(1)){
             //効果音を鳴らす
             escSubject.OnNext(Unit.Default);
 
