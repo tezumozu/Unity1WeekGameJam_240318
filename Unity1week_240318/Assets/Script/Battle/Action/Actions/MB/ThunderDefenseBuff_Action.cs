@@ -8,7 +8,12 @@ public class ThunderDefenseBuff_Action : BattleActorAction{
     }
 
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
+        var buffList = new Dictionary<E_Buff,int>(){
+            {E_Buff.DefenseUP , 3},
+            {E_Buff.ThunderResistanceUP , 3}
+        };
+
         //バフを付与
-        yield return attacker.AppliyBuff( E_Buff.ThunderResistanceUP , 5 );
+        yield return attacker.AppliyBuff( buffList );
     }
 }

@@ -16,7 +16,7 @@ public class SpeedInfo : StatuInfoManager{
         LevelNum.text = status.SpeedLevel.ToString();
         if(status.SpeedLevel == 100){
             LevelNum.text = "MAX";
-            button.interactable = false;
+            isStatusMAX = true;
         }
     }
 

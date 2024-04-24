@@ -17,8 +17,5 @@ public class ShutUp_Action : BattleActorAction{
         //バフを付与
         yield return attacker.AppliyBuff( buffList );
 
-        //バフを付与
-        yield return attacker.AppliyEffect( E_AfterStatusEffect.EffectProtect );
-        yield return attacker.AppliyEffect( E_BeforeStatusEffect.EffectProtect );
     }
 }

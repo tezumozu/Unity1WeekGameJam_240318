@@ -10,10 +10,10 @@ public class AllMagicBuff_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         var buffList = new Dictionary<E_Buff,int>(){
-            {E_Buff.FlameUP,3},
-            {E_Buff.IceUP,3},
-            {E_Buff.ThunderUP,3},
-            {E_Buff.MagicUP,3},
+            {E_Buff.FlameUP,5},
+            {E_Buff.IceUP,5},
+            {E_Buff.ThunderUP,5},
+            {E_Buff.MagicUP,5},
         };
 
         yield return attacker.AppliyBuff( buffList );

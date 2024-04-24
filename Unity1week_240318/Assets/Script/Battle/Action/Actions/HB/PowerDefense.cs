@@ -10,6 +10,6 @@ public class PowerDefense_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         //バフを付与
-        yield return attacker.AppliyBuff( E_Buff.Defense ,3 );
+        yield return attacker.AppliyBuff( E_Buff.Defense ,5 );
     }
 }

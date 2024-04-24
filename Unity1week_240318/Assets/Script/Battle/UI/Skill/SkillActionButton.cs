@@ -24,6 +24,8 @@ public class SkillActionButton : BattleActionButton{
     SkillInfoUIManager skillInfoUIManager;
     ActionData actionData;
     ActionData currentActionData;
+    bool isCanUse;
+    bool isSilence;
 
     public override void OnClickButton(){
         PushButtonSubject.OnNext(MyType);
@@ -35,6 +37,8 @@ public class SkillActionButton : BattleActionButton{
     public void InitSkillButton(E_ActionType type , SkillInfoUIManager infoUI ,  I_ActionCreatable actionFactory , PlayerUIManager statusManager , StatusEffectIconUI effectManager){
         skillInfoUIManager = infoUI;
         MyType = type;
+        isCanUse = true;
+        isSilence = false;
        
         actionData = actionFactory.CreateAction(type).ActionData;
         currentActionData = actionFactory.CreateAction(type).ActionData;
@@ -86,7 +90,14 @@ public class SkillActionButton : BattleActionButton{
     //ステータス更新時の処理
     private void UpDateStatus(int MP){
         if(actionData.Cost > MP){
+            isCanUse = false;
             button.interactable = false;
+        }else{
+            isCanUse = true;
+
+            if(!isSilence){
+                button.interactable = true;
+            }
         }
     }
 
@@ -95,9 +106,20 @@ public class SkillActionButton : BattleActionButton{
         if(effect == E_BeforeStatusEffect.MPAccel){
             currentActionData.Cost = (int)( (float)actionData.Cost / 2 );
             skillCost.text = currentActionData.Cost.ToString();
+            isSilence = false;
+
+        }else if(effect == E_BeforeStatusEffect.Silence && actionData.AttackType == E_AttackType.Magic){
+            button.interactable = false;
+            isSilence = true;
+
         }else{
             currentActionData.Cost = actionData.Cost;
             skillCost.text = currentActionData.Cost.ToString();
+            isSilence = false;
+
+            if(isCanUse){
+                button.interactable = true;
+            }
         }
     }
 }

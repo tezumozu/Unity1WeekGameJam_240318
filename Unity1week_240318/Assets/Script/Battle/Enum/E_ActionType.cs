@@ -144,5 +144,42 @@ public enum E_ActionType {
 
     // 追加
     FlameWear,
-    GuardStyle
+    GuardStyle,
+
+
+        //HA
+        HiGrowUP,
+
+        //HB
+        GuardHeel,
+        Tackle,
+        DrainTackl,
+
+        //HS
+        VenomDrug,
+        VenomMedicine,
+
+        //MA
+        ToSoft,
+
+        //MB
+        PowerDrain,
+        FlameWeak,
+        IceWeak,
+        ThunderWeak,
+        MagicDrain,
+        MagicGather,
+
+        //MS
+        ParaChance_I,
+        ParaAcid_I,
+        FlameChance,
+        IceChance,
+        ThunderChance,
+        GuardChance,
+        ParaChance_II,
+        ParaAcid_II,
+        HeelChance,
+
+        
 }

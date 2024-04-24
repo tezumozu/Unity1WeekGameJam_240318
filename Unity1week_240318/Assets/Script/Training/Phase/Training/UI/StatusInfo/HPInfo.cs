@@ -17,7 +17,7 @@ public class HPInfo : StatuInfoManager{
             LevelNum.text = status.HPLevel.ToString();
             if(status.HPLevel == 100){
                 LevelNum.text = "MAX";
-                button.interactable = false;
+                isStatusMAX = true;
             }
     }
 }

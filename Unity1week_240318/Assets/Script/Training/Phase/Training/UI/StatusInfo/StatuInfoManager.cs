@@ -23,41 +23,39 @@ public abstract class StatuInfoManager : MonoBehaviour{
     [SerializeField]
     protected Button button;
 
-    [Inject]
-    protected TrainingGameManager gameManager;
-
     [SerializeField]
     protected TrainingTimer timer;
 
+    bool isActiveGame;
+    protected bool isStatusMAX = false;
+
     private void Start() {
 
-        //ポーズを監視
-        gameManager.PauseAsync
-        .Subscribe((flag)=>{
-            button.interactable = !flag;
-        })
-        .AddTo(this);
-
+        isActiveGame = false;
 
         //Timerを監視
         timer.TimerActiveAsync
         .Subscribe((flag)=>{
-             button.interactable = flag;
+            button.interactable = flag;
+            isActiveGame = true;
         })
         .AddTo(this);
-
-        button.interactable = false;
         
         manager.UpdateTrainingStatusAsync
         .Subscribe((status) => {
             UpdateText(status);
-            if(status.SkillPoint == 0){
-                button.interactable = false;
-            }else{
+
+            if(!isActiveGame) return;
+
+            if(status.SkillPoint != 0 && !isStatusMAX){
                 button.interactable = true;
+            }else{
+                button.interactable = false;
             }
         })
         .AddTo(this);
+
+        button.interactable = false;
     }
 
     protected abstract void UpdateText(S_SlimeTrainingData status);

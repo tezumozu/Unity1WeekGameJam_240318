@@ -10,11 +10,6 @@ public class GrowUP_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
         
         //バフを付与
-        var buffList = new Dictionary<E_Buff,int>(){
-            { E_Buff.AttackUP , 5 } , 
-            { E_Buff.NormalAttackUP , 5 }
-        };
-
-        yield return attacker.AppliyBuff( buffList );
+        yield return attacker.AppliyBuff( E_Buff.NormalAttackUP , 5 );
     }
 }

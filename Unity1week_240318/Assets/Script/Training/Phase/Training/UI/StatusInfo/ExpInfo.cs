@@ -19,42 +19,22 @@ public class ExpInfo : MonoBehaviour{
     [SerializeField]
     Slider StatusNum;
 
-    [SerializeField]
-    Button button;
-
-    [Inject]
-    TrainingGameManager gameManager;
-
-    [SerializeField]
-    TrainingTimer timer;
+    private Subject<Unit> LevelMaxSubject = new Subject<Unit>();
+    public IObservable<Unit> LevelMaxAsync => LevelMaxSubject;
 
     private void Start() {
 
-        //ポーズを監視
-        gameManager.PauseAsync
-        .Subscribe((flag)=>{
-            button.interactable = !flag;
-        })
-        .AddTo(this);
-
-
-        //Timerを監視
-        timer.TimerActiveAsync
-        .Subscribe((flag)=>{
-             button.interactable = flag;
-        })
-        .AddTo(this);
-
-        button.interactable = false;
-
+        //ステータス更新を監視
         manager.UpdateTrainingStatusAsync
         .Subscribe((status) => {
             StatusNum.value = (float)status.CurrentExp / (float)status.MaxExp;
             LevelNum.text = status.Level.ToString();
+
             if(status.Level == 100){
                 LevelNum.text = "MAX";
-                button.interactable = false;
+                LevelMaxSubject.OnNext(Unit.Default);
             }
+            
         })
         .AddTo(this);
     }

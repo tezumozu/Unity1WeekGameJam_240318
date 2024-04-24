@@ -67,7 +67,7 @@ public abstract class BattleActorAction {
         return true;
     }
 
-    protected int CalculateAttackPoint(S_BattleActorStatus effectedStatus){
+    protected virtual int CalculateAttackPoint(S_BattleActorStatus effectedStatus){
         return (int)((float)effectedStatus.Attack * (float)ActionData.Power * (float)effectedStatus.Level) ;
     }
 

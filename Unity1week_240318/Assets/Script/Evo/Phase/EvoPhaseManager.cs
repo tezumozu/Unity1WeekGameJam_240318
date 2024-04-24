@@ -79,7 +79,7 @@ public class EvoPhaseManager : TrainingPhase{
         }
 
 
-        textBox.SetText(playerData.Name + " は まほう を覚えた！");
+        textBox.SetText(playerData.Name + " は わざ を覚えた！");
 
         isFinish= inputManager.WaitClickInput();
 

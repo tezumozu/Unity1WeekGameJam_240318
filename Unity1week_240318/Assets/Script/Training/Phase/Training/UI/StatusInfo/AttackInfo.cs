@@ -16,7 +16,7 @@ public class AttackInfo : StatuInfoManager{
         StatusNum.text = status.Attack.ToString();
         if(status.AttackLevel == 100){
             LevelNum.text = "MAX";
-            button.interactable = false;
+            isStatusMAX = true;
         }
     }
 }

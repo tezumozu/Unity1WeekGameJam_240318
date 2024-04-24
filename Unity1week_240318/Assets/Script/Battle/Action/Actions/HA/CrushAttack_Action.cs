@@ -11,6 +11,14 @@ public class CrushAttack_Action : BattleActorAction{
         yield return base.UseAction(effectedStatus,attacker,diffender);
 
         //バフを付与
-        yield return diffender.AppliyDeBuff( E_Buff.DefenseDown ,2 );
+        var buffList = new List<E_Buff>(){
+            E_Buff.DefenseUP, 
+            E_Buff.Defense
+        };
+
+        yield return diffender.ClearBuff( buffList , E_BuffType.Debuff );
+
+        //バフを付与
+        yield return diffender.AppliyDeBuff( E_Buff.DefenseDown , 4 );
     }
 }

@@ -13,6 +13,6 @@ public class MPDrain_I_Action : BattleActorAction{
         yield return damage;
 
         //MP回復
-        yield return attacker.AppliyMPHeel( (int)damage.Current / 10 );
+        yield return attacker.AppliyMPHeel( (int)damage.Current * 3 / 10 );
     }
 }

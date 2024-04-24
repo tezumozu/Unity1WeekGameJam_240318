@@ -10,8 +10,8 @@ public class DefenseAndDefenseBuff_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         var buffList = new Dictionary<E_Buff,int>(){
-            {E_Buff.Defense , 3},
-            {E_Buff.DefenseUP , 3}
+            {E_Buff.Defense , 5},
+            {E_Buff.DefenseUP , 5}
         };
 
         //バフを付与

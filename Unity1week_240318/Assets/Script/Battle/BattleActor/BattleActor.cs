@@ -45,6 +45,19 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         get{ return currentStatus; }
     }
 
+    public S_BattleActorStatus GetCurrentEffectedStatus{
+        get{
+            //ステータスをバフごとに補正
+            S_BattleActorStatus effectedStatus = currentStatus;
+
+            foreach (var item in buffDic){
+                effectedStatus = item.Value.EffectedBuff(effectedStatus,currentAction);
+            }
+
+            return effectedStatus;
+        }
+    }
+
     public E_BeforeStatusEffect GetCurrentBeforeStatusEffect{
         get{ return currentBeforeStatusEffect.EffectData.EffectType; }
     }
@@ -710,7 +723,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
 
 
 
-
     //バフを消す
     public IEnumerator ClearBuff(){
 
@@ -740,7 +752,6 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         
     }
 
-
     //特定のタイプのバフを消す
     public IEnumerator ClearBuff(E_BuffType type){
 
@@ -766,24 +777,100 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         var keys = new List<E_Buff>(buffDic.Keys);
         foreach (var key in keys){
             if(buffDic[key].BuffData.Type == type){
+                
+                textUIManager.SetText(currentStatus.Name + " の " + buffDic[key].BuffData.BuffName + "は消えた！");
+
                 buffDic.Remove(key);
+                //UI変更
+                statusUIManager.SetBuffList(buffDic.Values);
+
+                //クリック待ちをする
+                yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
             }
         }
         
+        
+        
+    }
+
+    //特定のタイプのバフを消す
+    public IEnumerator ClearBuff(E_Buff type){
+
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        if(!buffDic.ContainsKey(type)) yield break;
+
+        var target = buffDic[type];
+        buffDic.Remove(type);
+        
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        if(target.BuffData.Type == E_BuffType.Debuff){
+            actorAnimManager.StartGetGoodStatusAnim();
+        }else{
+            actorAnimManager.StartGetBadStatusAnim();
+        }
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+        //バフを消す
+        textUIManager.SetText(currentStatus.Name + " の " + target.BuffData.BuffName + "は消えた！");
+
         //UI変更
         statusUIManager.SetBuffList(buffDic.Values);
 
-        //Text変更
-        if(type == E_BuffType.Debuff){
-            textUIManager.SetText(currentStatus.Name + " の減少効果は消えた！");
-        }else if(type == E_BuffType.Buff){
-            textUIManager.SetText(currentStatus.Name + " の上昇効果は消えた！");
-        }else{
-            textUIManager.SetText(currentStatus.Name + " は体制を崩した！");
-        }
-        
         //クリック待ちをする
         yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+        
+    }
+
+    //特定のタイプのバフを複数消す
+    public IEnumerator ClearBuff(List<E_Buff> list , E_BuffType animType){
+
+        //UI切り替え
+        uiManager.ChangeUI(E_BattleUIType.Text);
+
+        
+        //クリック待ちとアニメーション終了待ちをする
+        isFinishAnim = false;
+        if(animType == E_BuffType.Debuff){
+            actorAnimManager.StartGetBadStatusAnim();
+        }else{
+            actorAnimManager.StartGetGoodStatusAnim();
+        }
+
+        yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+        while(!isFinishAnim){
+            yield return null;
+        }
+
+
+        //バフを消す
+        foreach (var buffType in list){
+
+            if(!buffDic.ContainsKey(buffType)) continue;
+
+            var target = buffDic[buffType];
+            buffDic.Remove(buffType);
+
+            //バフを消す
+            textUIManager.SetText(currentStatus.Name + " の " + target.BuffData.BuffName + "は消えた！");
+
+            //UI変更
+            statusUIManager.SetBuffList(buffDic.Values);
+
+            //クリック待ちをする
+            yield return CoroutineHander.OrderStartCoroutine(inputManager.WaitClickInput());
+
+            //UI変更
+            statusUIManager.SetBuffList(buffDic.Values);
+        }
         
     }
 
@@ -835,6 +922,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
         }
         
     }
+
 
 
     public virtual void Dispose(){

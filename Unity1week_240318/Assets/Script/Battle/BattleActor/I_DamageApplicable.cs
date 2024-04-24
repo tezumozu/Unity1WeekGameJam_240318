@@ -25,6 +25,8 @@ public interface I_DamageApplicable{
     //バフを消す
     public abstract IEnumerator ClearBuff();
     public abstract IEnumerator ClearBuff(E_BuffType type);
+    public abstract IEnumerator ClearBuff(E_Buff type);
+    public abstract IEnumerator ClearBuff(List<E_Buff> list , E_BuffType animType);
 
     //状態異常を消す
     public abstract IEnumerator ClearEffect(E_BuffType type);

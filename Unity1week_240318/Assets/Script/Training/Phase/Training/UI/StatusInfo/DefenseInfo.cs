@@ -16,7 +16,7 @@ public class DefenseInfo : StatuInfoManager{
         LevelNum.text = status.DefenseLevel.ToString();
         if(status.DefenseLevel == 100){
             LevelNum.text = "MAX";
-            button.interactable = false;
+            isStatusMAX = true;
         }
     }
 }

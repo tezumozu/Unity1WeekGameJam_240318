@@ -16,7 +16,7 @@ public class MPInfo : StatuInfoManager{
         LevelNum.text = status.MPLevel.ToString();
         if(status.MPLevel == 100){
             LevelNum.text = "MAX";
-            button.interactable = false;
+            isStatusMAX = true;
         }
     }
 }

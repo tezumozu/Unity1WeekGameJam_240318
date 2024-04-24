@@ -46,7 +46,7 @@ public abstract class EvoStyle : I_LearningSkillCheckable{
 
 
 
-        if(data.HP < data.MP){
+        if(data.HPLevel < data.MPLevel){
             //MAの判定
             //パスを生成
             fileName = "TrainingScene/LreaningData/MA";
