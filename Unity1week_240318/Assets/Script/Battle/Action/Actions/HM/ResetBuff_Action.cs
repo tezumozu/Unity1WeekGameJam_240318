@@ -10,6 +10,8 @@ public class ResetBuff_Action : BattleActorAction{
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
 
         //バフを付与
-        yield return CoroutineHander.OrderStartCoroutine(diffender.ClearBuff( E_BuffType.Buff ));
+        yield return diffender.ClearBuff( E_BuffType.Buff );
+
+        yield return diffender.ClearEffect( E_BuffType.Buff );
     }
 }

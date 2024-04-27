@@ -110,6 +110,11 @@ public class DragonActor : BattleActor{
                     break;
             }
 
+            //HP50%以下の時、SleepBiteはSlenceBiteになる
+            if(skillType == E_ActionType.Attack && (float)currentStatus.HP / (float)maxStatus.HP < 0.5f){
+                skillType = E_ActionType.Cometto;
+            }
+
         }
 
         currentAction = actionFactory.CreateAction(skillType);

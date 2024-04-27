@@ -14,8 +14,8 @@ public class ThunderWeak_Action : BattleActorAction{
         if(diffender.GetCurrentStatus.Weakness == ActionData.Element){
 
             var buffList = new Dictionary<E_Buff,int>(){
-                {E_Buff.ThunderResistanceDown , 2},
-                {E_Buff.DefenseDown , 2}
+                {E_Buff.ThunderResistanceDown , 4},
+                {E_Buff.DefenseDown , 4}
             };
 
             //バフを付与

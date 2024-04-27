@@ -11,7 +11,13 @@ public class AttackStyle : EvoStyle{
 
         result.Image = E_MonsterImage.A_Slime;
 
-        result.Attack = (int)((float)data.Attack * 1.5f);
+        result.Attack = (int)((float)data.Attack * 1.25f);
+
+        if(data.AttackLevel >= 50){
+            result.HP = (int)((float)data.HP * 1.5f);
+        }else{
+            result.HP = (int)((float)data.HP * 1.25f);
+        }
 
         return result;
     }

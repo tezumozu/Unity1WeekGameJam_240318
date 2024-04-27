@@ -47,7 +47,7 @@ public class EvoStyleChecker{
             MaxLevel = data.MPLevel;
             MaxStatusList.Clear();
             MaxStatusList.Add(E_Status.MP);
-        }else if(MaxLevel == data.HPLevel){
+        }else if(MaxLevel == data.MPLevel){
             MaxStatusList.Add(E_Status.MP);
         }
 

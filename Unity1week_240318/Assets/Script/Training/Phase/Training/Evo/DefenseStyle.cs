@@ -11,7 +11,13 @@ public class DefenseStyle : EvoStyle{
 
         result.Image = E_MonsterImage.B_Slime;
 
-        result.Defense = (int)((float)data.Defense * 1.5f);
+        result.Defense = (int)((float)data.Defense * 1.25f);
+
+        if(data.DefenseLevel >= 50){
+            result.MP = (int)((float)data.MP * 1.5f);
+        }else{
+            result.MP = (int)((float)data.MP * 1.25f);
+        }
 
         return result;
     }

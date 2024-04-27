@@ -9,8 +9,8 @@ public class ClearBuff_Action : BattleActorAction{
 
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
         //バフを付与
-        yield return CoroutineHander.OrderStartCoroutine(diffender.ClearBuff());
+        yield return diffender.ClearBuff();
 
-        yield return CoroutineHander.OrderStartCoroutine(attacker.ClearBuff());
+        yield return attacker.ClearBuff();
     }
 }

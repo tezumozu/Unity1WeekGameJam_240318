@@ -9,6 +9,6 @@ public class CureStatus_Action : BattleActorAction{
 
     public override IEnumerator UseAction(S_BattleActorStatus effectedStatus,BattleActor attacker,BattleActor diffender){
         //状態異常回復
-        yield return CoroutineHander.OrderStartCoroutine(attacker.ClearEffect( E_BuffType.Debuff ));
+        yield return attacker.ClearEffect( E_BuffType.Debuff );
     }
 }

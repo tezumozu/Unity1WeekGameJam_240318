@@ -58,6 +58,9 @@ public class BadStyle : EvoStyle{
 
         result.Speed += (randSkillPoint[4] + data.SpeedLevel-1) * statusTable.StatusUpSpeedGrow + ( result.Level - 1 ) * statusTable.LevelUpSpeedGrow;
 
+        result.HP = (int)((float)result.HP * 2.0f);
+        result.Attack = (int)((float)result.Attack * 2.0f);
+
         return result;
     }
 

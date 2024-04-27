@@ -14,9 +14,11 @@ public class SpeedStyle : EvoStyle{
         if(data.SpeedLevel >= 50){
             result.Attack = (int)((float)data.Attack * 1.5f);
             result.Defense = (int)((float)data.Defense * 1.5f);
+            result.MP = (int)((float)data.MP * 1.25f);
         }else{
             result.Attack = (int)((float)data.Attack * 1.25f);
             result.Defense = (int)((float)data.Defense * 1.25f);
+            result.MP = (int)((float)data.MP * 1.1f);
         }
 
         return result;

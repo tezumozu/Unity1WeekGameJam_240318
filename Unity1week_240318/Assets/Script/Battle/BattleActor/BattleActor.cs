@@ -51,7 +51,7 @@ public abstract class BattleActor : I_DamageApplicable , IDisposable{
             S_BattleActorStatus effectedStatus = currentStatus;
 
             foreach (var item in buffDic){
-                effectedStatus = item.Value.EffectedBuff(effectedStatus,currentAction);
+                effectedStatus = item.Value.EffectedBuff(effectedStatus);
             }
 
             return effectedStatus;

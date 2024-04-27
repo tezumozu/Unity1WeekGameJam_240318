@@ -21,7 +21,7 @@ public class MPStyle : EvoStyle{
 
     public override List<E_ActionType> GetLearningSkill(S_SlimeTrainingData data){
         var result = new List<E_ActionType>();
-        result.Add(E_ActionType.Cometto);
+        result.Add(E_ActionType.MagicBuff_I);
 
         var list = base.GetLearningSkill(data);
         result.AddRange(list);

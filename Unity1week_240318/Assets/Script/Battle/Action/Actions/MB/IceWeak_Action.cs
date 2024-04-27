@@ -14,8 +14,8 @@ public class IceWeak_Action : BattleActorAction{
         if(diffender.GetCurrentStatus.Weakness == ActionData.Element){
 
             var buffList = new Dictionary<E_Buff,int>(){
-                {E_Buff.IceResistanceDown , 2},
-                {E_Buff.DefenseDown , 2}
+                {E_Buff.IceResistanceDown , 4},
+                {E_Buff.DefenseDown , 4}
             };
 
             //バフを付与
